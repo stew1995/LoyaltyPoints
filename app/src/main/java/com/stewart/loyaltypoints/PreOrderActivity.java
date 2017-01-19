@@ -2,6 +2,8 @@ package com.stewart.loyaltypoints;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -28,12 +30,75 @@ public class PreOrderActivity extends AppCompatActivity {
 
     //private ArrayList<String> mItems = new ArrayList<>();
 
+    //Recycler view
+    private RecyclerView mItemList;
 
 
    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pre_order);
-       mRef = FirebaseDatabase.getInstance().getReference().child("Items").child("itemName");
+
+       mRef = FirebaseDatabase.getInstance().getReference().child("Items");
+
+
+
+    mItemList = (RecyclerView) findViewById(R.id.item_list);
+       mItemList.setHasFixedSize(true);
+       mItemList.setLayoutManager(new LinearLayoutManager(this));
+
+    }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        FirebaseRecyclerAdapter<Items, ItemViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Items, ItemViewHolder>(
+                Items.class,
+                R.layout.item_row,
+                ItemViewHolder.class,
+                mRef) {
+            @Override
+            protected void populateViewHolder(ItemViewHolder viewHolder, Items model, int position) {
+                viewHolder.setTitle(model.getItemName());
+                viewHolder.setPrice(model.getItemPrice());
+                viewHolder.setPoints(model.getItemPoints());
+            }
+        };
+    }
+
+
+    public static class ItemViewHolder extends RecyclerView.ViewHolder {
+
+        View mView;
+        private String points;
+
+        //Set item view value
+        public ItemViewHolder(View itemView) {
+            super(itemView);
+
+            mView = itemView;
+        }
+        //Setting the TextViews in the CardView
+        public void setTitle(String title){
+            TextView item_title = (TextView) mView.findViewById(R.id.postName);
+            item_title.setText(title);
+        }
+
+        public void setPrice(String price){
+            TextView item_price = (TextView) mView.findViewById(R.id.postPrice);
+            item_price.setText(price);
+        }
+
+        public void setPoints(String points){
+            TextView item_points = (TextView) mView.findViewById(R.id.postPoints);
+            item_points.setText(points);
+        }
+    }
+}
+
+
+      /* mRef = FirebaseDatabase.getInstance().getReference().child("Items").child("itemName");
 
         listView = (ListView) findViewById(R.id.itemsListView);
        // Inflate the layout for this fragment
@@ -106,12 +171,4 @@ public class PreOrderActivity extends AppCompatActivity {
         mapList.setAdapter(adapter);
 
 */
-
-
-
-    }
-
-    }
-
-
 

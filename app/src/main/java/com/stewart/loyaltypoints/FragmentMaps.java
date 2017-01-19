@@ -21,7 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 
 import static com.google.android.gms.analytics.internal.zzy.t;
-import static com.stewart.loyaltypoints.R.id.tvMapsName;
+
 
 /**
  * Created by stewart on 17/01/2017.
