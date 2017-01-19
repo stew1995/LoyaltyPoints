@@ -5,9 +5,15 @@ package com.stewart.loyaltypoints;
  */
 
 public class Items {
-    private String itemName;
-    private String itemPrice;
-    private String itemPoints;
+    public String itemName;
+    public String itemPrice;
+    public String itemPoints;
+
+    public Items(String Name, String Price, String Points) {
+        itemName = Name;
+        itemPrice = Price;
+        itemPoints = Points;
+    }
 
     public Items() {
     }

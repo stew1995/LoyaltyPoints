@@ -30,12 +30,6 @@ import static com.stewart.loyaltypoints.R.id.tvMapsName;
 public class FragmentMaps extends Fragment {
     private DatabaseReference databaseReference;
     ListView listView;
-    ArrayAdapter<String> adapterName;
-    ArrayAdapter<String> adapterLocation;
-    ArrayAdapter<String> adapterHours;
-    String[] name;
-    String[] location;
-    String[] hours;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
