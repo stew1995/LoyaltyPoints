@@ -1,0 +1,51 @@
+<resources>
+    <string name="app_name">LoyaltyPoints</string>
+
+    <string-array name="spAcYear">
+        <item name="First Year">First Year</item>
+        <item name="Second Year">Second Year</item>
+        <item name="Final Year">Final Year</item>
+        <item name="Masters">Masters</item>
+        <item name="PHd">PHd</item>
+    </string-array>
+
+    <string-array name="spAcQuestion">
+        <item>Choose a Security Question:</item>
+        <item name="Mothers maiden name">Mothers maiden name</item>
+        <item name="First address lived at">First address lived at</item>
+        <item name="Name of first pet">Name of first pet</item>
+        <item name="Name of primary school attended">Name of primary school attended</item>
+        <item name="In what city or town does your nearest sibling live?">In what city or town does your nearest sibling live?</item>
+        <item name="Name of town you were born in">Name of town you were born in</item>
+        <item name="What is your favorite food?">What is your favorite food?</item>
+    </string-array>
+    <string name="title_activity_navigation">NavigationActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_maps">Map</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string-array name="ListItem">
+        <item>Red</item>
+        <item>Green</item>
+        <item>Blue</item>
+        <item>Yellow</item>
+        <item>Cyan</item>
+
+    </string-array>
+
+    <string-array name="locationName">
+        <item>Portland</item>
+    </string-array>
+    <string-array name="locationLocation">
+        <item>Portland, Portland</item>
+    </string-array>
+    <string-array name="locationHours">
+        <item>00:00 - 00:00</item>
+    </string-array>
+</resources>
