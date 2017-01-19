@@ -5,10 +5,15 @@ package com.stewart.loyaltypoints;
  */
 
 public class Items {
-    private String itemName, itemPoints, itemPrice, itemImage;
+    private String itemName, itemImage, itemPrice;
+    private Long itemPoints;
 
 
-    public Items(String Name, String Price, String Points, String itemImage) {
+    public Items (){
+
+    }
+
+    public Items(String Name, String Price, Long Points, String itemImage) {
         this.itemName = Name;
         this.itemPrice = Price;
         this.itemPoints = Points;
@@ -33,11 +38,11 @@ public class Items {
         this.itemPrice = itemPrice;
     }
 
-    public String getItemPoints() {
+    public Long getItemPoints() {
         return itemPoints;
     }
 
-    public void setItemPoints(String itemPoints) {
+    public void setItemPoints(Long itemPoints) {
         this.itemPoints = itemPoints;
     }
 

@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -42,7 +43,7 @@ public class PreOrderActivity extends AppCompatActivity {
 
 
 
-    mItemList = (RecyclerView) findViewById(R.id.item_list);
+       mItemList = (RecyclerView) findViewById(R.id.item_recycler);
        mItemList.setHasFixedSize(true);
        mItemList.setLayoutManager(new LinearLayoutManager(this));
 
@@ -61,10 +62,12 @@ public class PreOrderActivity extends AppCompatActivity {
             @Override
             protected void populateViewHolder(ItemViewHolder viewHolder, Items model, int position) {
                 viewHolder.setTitle(model.getItemName());
-                viewHolder.setPrice(model.getItemPrice());
-                viewHolder.setPoints(model.getItemPoints());
+                viewHolder.setPrice(model.getItemPrice().toString());
+                viewHolder.setPoints(model.getItemPoints().toString());
+                viewHolder.setImage(model.getItemImage());
             }
         };
+        mItemList.setAdapter(firebaseRecyclerAdapter);
     }
 
 
@@ -93,6 +96,11 @@ public class PreOrderActivity extends AppCompatActivity {
         public void setPoints(String points){
             TextView item_points = (TextView) mView.findViewById(R.id.postPoints);
             item_points.setText(points);
+        }
+
+        public void setImage(String itemImage) {
+            ImageView item_image = (ImageView) mView.findViewById(R.id.postImage);
+
         }
     }
 }

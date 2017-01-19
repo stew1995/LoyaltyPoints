@@ -39,7 +39,7 @@
         android:layout_height="100dp"
         android:layout_gravity="right"
         android:src="@mipmap/ic_add_account"
-        android:id="@+id/imageView3"
+        android:id="@+id/postImage"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true" />
 
