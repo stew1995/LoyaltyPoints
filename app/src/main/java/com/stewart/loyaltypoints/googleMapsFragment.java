@@ -17,7 +17,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.Map;
 
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
 
 /**
  * Created by stewart on 17/01/2017.

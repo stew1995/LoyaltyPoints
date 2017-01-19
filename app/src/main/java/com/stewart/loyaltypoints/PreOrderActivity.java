@@ -2,9 +2,15 @@ package com.stewart.loyaltypoints;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
+import com.firebase.ui.database.*;
+import com.firebase.ui.database.FirebaseListAdapter;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -15,9 +21,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PreOrderActivity extends AppCompatActivity {
+    private ListView listView;
+    private DatabaseReference mRef;
+    private com.firebase.ui.database.FirebaseListAdapter listAdapter;
 
-    private Spinner listView;
-    private DatabaseReference databaseReference;
+    //private ArrayList<String> mItems = new ArrayList<>();
 
 
 
@@ -26,39 +34,50 @@ public class PreOrderActivity extends AppCompatActivity {
         setContentView(R.layout.activity_pre_order);
 
 
-       listView = (Spinner) findViewById(R.id.spinner);
-       databaseReference = FirebaseDatabase.getInstance().getReference();
+       mRef = FirebaseDatabase.getInstance().getReference().child("Items").child("TypeOfItems");
 
-       String Names[]={"Mango","Banana","grapes"};
-       String Price[] ={"2.00", "£3.50", "£21.00"};
-       String Book[] = {"HSAHJAS", "SHJGS", "DSHDGD"};
-       ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,R.layout.spinner_item,R.id.spinnerText,Names);
+       listView = (ListView) findViewById(R.id.itemsListView);
+
+        listAdapter = new FirebaseListAdapter<String>(this, String.class, android.R.layout.simple_list_item_1, mRef) {
 
 
+            @Override
+            protected void populateView(View v, String model, int position) {
+                TextView textView = (TextView) v.findViewById(android.R.id.text1);
+                textView.setText(model);
+            }
+        };
+
+       listView.setAdapter(listAdapter);
+
+/*
+       final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mItems);
 
        listView.setAdapter(adapter);
-
-
-
-    }
-
-
-
-    private void getData() {
-        databaseReference.child("Items").addListenerForSingleValueEvent(new ValueEventListener() {
+        //This is needed for the pre order
+       //use removed and added
+        mRef.addChildEventListener(new ChildEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                String value = dataSnapshot.getValue(String.class);
 
-                for(DataSnapshot child : dataSnapshot.getChildren()) {
-                    Spinner itemSpinner =  (Spinner) findViewById(R.id.spinner);
-                    Items item = child.getValue(Items.class);
-                    String name = item.getItemName();
+                mItems.add(value);
 
-                    ArrayAdapter<String> adapter=new ArrayAdapter<String>(PreOrderActivity.this,R.layout.spinner_item,name);
+                adapter.notifyDataSetChanged();
+            }
 
-                }
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
+            }
 
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
 
             }
 
@@ -68,8 +87,10 @@ public class PreOrderActivity extends AppCompatActivity {
             }
         });
 
+*/
+    }
 
     }
 
 
-}
+
