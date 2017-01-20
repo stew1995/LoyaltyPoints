@@ -13,6 +13,10 @@ public class Items {
 
     }
 
+    public Items(String itemName) {
+        this.itemName = itemName;
+    }
+
     public Items(String Name, String Price, Long Points, String itemImage) {
         this.itemName = Name;
         this.itemPrice = Price;

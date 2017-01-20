@@ -34,15 +34,6 @@
         android:layout_below="@+id/postPoints"
         android:layout_alignParentStart="true" />
 
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_gravity="right"
-        android:src="@mipmap/ic_add_account"
-        android:id="@+id/postImage"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true" />
-
     <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -55,6 +46,23 @@
         android:paddingBottom="10dp"
         android:layout_below="@+id/postName"
         android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="right"
+        android:src="@mipmap/ic_add_account"
+        android:id="@+id/postImage"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/postChk"
+        android:layout_below="@+id/postImage"
+        android:layout_alignParentEnd="true"
+        android:padding="5dp"/>
 
 </RelativeLayout>
 
