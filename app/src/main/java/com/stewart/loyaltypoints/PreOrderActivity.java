@@ -57,19 +57,19 @@ public class PreOrderActivity extends AppCompatActivity {
     private RecyclerView mItemList;
 
 
-   protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pre_order);
 
-       mRef = FirebaseDatabase.getInstance().getReference();
+        mRef = FirebaseDatabase.getInstance().getReference();
         mStorage = FirebaseStorage.getInstance().getReference();
 
-       //Syncing data automatically
-       mRef.keepSynced(true);
+        //Syncing data automatically
+        mRef.keepSynced(true);
 
-       mItemList = (RecyclerView) findViewById(R.id.item_recycler);
-       mItemList.setHasFixedSize(true);
-       mItemList.setLayoutManager(new LinearLayoutManager(this));
+        mItemList = (RecyclerView) findViewById(R.id.item_recycler);
+        mItemList.setHasFixedSize(true);
+        mItemList.setLayoutManager(new LinearLayoutManager(this));
 
 
 
@@ -81,7 +81,7 @@ public class PreOrderActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        
+
 
         FirebaseRecyclerAdapter<Items, ItemViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Items, ItemViewHolder>(
                 Items.class,
@@ -101,7 +101,7 @@ public class PreOrderActivity extends AppCompatActivity {
                 viewHolder.setItemClickListener(new ItemClickListener() {
                     @Override
                     public void onItemClick(View v, int pos) {
-                        
+
                         CheckBox chk = (CheckBox) v;
                         Integer counter = 0;
                         //Check if checkbox is checked
@@ -233,7 +233,7 @@ public class PreOrderActivity extends AppCompatActivity {
             this.itemClickListener.onItemClick(v, getLayoutPosition());
         }
     }
-    }
+}
 
 
 
