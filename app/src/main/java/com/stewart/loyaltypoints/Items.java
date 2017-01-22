@@ -1,5 +1,7 @@
 package com.stewart.loyaltypoints;
 
+import static com.stewart.loyaltypoints.R.id.itemQuanity;
+
 /**
  * Created by stewart on 18/01/2017.
  */
@@ -7,7 +9,6 @@ package com.stewart.loyaltypoints;
 public class Items {
     private String itemName, itemImage, itemPrice;
     private Long itemPoints;
-
 
     public Items (){
 

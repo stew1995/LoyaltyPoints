@@ -19,6 +19,28 @@
         <item name="Name of town you were born in">Name of town you were born in</item>
         <item name="What is your favorite food?">What is your favorite food?</item>
     </string-array>
+
+    <string-array name="locations">
+        <item>Portland</item>
+        <item>Dennis Schema (The Hub)</item>
+        <item>The Library</item>
+        <item>Park</item>
+        <item>Student Union (The Waterhole)</item>
+        <item>Eldon</item>
+        <item>Anglesea</item>
+        <item>St Georges Coffee Shop</item>
+        <item>St Andrews Court Café</item>
+        <item>Café Coco</item>
+    </string-array>
+
+
+
+    <string-array name="preOrderQuantity">
+        <item name="1">1</item>
+        <item name="2">2</item>
+        <item name="3">3</item>
+        <item name="4">4</item>
+    </string-array>
     <string name="title_activity_navigation">NavigationActivity</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_margin="10dp"
-    android:layout_marginBottom="-5dp">
+    android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="5dp" android:layout_marginTop="5dp">
 
 
     <LinearLayout
@@ -49,6 +48,16 @@
                 android:layout_below="@+id/postChk"
                 android:layout_toEndOf="@+id/postName" />
 
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="right"
+                android:src="@mipmap/ic_add_account"
+                android:id="@+id/postImage"
+                android:layout_marginEnd="57dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true" />
+
             <CheckBox
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -61,19 +70,20 @@
                 android:layout_marginLeft="10dp"
                 android:textStyle="bold"
                 android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
-                android:layout_alignParentTop="true"
                 android:button="@null"
+                android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true" />
 
-            <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_gravity="right"
-                android:src="@mipmap/ic_add_account"
-                android:id="@+id/postImage"
-                android:layout_marginEnd="71dp"
-                android:layout_centerVertical="true"
-                android:layout_alignParentEnd="true" />
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/postQuanity"
+                android:layout_below="@+id/postPrice"
+                android:layout_alignParentEnd="true"
+                android:padding="10dp"
+                android:entries="@array/preOrderQuantity"
+
+                />
 
         </RelativeLayout>
 
