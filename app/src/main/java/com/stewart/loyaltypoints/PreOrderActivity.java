@@ -61,10 +61,10 @@ public class PreOrderActivity extends AppCompatActivity {
     private com.firebase.ui.database.FirebaseListAdapter listAdapter;
     private ArrayList<String> mLocatoins = new ArrayList<String>();
     private StorageReference mStorage;
-    private HashMap<String, String> products;
     private HashMap<String, String> productsQty;
     private String productList;
     private List<String> productListing;
+    private List<String> productListingQty;
 
     //Counters for preorder
     private int counter;
@@ -81,10 +81,10 @@ public class PreOrderActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pre_order);
-        products = new HashMap<String, String>();
         productsQty = new HashMap<String, String>(  );
 
         productListing = new ArrayList<String>();
+        productListingQty = new ArrayList<String>();
 
         mRef = FirebaseDatabase.getInstance().getReference();
         mStorage = FirebaseStorage.getInstance().getReference();
@@ -193,25 +193,20 @@ public class PreOrderActivity extends AppCompatActivity {
                         CheckBox chk = (CheckBox) v;
                         //Check if checkbox is checked
 
-
+                        String boxname = viewHolder.getCheckbox();
+                        String boxQty = viewHolder.getQuanity();
 
                         if (chk.isChecked()) {
-                            String boxname = viewHolder.getCheckbox();
-                            String boxQty = viewHolder.getQuanity();
                             //products.put( child, boxname );
                             productListing.add(boxname);
-                            productsQty.put(childQty, boxQty);
-                            FirebaseAuth mAuth = FirebaseAuth.getInstance();
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            //mRef.child("PreOrder").child(location).child(dateString).child(user.getUid()).child("itemQty"+counter).setValue(boxQty);
-
-
+                            productListingQty.add(boxQty);
+                            //productsQty.put(childQty, boxQty);
                             counter++;
                         } else if (!chk.isChecked()) {
                                 //Needs checking, almost there however sometimes leaves one there
                                 //Need to see how to remove from Hashmap completely
-                                String boxname = viewHolder.getCheckbox();
                                 productListing.remove( boxname );
+                                productListingQty.remove( boxQty );
                                 counter--;
                             }
                         }
@@ -226,8 +221,15 @@ public class PreOrderActivity extends AppCompatActivity {
 
                         FirebaseAuth mAuth = FirebaseAuth.getInstance();
                         FirebaseUser user = mAuth.getCurrentUser();
-
-                        mRef.child("PreOrder").child(location).child(dateString).child(user.getUid()).child("item"+counter).setValue(productListing);
+                        //Putting orders into database
+                        //Two different tables for quanity and the items
+                        //use DataSnapshot to do the pre order basket at the bottom of the screen
+                        //Getting and Setters as 0 to 4/5
+                        //Need to limit on now much the user can pre order
+                        //Need to link points to the user account so when they get pre ordered items it sends it over to the database
+                        //with their updated points
+                        mRef.child("PreOrder").child(location).child(dateString).child(user.getUid()).child("item").setValue(productListing);
+                        mRef.child("PreOrder").child(location).child(dateString).child(user.getUid()).child("itemQty").setValue(productListingQty);
 
 
                     }
