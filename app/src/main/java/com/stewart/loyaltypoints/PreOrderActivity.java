@@ -64,6 +64,7 @@ public class PreOrderActivity extends AppCompatActivity {
     private HashMap<String, String> products;
     private HashMap<String, String> productsQty;
     private String productList;
+    private List<String> productListing;
 
     //Counters for preorder
     private int counter;
@@ -82,6 +83,8 @@ public class PreOrderActivity extends AppCompatActivity {
         setContentView(R.layout.activity_pre_order);
         products = new HashMap<String, String>();
         productsQty = new HashMap<String, String>(  );
+
+        productListing = new ArrayList<String>();
 
         mRef = FirebaseDatabase.getInstance().getReference();
         mStorage = FirebaseStorage.getInstance().getReference();
@@ -195,37 +198,37 @@ public class PreOrderActivity extends AppCompatActivity {
                         if (chk.isChecked()) {
                             String boxname = viewHolder.getCheckbox();
                             String boxQty = viewHolder.getQuanity();
-                            products.put( child, boxname );
+                            //products.put( child, boxname );
+                            productListing.add(boxname);
                             productsQty.put(childQty, boxQty);
                             FirebaseAuth mAuth = FirebaseAuth.getInstance();
                             FirebaseUser user = mAuth.getCurrentUser();
-                            mRef.child("PreOrder").child(location).child(dateString).child(user.getUid()).child("item"+counter).setValue(boxname);
-                            mRef.child("PreOrder").child(location).child(dateString).child(user.getUid()).child("itemQty"+counter).setValue(boxQty);
+                            //mRef.child("PreOrder").child(location).child(dateString).child(user.getUid()).child("itemQty"+counter).setValue(boxQty);
 
 
                             counter++;
                         } else if (!chk.isChecked()) {
-                            //Needs checking, almost there however sometimes leaves one there
-                            //Need to see how to remove from Hashmap completely
-                            String boxname = viewHolder.getCheckbox();
-                            FirebaseAuth mAuth = FirebaseAuth.getInstance();
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            mRef.child("PreOrder").child(user.getUid()).child("item"+counter).removeValue();
-                            counter--;
+                                //Needs checking, almost there however sometimes leaves one there
+                                //Need to see how to remove from Hashmap completely
+                                String boxname = viewHolder.getCheckbox();
+                                productListing.remove( boxname );
+                                counter--;
+                            }
                         }
 
-                    }
+
                 });
                 Button btnSendOrder = (Button) findViewById( buttonSendPreOrder );
                 btnSendOrder.setOnClickListener( new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        String boxname = viewHolder.getCheckbox();
+
                         FirebaseAuth mAuth = FirebaseAuth.getInstance();
                         FirebaseUser user = mAuth.getCurrentUser();
 
+                        mRef.child("PreOrder").child(location).child(dateString).child(user.getUid()).child("item"+counter).setValue(productListing);
 
-                        mRef.child("PreOrder").child(location).child(dateString).child(user.getUid()).setValue(products);
-                        mRef.child("PreOrder").child(location).child(dateString).child(user.getUid()).setValue(productsQty);
 
                     }
                 } );
