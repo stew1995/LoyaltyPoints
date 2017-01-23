@@ -9,12 +9,16 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateFormat;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.database.*;
 import com.firebase.ui.database.FirebaseListAdapter;
@@ -36,10 +40,18 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 
+import static android.R.attr.x;
+import static com.google.android.gms.analytics.internal.zzy.A;
+import static com.google.android.gms.analytics.internal.zzy.i;
+import static com.google.android.gms.analytics.internal.zzy.r;
+import static com.google.android.gms.analytics.internal.zzy.v;
+import static com.google.android.gms.internal.zzng.fl;
 import static com.google.android.gms.internal.zzrw.It;
+import static com.stewart.loyaltypoints.R.id.buttonSendPreOrder;
 import static com.stewart.loyaltypoints.R.id.preOrderLocationSpinner;
 import static com.stewart.loyaltypoints.R.id.view;
 
@@ -49,7 +61,14 @@ public class PreOrderActivity extends AppCompatActivity {
     private com.firebase.ui.database.FirebaseListAdapter listAdapter;
     private ArrayList<String> mLocatoins = new ArrayList<String>();
     private StorageReference mStorage;
+    private HashMap<String, String> products;
+    private HashMap<String, String> productsQty;
+    private String productList;
 
+    //Counters for preorder
+    private int counter;
+    String child = "item" + counter;
+    String childQty = "itemQty" + counter;
 
 
     //private ArrayList<String> mItems = new ArrayList<>();
@@ -61,6 +80,8 @@ public class PreOrderActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pre_order);
+        products = new HashMap<String, String>();
+        productsQty = new HashMap<String, String>(  );
 
         mRef = FirebaseDatabase.getInstance().getReference();
         mStorage = FirebaseStorage.getInstance().getReference();
@@ -91,9 +112,8 @@ public class PreOrderActivity extends AppCompatActivity {
         locationSpinner.setAdapter( adapater );
 
 
-
-
     }
+
 
 
     @Override
@@ -153,7 +173,6 @@ public class PreOrderActivity extends AppCompatActivity {
                     Spinner locationSpinner = (Spinner) findViewById( R.id.preOrderLocationSpinner);
                     final String location = (String) locationSpinner.getSelectedItem();
 
-
                 final Calendar c = Calendar.getInstance();
                 int mYear = c.get(Calendar.YEAR);
                 int mMonth = c.get(Calendar.MONTH);
@@ -164,42 +183,53 @@ public class PreOrderActivity extends AppCompatActivity {
 
 
                 viewHolder.setItemClickListener(new ItemClickListener() {
+
                     @Override
                     public void onItemClick(View v, int pos) {
-                //ALlow user to preorder up to 4 items
+                        //ALlow user to preorder up to 4 items
                         CheckBox chk = (CheckBox) v;
-                        int counter;
                         //Check if checkbox is checked
-                        if(chk.isChecked()) {
+
+
+
+                        if (chk.isChecked()) {
                             String boxname = viewHolder.getCheckbox();
-                            String boxquanity = viewHolder.getQuanity();
-
-
+                            String boxQty = viewHolder.getQuanity();
+                            products.put( child, boxname );
+                            productsQty.put(childQty, boxQty);
                             FirebaseAuth mAuth = FirebaseAuth.getInstance();
                             FirebaseUser user = mAuth.getCurrentUser();
+                            mRef.child("PreOrder").child(location).child(dateString).child(user.getUid()).child("item"+counter).setValue(boxname);
+                            mRef.child("PreOrder").child(location).child(dateString).child(user.getUid()).child("itemQty"+counter).setValue(boxQty);
 
 
-                           mRef.child("PreOrder").child(location).child(dateString).child(user.getUid()).child("item "+boxname).setValue(boxname);
-                            mRef.child("PreOrder").child(location ).child(dateString).child(user.getUid()).child("itemQuanity "+boxname).setValue(boxquanity);
-
-                        } else {
-                            if (!chk.isChecked()) {
-                                String removename = viewHolder.getCheckbox();
-
-                                FirebaseAuth mAuth = FirebaseAuth.getInstance();
-                                FirebaseUser user = mAuth.getCurrentUser();
-
-                                mRef.child("PreOrder").child(user.getUid()).child("item"+removename).removeValue();
-
-                                /*for (int num = 0; num >= 5; num++) {
-                                    mRef.child("PreOrder").child(user.getUid()).child("item" + num).removeValue();
-                                }*/
-
-
-                            }
+                            counter++;
+                        } else if (!chk.isChecked()) {
+                            //Needs checking, almost there however sometimes leaves one there
+                            //Need to see how to remove from Hashmap completely
+                            String boxname = viewHolder.getCheckbox();
+                            FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            mRef.child("PreOrder").child(user.getUid()).child("item"+counter).removeValue();
+                            counter--;
                         }
+
                     }
                 });
+                Button btnSendOrder = (Button) findViewById( buttonSendPreOrder );
+                btnSendOrder.setOnClickListener( new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                        FirebaseUser user = mAuth.getCurrentUser();
+
+
+                        mRef.child("PreOrder").child(location).child(dateString).child(user.getUid()).setValue(products);
+                        mRef.child("PreOrder").child(location).child(dateString).child(user.getUid()).setValue(productsQty);
+
+                    }
+                } );
+
             }
         };
         mItemList.setAdapter(firebaseRecyclerAdapter);
@@ -306,6 +336,14 @@ public class PreOrderActivity extends AppCompatActivity {
             return num;
         }
 
+        protected void locationCheckbox(String loc, Spinner spin) {
+            if(spin.getSelectedItem()==loc) {
+                CheckBox chk = (CheckBox) mView.findViewById(R.id.postChk);
+                chk.setChecked( false );
+            }
+
+        }
+
 
 
 
@@ -328,7 +366,10 @@ public class PreOrderActivity extends AppCompatActivity {
         public void onClick(View v) {
             this.itemClickListener.onItemClick(v, getLayoutPosition());
         }
+
+
     }
+
 }
 
 
