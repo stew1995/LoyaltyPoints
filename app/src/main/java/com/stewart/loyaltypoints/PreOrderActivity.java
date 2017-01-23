@@ -8,7 +8,9 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateFormat;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -52,6 +54,7 @@ import static com.google.android.gms.analytics.internal.zzy.v;
 import static com.google.android.gms.internal.zzng.fl;
 import static com.google.android.gms.internal.zzrw.It;
 import static com.stewart.loyaltypoints.R.id.buttonSendPreOrder;
+import static com.stewart.loyaltypoints.R.id.itemName;
 import static com.stewart.loyaltypoints.R.id.preOrderLocationSpinner;
 import static com.stewart.loyaltypoints.R.id.view;
 
@@ -95,24 +98,14 @@ public class PreOrderActivity extends AppCompatActivity {
         mItemList = (RecyclerView) findViewById(R.id.item_recycler);
         mItemList.setHasFixedSize(true);
         mItemList.setLayoutManager(new LinearLayoutManager(this));
-        mPreOrderList = (RecyclerView) findViewById(R.id.pre_order_item_list_recycler);
-        mPreOrderList.setHasFixedSize(true);
-        mPreOrderList.setLayoutManager(new LinearLayoutManager(this));
-
-        mLocatoins.add("Portland");
-        mLocatoins.add("Dennis Schema (The Hub)\n");
-        mLocatoins.add("The Library");
-        mLocatoins.add("Park");
-        mLocatoins.add("Student Union (The Waterhole)");
-        mLocatoins.add("Eldon");
-        mLocatoins.add("Anglesea");
-        mLocatoins.add("St Georges Coffee Shop");
-        mLocatoins.add("St Andrews Court Café");
-        mLocatoins.add("Café Coco");
 
 
-        ArrayAdapter<String> adapater = new ArrayAdapter<String>( this, R.layout.spinner_item, mLocatoins );
+        Resources res = getResources();
+        String[] locations = res.getStringArray(R.array.locations);
+
+        ArrayAdapter<String> adapater = new ArrayAdapter<String>( this, R.layout.spinner_item, locations );
         locationSpinner.setAdapter( adapater );
+
 
 
     }
@@ -133,34 +126,6 @@ public class PreOrderActivity extends AppCompatActivity {
         final String dateString = (String) DateFormat.format("yyyy/MM/dd", date);
 
 
-
-/*
-
-        FirebaseRecyclerAdapter<PreOrderItems, PreOrderViewHolder> firebasePreOrderAdapter = new FirebaseRecyclerAdapter<PreOrderItems, PreOrderViewHolder>(
-
-                PreOrderItems.class,
-                R.layout.pre_order_list_layout,
-                PreOrderViewHolder.class,
-                mRef.child("PreOrder").child(dateString).child(user.getUid())) {
-            @Override
-            protected void populateViewHolder(PreOrderViewHolder viewHolder, PreOrderItems model, int position) {
-                viewHolder.setTitle(model.getProduct().toString());
-            }
-
-
-        };
-        mPreOrderList.setAdapter(firebasePreOrderAdapter);
-
-
-
-
-*/
-
-
-
-
-
-
         FirebaseRecyclerAdapter<Items, ItemViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Items, ItemViewHolder>(
                 Items.class,
                 R.layout.item_row,
@@ -173,8 +138,9 @@ public class PreOrderActivity extends AppCompatActivity {
                 viewHolder.setPoints(model.getItemPoints().toString());
                 viewHolder.setImage(getApplicationContext(), model.getItemImage());
                 viewHolder.setCheckbox(model.getItemName());
-                    Spinner locationSpinner = (Spinner) findViewById( R.id.preOrderLocationSpinner);
-                    final String location = (String) locationSpinner.getSelectedItem();
+                 Spinner locationSpinner = (Spinner) findViewById( R.id.preOrderLocationSpinner);
+
+                final String location = (String) locationSpinner.getSelectedItem();
 
                 final Calendar c = Calendar.getInstance();
                 int mYear = c.get(Calendar.YEAR);
@@ -240,30 +206,43 @@ public class PreOrderActivity extends AppCompatActivity {
         mItemList.setAdapter(firebaseRecyclerAdapter);
     }
 
-    public static class PreOrderViewHolder extends RecyclerView.ViewHolder {
-        private FirebaseAuth mAuth;
-        private DatabaseReference mRef;
-        View mView;
+   //Recycler adapter for viewing the pre order list
+    public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
+        public List<String> itemNames;
+        public List<String> itemQtys;
 
-        public PreOrderViewHolder(View itemView) {
-            super(itemView);
+       public RecyclerViewAdapter(List<String> itemNames, List<String> itemQtys) {
+           this.itemNames = itemNames;
+           this.itemQtys = itemQtys;
+       }
 
-            mRef = FirebaseDatabase.getInstance().getReference().child("PreOrder");
-            mView = itemView;
-        }
+       @Override
+       public RecyclerViewAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+           View listItems = LayoutInflater.from(parent.getContext()).inflate(R.layout.pre_order_list_layout, parent, false);
+           return new MyViewHolder(listItems);
+       }
 
-        public void setTitle(String product){
-            TextView item_title = (TextView) mView.findViewById(R.id.itemName);
-            item_title.setText(product);
-        }
+       @Override
+       public void onBindViewHolder(RecyclerViewAdapter.MyViewHolder holder, int position) {
+           holder.itemName.setText(itemNames.get(position));
+           holder.itemName.setText(itemQtys.get(position));
+       }
 
-        public void setNumber(Long number){
-            TextView item_number = (TextView) mView.findViewById(R.id.itemQuanity);
-            item_number.setText(number.toString());
-        }
+       @Override
+       public int getItemCount() {
+           return itemQtys.size();
+       }
 
+       public class MyViewHolder extends RecyclerView.ViewHolder {
+           private TextView itemName, itemPrice;
+           public MyViewHolder(View itemView) {
+               super(itemView);
 
-    }
+               itemName = (TextView) itemView.findViewById(R.id.itemName);
+               itemPrice = (TextView) itemView.findViewById(R.id.itemQuanity);
+           }
+       }
+   }
 
 
     public static class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
