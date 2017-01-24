@@ -46,28 +46,19 @@ import java.util.HashMap;
 import java.util.List;
 
 
-import static android.R.attr.x;
-import static com.google.android.gms.analytics.internal.zzy.A;
-import static com.google.android.gms.analytics.internal.zzy.i;
-import static com.google.android.gms.analytics.internal.zzy.r;
-import static com.google.android.gms.analytics.internal.zzy.v;
-import static com.google.android.gms.internal.zzng.fl;
-import static com.google.android.gms.internal.zzrw.It;
+
 import static com.stewart.loyaltypoints.R.id.buttonSendPreOrder;
-import static com.stewart.loyaltypoints.R.id.itemName;
 import static com.stewart.loyaltypoints.R.id.preOrderLocationSpinner;
-import static com.stewart.loyaltypoints.R.id.view;
 
 public class PreOrderActivity extends AppCompatActivity {
     private ListView listView;
     private DatabaseReference mRef;
     private com.firebase.ui.database.FirebaseListAdapter listAdapter;
-    private ArrayList<String> mLocatoins = new ArrayList<String>();
     private StorageReference mStorage;
-    private HashMap<String, String> productsQty;
-    private String productList;
-    private List<String> productListing;
-    private List<String> productListingQty;
+    private HashMap<String, String> productListing;
+    private HashMap<String, String> productListingQty;
+    private HashMap<String, String> productListingLocation;
+    private HashMap<String, String> fullArray;
 
     //Counters for preorder
     private int counter;
@@ -84,10 +75,11 @@ public class PreOrderActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pre_order);
-        productsQty = new HashMap<String, String>(  );
 
-        productListing = new ArrayList<String>();
-        productListingQty = new ArrayList<String>();
+        productListing = new HashMap<String, String>();
+        productListingQty = new HashMap<String, String>();
+        fullArray = new HashMap<String, String>();
+        productListingLocation = new HashMap<String, String>();
 
         mRef = FirebaseDatabase.getInstance().getReference();
         mStorage = FirebaseStorage.getInstance().getReference();
@@ -111,7 +103,8 @@ public class PreOrderActivity extends AppCompatActivity {
     }
 
 
-
+    //Change this page to save into holder where it will then be sent to the database
+    //With the date
     @Override
     protected void onStart() {
         super.onStart();
@@ -132,13 +125,15 @@ public class PreOrderActivity extends AppCompatActivity {
                 ItemViewHolder.class,
                 mRef.child("Items")) {
             @Override
-            protected void populateViewHolder(final ItemViewHolder viewHolder, Items model, int position) {
+            protected void populateViewHolder(final ItemViewHolder viewHolder, final Items model, int position) {
                 viewHolder.setTitle(model.getItemName());
                 viewHolder.setPrice(model.getItemPrice().toString());
                 viewHolder.setPoints(model.getItemPoints().toString());
                 viewHolder.setImage(getApplicationContext(), model.getItemImage());
                 viewHolder.setCheckbox(model.getItemName());
                  Spinner locationSpinner = (Spinner) findViewById( R.id.preOrderLocationSpinner);
+                final String boxname = viewHolder.getCheckbox();
+                final String boxQty = viewHolder.getQuanity();
 
                 final String location = (String) locationSpinner.getSelectedItem();
 
@@ -159,14 +154,14 @@ public class PreOrderActivity extends AppCompatActivity {
                         CheckBox chk = (CheckBox) v;
                         //Check if checkbox is checked
 
-                        String boxname = viewHolder.getCheckbox();
-                        String boxQty = viewHolder.getQuanity();
+
 
                         if (chk.isChecked()) {
                             //products.put( child, boxname );
-                            productListing.add(boxname);
-                            productListingQty.add(boxQty);
+                            productListing.put("itemName"+counter,boxname);
+                            productListingQty.put("itemQty"+counter,boxQty);
                             //productsQty.put(childQty, boxQty);
+
                             counter++;
                         } else if (!chk.isChecked()) {
                                 //Needs checking, almost there however sometimes leaves one there
@@ -183,10 +178,16 @@ public class PreOrderActivity extends AppCompatActivity {
                 btnSendOrder.setOnClickListener( new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String boxname = viewHolder.getCheckbox();
-
                         FirebaseAuth mAuth = FirebaseAuth.getInstance();
                         FirebaseUser user = mAuth.getCurrentUser();
+                        productListingLocation.put("location", location);
+                        fullArray.putAll(productListing);
+                        fullArray.putAll(productListingQty);
+                        fullArray.putAll( productListingLocation );
+                        Items item = new Items();
+                        String ID = item.setUid( mRef.child( "PreOrderHolder" ).child(user.getUid()).push().getKey() );
+
+
                         //Putting orders into database
                         //Two different tables for quanity and the items
                         //use DataSnapshot to do the pre order basket at the bottom of the screen
@@ -194,8 +195,19 @@ public class PreOrderActivity extends AppCompatActivity {
                         //Need to limit on now much the user can pre order
                         //Need to link points to the user account so when they get pre ordered items it sends it over to the database
                         //with their updated points
-                        mRef.child("PreOrder").child(location).child(dateString).child(user.getUid()).child("item").setValue(productListing);
-                        mRef.child("PreOrder").child(location).child(dateString).child(user.getUid()).child("itemQty").setValue(productListingQty);
+
+                        //Working one however not sure how to get the random key
+                        //mRef.child("PreOrderHolder").child(user.getUid()).child(ID).setValue(fullArray);
+
+
+                        mRef.child("PreOrderHolder").child(user.getUid()).setValue(fullArray);
+
+
+                        //mRef.child("PreOrderHolder").child(user.getUid()).child("item").setValue(productListingQty);
+                        //Go over this to change where the data is saved
+                        //Putting it into the transactions table to then be sent to the Pre Order
+                        //Table when the user confirms it on the PreorderDetails Screen
+
 
 
                     }
@@ -206,51 +218,13 @@ public class PreOrderActivity extends AppCompatActivity {
         mItemList.setAdapter(firebaseRecyclerAdapter);
     }
 
-   //Recycler adapter for viewing the pre order list
-    public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
-        public List<String> itemNames;
-        public List<String> itemQtys;
-
-       public RecyclerViewAdapter(List<String> itemNames, List<String> itemQtys) {
-           this.itemNames = itemNames;
-           this.itemQtys = itemQtys;
-       }
-
-       @Override
-       public RecyclerViewAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-           View listItems = LayoutInflater.from(parent.getContext()).inflate(R.layout.pre_order_list_layout, parent, false);
-           return new MyViewHolder(listItems);
-       }
-
-       @Override
-       public void onBindViewHolder(RecyclerViewAdapter.MyViewHolder holder, int position) {
-           holder.itemName.setText(itemNames.get(position));
-           holder.itemName.setText(itemQtys.get(position));
-       }
-
-       @Override
-       public int getItemCount() {
-           return itemQtys.size();
-       }
-
-       public class MyViewHolder extends RecyclerView.ViewHolder {
-           private TextView itemName, itemPrice;
-           public MyViewHolder(View itemView) {
-               super(itemView);
-
-               itemName = (TextView) itemView.findViewById(R.id.itemName);
-               itemPrice = (TextView) itemView.findViewById(R.id.itemQuanity);
-           }
-       }
-   }
-
-
     public static class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         private FirebaseAuth mAuth;
         private DatabaseReference mRef;
         View mView;
         private String points;
         CheckBox chk;
+
 
         ItemClickListener itemClickListener;
 
@@ -261,6 +235,7 @@ public class PreOrderActivity extends AppCompatActivity {
             mView = itemView;
 
             chk = (CheckBox) mView.findViewById(R.id.postChk);
+            final Spinner spn = (Spinner) mView.findViewById(R.id.postQuanity);
 
 
             chk.setOnClickListener(this);
@@ -329,19 +304,6 @@ public class PreOrderActivity extends AppCompatActivity {
         }
 
 
-
-
-       /* @Override
-        public void onClick(View v) {
-                TextView item_title = (TextView) mView.findViewById(R.id.postName);
-                String name = item_title.toString();
-                Items i = new Items(name);
-
-                FirebaseUser user = mAuth.getCurrentUser();
-
-                mRef.child(user.getUid()).setValue(i);
-            }*/
-
         public void setItemClickListener(ItemClickListener ic) {
             this.itemClickListener=ic;
         }
@@ -350,6 +312,7 @@ public class PreOrderActivity extends AppCompatActivity {
         public void onClick(View v) {
             this.itemClickListener.onItemClick(v, getLayoutPosition());
         }
+
 
 
     }

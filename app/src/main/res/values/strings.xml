@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">LoyaltyPoints</string>
+    <string name="continuePreOrder">Continue</string>
 
     <string-array name="spAcYear">
         <item name="First Year">First Year</item>
@@ -32,7 +33,6 @@
         <item>St Andrews Court Café</item>
         <item>Café Coco</item>
     </string-array>
-
 
 
     <string-array name="preOrderQuantity">

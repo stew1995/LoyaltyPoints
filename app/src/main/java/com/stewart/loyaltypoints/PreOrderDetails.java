@@ -1,0 +1,126 @@
+package com.stewart.loyaltypoints;
+
+/**
+ * Created by stewart on 24/01/2017.
+ */
+
+public class PreOrderDetails {
+
+    private String location;
+    private String itemName0, itemName1, itemName2, itemName3;
+    private String itemQty0, itemQty1, itemQty2, itemQty3;
+
+
+    public PreOrderDetails() {
+
+    }
+
+    public PreOrderDetails(String location, String itemName0, String itemQty0) {
+        this.location = location;
+        this.itemName0 = itemName0;
+        this.itemQty0 = itemQty0;
+    }
+
+    public PreOrderDetails(String location, String itemName0, String itemName1, String itemQty0, String itemQty1) {
+        this.location = location;
+        this.itemName0 = itemName0;
+        this.itemName1 = itemName1;
+        this.itemQty0 = itemQty0;
+        this.itemQty1 = itemQty1;
+    }
+
+    public PreOrderDetails(String itemQty1, String itemQty0, String itemQty2, String itemName2, String itemName1, String itemName0, String location) {
+        this.itemQty1 = itemQty1;
+        this.itemQty0 = itemQty0;
+        this.itemQty2 = itemQty2;
+        this.itemName2 = itemName2;
+        this.itemName1 = itemName1;
+        this.itemName0 = itemName0;
+        this.location = location;
+    }
+
+    public PreOrderDetails(String location, String itemName0, String itemName1, String itemName2, String itemName3, String itemQty0, String itemQty1, String itemQty2, String itemQty3) {
+        this.location = location;
+        this.itemName0 = itemName0;
+        this.itemName1 = itemName1;
+        this.itemName2 = itemName2;
+        this.itemName3 = itemName3;
+        this.itemQty0 = itemQty0;
+        this.itemQty1 = itemQty1;
+        this.itemQty2 = itemQty2;
+        this.itemQty3 = itemQty3;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getItemName0() {
+        return itemName0;
+    }
+
+    public void setItemName0(String itemName0) {
+        this.itemName0 = itemName0;
+    }
+
+    public String getItemName1() {
+        return itemName1;
+    }
+
+    public void setItemName1(String itemName1) {
+        this.itemName1 = itemName1;
+    }
+
+    public String getItemName2() {
+        return itemName2;
+    }
+
+    public void setItemName2(String itemName2) {
+        this.itemName2 = itemName2;
+    }
+
+    public String getItemName3() {
+        return itemName3;
+    }
+
+    public void setItemName3(String itemName3) {
+        this.itemName3 = itemName3;
+    }
+
+    public String getItemQty0() {
+        return itemQty0;
+    }
+
+    public void setItemQty0(String itemQty0) {
+        this.itemQty0 = itemQty0;
+    }
+
+    public String getItemQty1() {
+        return itemQty1;
+    }
+
+    public void setItemQty1(String itemQty1) {
+        this.itemQty1 = itemQty1;
+    }
+
+    public String getItemQty2() {
+        return itemQty2;
+    }
+
+    public void setItemQty2(String itemQty2) {
+        this.itemQty2 = itemQty2;
+    }
+
+    public String getItemQty3() {
+        return itemQty3;
+    }
+
+    public void setItemQty3(String itemQty3) {
+        this.itemQty3 = itemQty3;
+    }
+
+}

@@ -1,14 +1,20 @@
 package com.stewart.loyaltypoints;
 
-import static com.stewart.loyaltypoints.R.id.itemQuanity;
+import java.util.List;
+
 
 /**
  * Created by stewart on 18/01/2017.
  */
 
 public class Items {
-    private String itemName, itemImage, itemPrice;
+    private String itemName, itemImage, itemPrice, itemPreOrderLocation;
     private Long itemPoints;
+    private String itemQty;
+    private List<String> itemPreOrderName;
+    private String Uid;
+
+
 
     public Items (){
 
@@ -31,8 +37,9 @@ public class Items {
         return itemName;
     }
 
-    public void setItemName(String itemName) {
+    public String setItemName(String itemName) {
         this.itemName = itemName;
+        return itemName;
     }
 
     public String getItemPrice() {
@@ -58,5 +65,14 @@ public class Items {
 
     public void setItemImage(String itemImage) {
         this.itemImage = itemImage;
+    }
+
+    public String getUid() {
+        return Uid;
+    }
+
+    public String setUid(String uid) {
+        Uid = uid;
+        return uid;
     }
 }
