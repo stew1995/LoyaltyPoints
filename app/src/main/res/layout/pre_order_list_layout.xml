@@ -118,6 +118,43 @@
                 android:layout_alignBottom="@+id/tvItemName3"
                 android:layout_alignParentEnd="true"/>
 
+            <Button
+                android:text="REMOVE"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnRemoveItem4"
+                android:background="@null"
+                android:layout_below="@+id/btnRemoveItem3"
+                android:layout_alignParentEnd="true" />
+
+            <Button
+                android:text="REMOVE"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnRemoveItem3"
+                android:background="@null"
+                android:layout_below="@+id/tvItemQty2"
+                android:layout_alignParentEnd="true" />
+
+            <Button
+                android:text="REMOVE"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnRemoveItem1"
+                android:background="@null"
+                android:layout_alignBaseline="@+id/tvItemQty1"
+                android:layout_alignBottom="@+id/tvItemQty1"
+                android:layout_alignParentEnd="true" />
+
+            <Button
+                android:text="REMOVE"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnRemoveItem2"
+                android:background="@null"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true" />
+
         </RelativeLayout>
 
 

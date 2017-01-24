@@ -45,6 +45,11 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
 
     //Button for going back to main page
     private Button btnNextPreOrder;
+    //RemoveButtons
+    private Button btnRemoveItem1;
+    private Button btnRemoveItem2;
+    private Button btnRemoveItem3;
+    private Button btnRemoveItem4;
 
     //Firebase
     private DatabaseReference mRef;
@@ -62,9 +67,6 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
         preOrderItems = new ArrayList<String>();
         preOrderQty = new ArrayList<String>();
         //Initialise Firebase
-        mRef = FirebaseDatabase.getInstance().getReference();
-        mAuth = FirebaseAuth.getInstance();
-        String mUser = mAuth.getCurrentUser().getUid();
         //Each page i need to put if the user isnt signed in the go back to sign in screen
 
         //Initialise Views
@@ -74,6 +76,10 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
         mPreOrderName.setLayoutManager( new LinearLayoutManager( this ) );
 
         btnNextPreOrder = (Button) findViewById( R.id.btnNextPreOrder );
+        btnRemoveItem1 = (Button) findViewById(R.id.btnRemoveItem1);
+        btnRemoveItem2 = (Button) findViewById(R.id.btnRemoveItem2);
+        btnRemoveItem3 = (Button) findViewById(R.id.btnRemoveItem3);
+        btnRemoveItem4 = (Button) findViewById(R.id.btnRemoveItem4);
 
         //On Create method needs the location of where the items are being bought from
 
@@ -91,7 +97,7 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
         int mMonth = c.get( Calendar.MONTH );
         int mDay = c.get( Calendar.DAY_OF_MONTH );
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        FirebaseUser user = mAuth.getCurrentUser();
+        final FirebaseUser user = mAuth.getCurrentUser();
 
         Date date = new Date( mYear - 1900, mMonth, mDay );
         final String dateString = (String) DateFormat.format( "yyyy/MM/dd", date );
@@ -103,8 +109,11 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
                 PreOrderViewHolder.class,
                 mRef.child( "PreOrderHolder" ).child( user.getUid() )
         ) {
+
             @Override
             protected void populateViewHolder(PreOrderViewHolder viewHolder, final PreOrderDetails model, int position) {
+
+
                 viewHolder.setName1( model.getItemName0() );
                 viewHolder.setQty1( model.getItemQty0() );
                 viewHolder.setName2( model.getItemName1() );
@@ -131,19 +140,34 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
                 mFinalOrder.putAll( mFinalOrderName );
                 mFinalOrder.putAll( mFinalOrderQty );
 
+
                 //Locations
                 viewHolder.setLocation( model.getLocation() );
-
+                //Click Listeners for Buttons
                 btnNextPreOrder.setOnClickListener( new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-                        FirebaseUser user = mAuth.getCurrentUser();
+
 
                         mRef.child("PreOrders").child( model.getLocation() ).child( dateString ).child(user.getUid()).setValue(mFinalOrder);
 
                     }
                 } );
+
+                //Remove Buttons
+
+                //This function should update the recycler view
+
+                btnRemoveItem1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //Need to remove from the arraylist
+                        mRef.child( "PreOrderHolder" ).child( user.getUid() ).child("itemName0").removeValue();
+                        mRef.child( "PreOrderHolder" ).child( user.getUid() ).child("itemQty0").removeValue();
+
+                    }
+                });
+
 
             }
         };
