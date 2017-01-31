@@ -1,6 +1,7 @@
 package com.stewart.loyaltypoints;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
@@ -114,11 +115,7 @@ public class PreOrderActivity extends AppCompatActivity {
         int mDay = c.get(Calendar.DAY_OF_MONTH);
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
-
-        Date date = new Date(mYear - 1900, mMonth, mDay);
-        final String dateString = (String) DateFormat.format("yyyy/MM/dd", date);
-
-
+        
         FirebaseRecyclerAdapter<Items, ItemViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Items, ItemViewHolder>(
                 Items.class,
                 R.layout.item_row,
@@ -136,16 +133,6 @@ public class PreOrderActivity extends AppCompatActivity {
                 final String boxQty = viewHolder.getQuanity();
 
                 final String location = (String) locationSpinner.getSelectedItem();
-
-                final Calendar c = Calendar.getInstance();
-                int mYear = c.get(Calendar.YEAR);
-                int mMonth = c.get(Calendar.MONTH);
-                int mDay = c.get(Calendar.DAY_OF_MONTH);
-
-                Date date = new Date(mYear - 1900, mMonth, mDay);
-                final String dateString = DateFormat.format("yyyy/MM/dd", date).toString();
-
-
                 viewHolder.setItemClickListener(new ItemClickListener() {
 
                     @Override
@@ -184,8 +171,6 @@ public class PreOrderActivity extends AppCompatActivity {
                         fullArray.putAll(productListing);
                         fullArray.putAll(productListingQty);
                         fullArray.putAll( productListingLocation );
-                        Items item = new Items();
-                        String ID = item.setUid( mRef.child( "PreOrderHolder" ).child(user.getUid()).push().getKey() );
 
 
                         //Putting orders into database
@@ -208,6 +193,7 @@ public class PreOrderActivity extends AppCompatActivity {
                         //Putting it into the transactions table to then be sent to the Pre Order
                         //Table when the user confirms it on the PreorderDetails Screen
 
+                        startActivity( new Intent( PreOrderActivity.this, PreOrderDetailsActivity.class ) );
 
 
                     }

@@ -38,7 +38,10 @@ import static com.stewart.loyaltypoints.R.id.tvItemQty4;
 
 public class PreOrderDetailsActivity extends AppCompatActivity {
     //Counter for adding into HashMap
-    private int counter;
+    private int nameCounter;
+    private int qtyCounter;
+    View mView;
+
 
     //Recycler Views
     RecyclerView mPreOrderName, mPreOrderQty;
@@ -67,6 +70,9 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
         preOrderItems = new ArrayList<String>();
         preOrderQty = new ArrayList<String>();
         //Initialise Firebase
+        mRef = FirebaseDatabase.getInstance().getReference();
+        mAuth = FirebaseAuth.getInstance();
+        String mUser = mAuth.getCurrentUser().getUid();
         //Each page i need to put if the user isnt signed in the go back to sign in screen
 
         //Initialise Views
@@ -109,11 +115,10 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
                 PreOrderViewHolder.class,
                 mRef.child( "PreOrderHolder" ).child( user.getUid() )
         ) {
-
             @Override
             protected void populateViewHolder(PreOrderViewHolder viewHolder, final PreOrderDetails model, int position) {
-
-
+                //textViews to check if empty and not to add to array list to send to database
+                //Set Items from PreOrderHolder
                 viewHolder.setName1( model.getItemName0() );
                 viewHolder.setQty1( model.getItemQty0() );
                 viewHolder.setName2( model.getItemName1() );
@@ -123,36 +128,59 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
                 viewHolder.setName4( model.getItemName3() );
                 viewHolder.setQty4( model.getItemQty3() );
                 //HashMap for Item Name
-                HashMap<String, String> mFinalOrderName = new HashMap<String, String>();
-                mFinalOrderName.put("Item"+counter++, model.getItemName0());
-                mFinalOrderName.put("Item"+counter++, model.getItemName1());
-                mFinalOrderName.put("Item"+counter++, model.getItemName2());
-                mFinalOrderName.put("Item"+counter++, model.getItemName3());
-                //HashMap for ItemQty
+                HashMap<String, String> mFinalOrderName = new HashMap<String, String>(  );
+                //HashMap for Item Qty
                 HashMap<String, String> mFinalOrderQty = new HashMap<String, String>(  );
-                mFinalOrderQty.put("ItemQty"+counter++, model.getItemQty0());
-                mFinalOrderQty.put("ItemQty"+counter++, model.getItemQty1());
-                mFinalOrderQty.put("ItemQty"+counter++, model.getItemQty2());
-                mFinalOrderQty.put("ItemQty"+counter++, model.getItemQty3());
+
+                if(viewHolder.getName1()!=null||!viewHolder.getName1().equals( "" )||viewHolder.getQty1()!=null||!viewHolder.getQty1().equals( "" )) {
+
+                    mFinalOrderName.put("Item"+nameCounter++, model.getItemName0());
+                    mFinalOrderQty.put("ItemQty"+qtyCounter++, model.getItemQty0());
+
+                }
+
+                if (viewHolder.getName2()!=null||!viewHolder.getName2().equals( "" )||viewHolder.getQty2()!=null||!viewHolder.getQty2().equals( "" )) {
+
+                    mFinalOrderName.put("Item"+nameCounter++, model.getItemName1());
+                    mFinalOrderQty.put("ItemQty"+qtyCounter++, model.getItemQty1());
+
+                }
+
+                if (viewHolder.getName3()!=null||!viewHolder.getName3().equals( "" )||viewHolder.getQty3()!=null||!viewHolder.getQty3().equals( "" )) {
+
+                    mFinalOrderName.put("Item"+nameCounter++, model.getItemName2());
+                    mFinalOrderQty.put("ItemQty"+qtyCounter++, model.getItemQty2());
+
+                }
+
+                if (viewHolder.getName4()!=null||!viewHolder.getName4().equals( "" )||viewHolder.getQty4()!=null||!viewHolder.getQty4().equals( "" )) {
+
+                    mFinalOrderName.put("Item"+nameCounter++, model.getItemName3());
+                    mFinalOrderQty.put("ItemQty"+qtyCounter++, model.getItemQty3());
+
+                }
+
 
                 //Join HashMaps
                 final HashMap<String, String> mFinalOrder = new HashMap<String, String>(  );
                 mFinalOrder.putAll( mFinalOrderName );
                 mFinalOrder.putAll( mFinalOrderQty );
 
-
                 //Locations
                 viewHolder.setLocation( model.getLocation() );
-                //Click Listeners for Buttons
+
                 btnNextPreOrder.setOnClickListener( new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                        FirebaseUser user = mAuth.getCurrentUser();
 
                         mRef.child("PreOrders").child( model.getLocation() ).child( dateString ).child(user.getUid()).setValue(mFinalOrder);
+                        mRef.child("PreOrderHolder").child(user.getUid()).removeValue();
 
                     }
                 } );
+
 
                 //Remove Buttons
 
@@ -167,8 +195,6 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
 
                     }
                 });
-
-
             }
         };
         mPreOrderName.setAdapter( firebaseRecyclerAdapter );
@@ -188,9 +214,21 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
             item_name.setText( name );
         }
 
+        public String getName1() {
+            TextView item_name = (TextView) mView.findViewById( tvItemName1 );
+            String text = (String) item_name.getText();
+            return text;
+        }
+
         public void setQty1(String qty) {
             TextView item_qty = (TextView) mView.findViewById( tvItemQty1 );
             item_qty.setText( qty );
+        }
+
+        public String getQty1() {
+            TextView item_qty = (TextView) mView.findViewById( tvItemQty1 );
+            String text = (String) item_qty.getText();
+            return text;
         }
 
         public void setName2(String name) {
@@ -198,9 +236,21 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
             item_name.setText( name );
         }
 
+        public String getName2() {
+            TextView item_name = (TextView) mView.findViewById( tvItemName2 );
+            String text = (String) item_name.getText();
+            return text;
+        }
+
         public void setQty2(String qty) {
             TextView item_qty = (TextView) mView.findViewById( tvItemQty2 );
             item_qty.setText( qty );
+        }
+
+        public String getQty2() {
+            TextView item_qty = (TextView) mView.findViewById( tvItemQty2 );
+            String text = (String) item_qty.getText();
+            return text;
         }
 
         public void setName3(String name) {
@@ -208,9 +258,21 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
             item_name.setText( name );
         }
 
+        public String getName3() {
+            TextView item_name = (TextView) mView.findViewById( tvItemName3 );
+            String text = (String) item_name.getText();
+            return text;
+        }
+
         public void setQty3(String qty) {
             TextView item_qty = (TextView) mView.findViewById( tvItemQty3 );
             item_qty.setText( qty );
+        }
+
+        public String getQty3() {
+            TextView item_qty = (TextView) mView.findViewById( tvItemQty3 );
+            String text = (String) item_qty.getText();
+            return text;
         }
 
         public void setName4(String name) {
@@ -218,9 +280,21 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
             item_name.setText( name );
         }
 
+        public String getName4() {
+            TextView item_name = (TextView) mView.findViewById( tvItemName4 );
+            String text = (String) item_name.getText();
+            return text;
+        }
+
         public void setQty4(String qty) {
             TextView item_qty = (TextView) mView.findViewById( tvItemQty4 );
             item_qty.setText( qty );
+        }
+
+        public String getQty4() {
+            TextView item_qty = (TextView) mView.findViewById( tvItemQty4 );
+            String text = (String) item_qty.getText();
+            return text;
         }
 
         public void setLocation(String location) {

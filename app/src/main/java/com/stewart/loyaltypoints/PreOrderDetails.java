@@ -15,42 +15,6 @@ public class PreOrderDetails {
 
     }
 
-    public PreOrderDetails(String location, String itemName0, String itemQty0) {
-        this.location = location;
-        this.itemName0 = itemName0;
-        this.itemQty0 = itemQty0;
-    }
-
-    public PreOrderDetails(String location, String itemName0, String itemName1, String itemQty0, String itemQty1) {
-        this.location = location;
-        this.itemName0 = itemName0;
-        this.itemName1 = itemName1;
-        this.itemQty0 = itemQty0;
-        this.itemQty1 = itemQty1;
-    }
-
-    public PreOrderDetails(String itemQty1, String itemQty0, String itemQty2, String itemName2, String itemName1, String itemName0, String location) {
-        this.itemQty1 = itemQty1;
-        this.itemQty0 = itemQty0;
-        this.itemQty2 = itemQty2;
-        this.itemName2 = itemName2;
-        this.itemName1 = itemName1;
-        this.itemName0 = itemName0;
-        this.location = location;
-    }
-
-    public PreOrderDetails(String location, String itemName0, String itemName1, String itemName2, String itemName3, String itemQty0, String itemQty1, String itemQty2, String itemQty3) {
-        this.location = location;
-        this.itemName0 = itemName0;
-        this.itemName1 = itemName1;
-        this.itemName2 = itemName2;
-        this.itemName3 = itemName3;
-        this.itemQty0 = itemQty0;
-        this.itemQty1 = itemQty1;
-        this.itemQty2 = itemQty2;
-        this.itemQty3 = itemQty3;
-    }
-
     public String getLocation() {
         return location;
     }
