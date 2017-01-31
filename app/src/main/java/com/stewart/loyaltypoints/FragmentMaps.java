@@ -6,21 +6,16 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.amigold.fundapter.BindDictionary;
 import com.amigold.fundapter.FunDapter;
 import com.amigold.fundapter.extractors.StringExtractor;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.stewart.loyaltypoints.models.MapsList;
 
 import java.util.ArrayList;
-
-import static com.google.android.gms.analytics.internal.zzy.t;
 
 
 /**

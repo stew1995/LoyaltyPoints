@@ -8,6 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@mipmap/coffee_cup_310117"
     tools:context="com.stewart.loyaltypoints.SplashActivity">
     <LinearLayout
         android:id="@+id/layoutDots"
@@ -24,27 +25,25 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        />
+        android:layout_alignParentStart="true"/>
+
     <View
         android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:layout_above="@id/layoutDots"
-        android:alpha=".5"
-        android:background="@color/colorPrimary"
-        ></View>
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="60dp"
+        android:background="@color/white"></View>
 
     <Button
         android:text="NEXT"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="18dp"
-        android:layout_marginBottom="5dp"
         android:id="@+id/btnNextSplash"
         android:layout_weight="1"
         android:background="@null"
+        android:textColor="@color/colorPrimaryDark"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:textColor="@color/colorPrimaryDark"/>
+        android:layout_alignParentEnd="true"/>
 
 </RelativeLayout>

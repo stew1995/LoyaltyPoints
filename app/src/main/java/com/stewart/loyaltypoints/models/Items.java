@@ -1,4 +1,4 @@
-package com.stewart.loyaltypoints;
+package com.stewart.loyaltypoints.models;
 
 import java.util.List;
 

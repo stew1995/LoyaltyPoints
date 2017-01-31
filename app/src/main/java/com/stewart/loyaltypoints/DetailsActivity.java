@@ -11,8 +11,7 @@ import android.widget.Spinner;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import static com.stewart.loyaltypoints.R.id.etAcAnswer;
+import com.stewart.loyaltypoints.models.User;
 
 public class DetailsActivity extends AppCompatActivity {
 

@@ -57,9 +57,8 @@ public class SplashActivity extends AppCompatActivity {
         next = (Button) findViewById(R.id.btnNextSplash);
         //define splashscreen layouts
         layouts = new int[]{R.layout.activity_splashscreen1, R.layout.activity_splashscreen2, R.layout.activity_splashscreen3,
-                R.layout.activity_splashscreen4, R.layout.activity_splashscreen5};
+                R.layout.activity_splashscreen4};
 
-        addBottonDots(1);
         changeStatusColour();
         viewPagerAdapter = new ViewPagerAdapter();
         viewPager.setAdapter(viewPagerAdapter);
@@ -68,29 +67,16 @@ public class SplashActivity extends AppCompatActivity {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(SplashActivity.this, SigninActivity.class));
+                if(next.getText() == "PROCEED") {
+                    startActivity(new Intent(SplashActivity.this, SigninActivity.class));
+                }
 
             }
         });
 
     }
 
-    private void addBottonDots(int position) {
-        //Set dots at the bottom of the screen underneither image and text
-        dots = new TextView[layouts.length];
-        int[] colorActive = getResources().getIntArray(R.array.dot_active);
-        int[] colorInactive = getResources().getIntArray(R.array.dot_inactive);
-        dotsLayout.removeAllViews();
-        for(int i = 0; i<dots.length; i++) {
-            dots[i] = new TextView(this);
-            dots[i].setTextSize(50);
-            dots[i].setTextColor(colorInactive[position]);
-            dotsLayout.addView(dots[i]);
-        }
-        if(dots.length > 0) {
-            dots[position].setTextColor(colorActive[position]);
-        }
-    }
+
 
     private int getItem(int i) {
         return viewPager.getCurrentItem();
@@ -104,12 +90,13 @@ public class SplashActivity extends AppCompatActivity {
 
         @Override
         public void onPageSelected(int position) {
-            addBottonDots(position);
             if(position == layouts.length-1) {
                 next.setText("PROCEED");
 
-            } else if (position == layouts.length - 5){
+            } else if (position == layouts.length - 4){
                 next.setText("NEXT");
+            } else if (position == layouts.length - 2) {
+                next.setText( "NEXT" );
             }
         }
 

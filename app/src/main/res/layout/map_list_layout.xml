@@ -1,37 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:text="Name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="22dp"
-        android:id="@+id/tvMapsName"
-        android:textSize="20sp"
-        android:layout_marginStart="20dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+        <TextView
+            android:text="Name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvMapsName"
+            android:textSize="20sp"
+            android:padding="10dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"/>
 
-    <TextView
-        android:text="Location"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="13dp"
-        android:id="@+id/tvMapsLocation"
-        android:textSize="16sp"
-        android:layout_below="@+id/tvMapsName"
-        android:layout_alignStart="@+id/tvMapsName" />
+        <TextView
+            android:text="Location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:id="@+id/tvMapsLocation"
+            android:textSize="16sp"
+            android:padding="10dp"
+            android:layout_below="@+id/tvMapsName"
+            android:layout_alignParentStart="true"/>
 
-    <TextView
-        android:text="00:00 - 00:00"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvMapsTime"
-        android:textSize="16sp"
-        android:layout_marginEnd="17dp"
-        android:layout_alignBaseline="@+id/tvMapsLocation"
-        android:layout_alignBottom="@+id/tvMapsLocation"
-        android:layout_alignParentEnd="true" />
-</RelativeLayout>
+        <TextView
+            android:text="00:00 - 00:00"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvMapsTime"
+            android:textSize="16sp"
+            android:layout_marginEnd="14dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"/>
+
+    </RelativeLayout>
+
+
+</LinearLayout>

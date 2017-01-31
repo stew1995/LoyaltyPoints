@@ -1,4 +1,4 @@
-package com.stewart.loyaltypoints;
+package com.stewart.loyaltypoints.models;
 
 import static android.os.Build.ID;
 
