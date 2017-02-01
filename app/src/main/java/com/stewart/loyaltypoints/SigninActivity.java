@@ -5,11 +5,14 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
@@ -26,13 +29,21 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import static com.google.android.gms.analytics.internal.zzy.o;
 import static com.google.android.gms.analytics.internal.zzy.v;
+import static com.stewart.loyaltypoints.R.color.white;
 
 public class SigninActivity extends AppCompatActivity {
+    //Google Sign in
     private SignInButton mGoogleBtn;
     private static final int RC_SIGN_IN = 1;
     private GoogleApiClient mGoogleApiClient;
+    private static final String TAG = "GoogleSignin";
+    //Firebase
+
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
@@ -40,8 +51,10 @@ public class SigninActivity extends AppCompatActivity {
     //Button
     private Button mLoginButton, mRegister;
     private EditText mEmail, mPassword;
+    private TextView mPasswordChecker;
 
-    private static final String TAG = "GoogleSignin";
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +68,11 @@ public class SigninActivity extends AppCompatActivity {
         mPassword = (EditText) findViewById( R.id.etPasswordSignIn );
         mLoginButton = (Button) findViewById( R.id.btnLogIn );
         mRegister = (Button) findViewById( R.id.btnCreateAccount );
+        mPasswordChecker = (TextView) findViewById( R.id.tvPasswordChecker );
+
+        //TextWatcher
+        mPassword.addTextChangedListener(textWatcher);
+
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -114,6 +132,39 @@ public class SigninActivity extends AppCompatActivity {
 
 
     }
+
+    //TextWatcher for password to tell user if password is too short or if it needs certain characters
+    private final TextWatcher textWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            mPasswordChecker.setText( "Not Entered" );
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            if(s.length() <= 6) {
+                mPasswordChecker.setText( "Password not long enough" );
+                mPasswordChecker.setTextColor(getResources().getColor( R.color.passwordError ));
+            } else if (s.length() <= 8) {
+                mPasswordChecker.setText( "Weak" );
+                mPasswordChecker.setTextColor( getResources().getColor( R.color.passwordWeak ) );
+            } else if (s.length() <= 10) {
+                mPasswordChecker.setText( "Medium" );
+                mPasswordChecker.setTextColor( getResources().getColor( R.color.passwordMedium ) );
+            } else if (s.length() <= 14) {
+                mPasswordChecker.setText( "Strong" );
+                mPasswordChecker.setTextColor( getResources().getColor( R.color.passwordStrong ) );
+            } else {
+                mPasswordChecker.setText( "Very Strong" );
+                mPasswordChecker.setTextColor( getResources().getColor( R.color.passwordVeryStrong ) );
+            }
+        }
+    };
 
     private void startRegister() {
         String email = mEmail.getText().toString();
@@ -184,6 +235,24 @@ public class SigninActivity extends AppCompatActivity {
         if (mAuthListener != null) {
             mAuth.removeAuthStateListener(mAuthListener);
         }
+    }
+
+    //Password validator
+    //One provided only needs the user to have more than 6 characters so improved security
+    private boolean isPasswordValid(String password) {
+        String PASSWORD_PATTERN = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%*]).{6,20})";
+
+        Pattern pattern = Pattern.compile(PASSWORD_PATTERN);
+        Matcher matcher = pattern.matcher(password);
+        return matcher.matches();
+    }
+    //email valiator
+    //doesnt work needs pattern looking over
+    private boolean isEmailValid(String email) {
+        String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[myport.ac.uk]";
+        Pattern pattern = Pattern.compile(EMAIL_PATTERN);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
     }
 
     //Google
