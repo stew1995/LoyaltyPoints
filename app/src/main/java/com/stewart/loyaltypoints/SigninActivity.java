@@ -2,10 +2,14 @@ package com.stewart.loyaltypoints;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
@@ -22,6 +26,9 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import static com.google.android.gms.analytics.internal.zzy.o;
+import static com.google.android.gms.analytics.internal.zzy.v;
+
 public class SigninActivity extends AppCompatActivity {
     private SignInButton mGoogleBtn;
     private static final int RC_SIGN_IN = 1;
@@ -29,12 +36,25 @@ public class SigninActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
+    //Normal Email Sign In
+    //Button
+    private Button mLoginButton, mRegister;
+    private EditText mEmail, mPassword;
+
     private static final String TAG = "GoogleSignin";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
+
+        //Assigning the vairables
+        mEmail = (EditText) findViewById( R.id.etEmailSignIn );
+        mPassword = (EditText) findViewById( R.id.etPasswordSignIn );
+        mLoginButton = (Button) findViewById( R.id.btnLogIn );
+        mRegister = (Button) findViewById( R.id.btnCreateAccount );
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -49,6 +69,23 @@ public class SigninActivity extends AppCompatActivity {
             }
         };
 
+        mLoginButton.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startSignIn();
+
+            }
+        } );
+
+        mRegister.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startRegister();
+            }
+        } );
+
+        //Google
+        /*
         mGoogleBtn = (SignInButton) findViewById(R.id.googleButton);
 
         // Configure Google Sign In
@@ -67,13 +104,67 @@ public class SigninActivity extends AppCompatActivity {
                 }).addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
-        mGoogleBtn.setOnClickListener(new View.OnClickListener() {
+       mGoogleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 signIn();
             }
         });
+*/
 
+
+    }
+
+    private void startRegister() {
+        String email = mEmail.getText().toString();
+        String password = mPassword.getText().toString();
+
+        if(TextUtils.isEmpty( email )) {
+            Toast.makeText( SigninActivity.this, "Email field is required", Toast.LENGTH_LONG ).show();
+            return;
+        }
+        if (TextUtils.isEmpty( password )) {
+            Toast.makeText( SigninActivity.this, "Password field is required", Toast.LENGTH_LONG ).show();
+            return;
+        }
+
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+
+
+                        if(task.isSuccessful()) {
+
+                            finish();
+                            startActivity(new Intent(getApplicationContext(), DetailsActivity.class));
+
+                        } else {
+                            Toast.makeText(SigninActivity.this, "Could not regsiter.. please try again", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
+    private void startSignIn() {
+        String email = mEmail.getText().toString();
+        String password = mPassword.getText().toString();
+
+        if(TextUtils.isEmpty( email ) || TextUtils.isEmpty( password )) {
+            Toast.makeText( SigninActivity.this, "Fields are empty", Toast.LENGTH_LONG ).show();
+
+        } else {
+            mAuth.signInWithEmailAndPassword( email, password ).addOnCompleteListener( new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if(!task.isSuccessful()){
+                        //Shows error
+                        Toast.makeText( SigninActivity.this, "Sign In Failed", Toast.LENGTH_LONG ).show();
+                    }
+                }
+            } );
+        }
 
 
     }
@@ -84,8 +175,19 @@ public class SigninActivity extends AppCompatActivity {
         super.onStart();
 
         mAuth.addAuthStateListener(mAuthListener);
+
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mAuthListener != null) {
+            mAuth.removeAuthStateListener(mAuthListener);
+        }
+    }
+
+    //Google
+    /*
     private void signIn() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
@@ -130,5 +232,6 @@ public class SigninActivity extends AppCompatActivity {
                     }
                 });
     }
+    */
 
 }
