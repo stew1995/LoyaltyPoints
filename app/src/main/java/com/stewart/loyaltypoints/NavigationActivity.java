@@ -8,6 +8,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -20,6 +21,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 
+import static com.google.android.gms.analytics.internal.zzy.t;
 
 
 public class NavigationActivity extends AppCompatActivity
@@ -36,8 +38,11 @@ public class NavigationActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
+
         viewPager = (ViewPager)findViewById(R.id.mainViewPager);
-        screens = new int[] {R.layout.content_navigation, R.layout.activity_maps};
+        screens = new int[] {R.layout.content_navigation, R.layout.activity_profile};
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -91,7 +96,7 @@ public class NavigationActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_profile) {
-            startActivity(new Intent(NavigationActivity.this, ProfileActivity.class));
+
         } else if (id == R.id.nav_store_locator) {
             startActivity(new Intent(NavigationActivity.this, MapsActivity.class));
         } else if (id == R.id.nav_transactions) {

@@ -8,16 +8,30 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.stewart.loyaltypoints.ProfileActivity"
+    tools:context="com.stewart.loyaltypoints.MapsActivity"
     >
 
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="450dp"
+        android:id="@+id/linearLayout"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+        <fragment
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/fr_1"
+            android:name="com.stewart.loyaltypoints.googleMapsFragment" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/linearLayout"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/linearLayout3">
+        android:layout_marginBottom="111dp">
 
     </LinearLayout>
 
@@ -27,25 +41,9 @@
         android:layout_weight="2"
         android:id="@+id/fr_2"
         android:name="com.stewart.loyaltypoints.FragmentMaps"
+        android:layout_gravity="bottom"
         android:layout_below="@+id/linearLayout"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="-50dp"
-        android:layout_marginLeft="-10dp"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="500dp"
-        android:id="@+id/linearLayout"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true">
-
-        <fragment
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/fr_1"
-            android:name="com.stewart.loyaltypoints.googleMapsFragment" />
-
-    </LinearLayout>
+        android:layout_marginTop="20dp"/>
 
 </RelativeLayout>
