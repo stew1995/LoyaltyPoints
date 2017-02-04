@@ -14,15 +14,15 @@
 
 
         <ImageView
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:src="@drawable/cast_ic_notification_play"/>
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@mipmap/ic_transactions"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="View Transactions!"
             android:textColor="@color/white"
-            android:textSize="32dp"
+            android:textSize="28dp"
             android:textStyle="bold"/>
         <TextView
             android:layout_width="wrap_content"
@@ -30,11 +30,11 @@
             android:layout_marginTop="20dp"
             android:paddingLeft="30dp"
             android:paddingRight="30dp"
-            android:text="Dummy text here"
+            android:text="View previous orders with location and how  much spent"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="20sp"
-            android:textStyle="bold"/>
+            />
     </LinearLayout>
 
 </RelativeLayout>
