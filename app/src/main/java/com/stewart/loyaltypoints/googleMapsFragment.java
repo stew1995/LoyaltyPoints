@@ -8,6 +8,9 @@ import android.support.annotation.RequiresApi;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -20,6 +23,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.Map;
 
+import static com.google.android.gms.analytics.internal.zzy.s;
 import static com.stewart.loyaltypoints.R.id.map;
 
 
@@ -27,21 +31,21 @@ import static com.stewart.loyaltypoints.R.id.map;
  * Created by stewart on 17/01/2017.
  */
 
-public class googleMapsFragment extends Fragment implements OnMapReadyCallback {
+public class googleMapsFragment extends Fragment  implements OnMapReadyCallback {
     //LOCATIONS LATLNG
-    private static final LatLng PORTLAND = new LatLng(50.798217,-1.1013153);
-    private static final LatLng THEHUB = new LatLng(50.797831, -1.098707);
-    private static final LatLng LIBRARY = new LatLng(50.793659,-1.0999547);
-    private static final LatLng PARK = new LatLng(50.7976403,-1.0962662);
-    private static final LatLng SU = new LatLng(50.794473,-1.0993537);
-    private static final LatLng ELDON = new LatLng(50.794731,-1.0931314);
-    private static final LatLng STARBUCKS = new LatLng(50.794473,-1.0993537);
-    private static final LatLng ANGLESEA = new LatLng(50.7977465,-1.0986508);
-    private static final LatLng STGEORGE = new LatLng(50.7923127,-1.1022768);
-    private static final LatLng STANDREW = new LatLng(50.7958415,-1.0969598);
-    private static final LatLng COCO = new LatLng(51.2706229,-1.2104218);
-    private static final LatLng Portsmouth = new LatLng(50.798217,-1.1013153);
-
+    private LatLng PORTLAND = new LatLng(50.798217,-1.1013153);
+    private LatLng THEHUB = new LatLng(50.797831, -1.098707);
+    private   LatLng LIBRARY = new LatLng(50.793659,-1.0999547);
+    private   LatLng PARK = new LatLng(50.7976403,-1.0962662);
+    private   LatLng SU = new LatLng(50.794473,-1.0993537);
+    private   LatLng ELDON = new LatLng(50.794731,-1.0931314);
+    private   LatLng STARBUCKS = new LatLng(50.794473,-1.0993537);
+    private   LatLng ANGLESEA = new LatLng(50.7977465,-1.0986508);
+    private   LatLng STGEORGE = new LatLng(50.7923127,-1.1022768);
+    private   LatLng STANDREW = new LatLng(50.7958415,-1.0969598);
+    private   LatLng COCO = new LatLng(51.2706229,-1.2104218);
+    private   LatLng Portsmouth = new LatLng(50.798217,-1.1013153);
+    private ListView listView;
 
     GoogleMap mGoogleMap;
     MapView mMapView;
@@ -53,6 +57,8 @@ public class googleMapsFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
     }
 
     @Nullable
@@ -99,5 +105,10 @@ public class googleMapsFragment extends Fragment implements OnMapReadyCallback {
         googleMap.addMarker(new MarkerOptions().position(COCO).title("Cafe Coco").snippet("08:30 - 15:00"));
 
         mGoogleMap.moveCamera( CameraUpdateFactory.newLatLngZoom(Portsmouth , 15.0f) );
+
+
     }
+
+
+
 }
