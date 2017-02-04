@@ -32,9 +32,12 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static android.R.attr.visible;
 import static com.google.android.gms.analytics.internal.zzy.o;
+import static com.google.android.gms.analytics.internal.zzy.s;
 import static com.google.android.gms.analytics.internal.zzy.v;
 import static com.stewart.loyaltypoints.R.color.white;
+import static com.stewart.loyaltypoints.R.id.text;
 
 public class SigninActivity extends AppCompatActivity {
     //Google Sign in
@@ -147,21 +150,41 @@ public class SigninActivity extends AppCompatActivity {
 
         @Override
         public void afterTextChanged(Editable s) {
+            //For special symbols to check agaisnt
+            String char1 = "!";
+            String char2 = "@";
+            String char3 = "#";
+            String char4 = "$";
+            String char5 = "%";
+            String char6 = "*";
+            String text = mPassword.getText().toString();
+
             if(s.length() <= 6) {
                 mPasswordChecker.setText( "Password not long enough" );
+                mPasswordChecker.setVisibility( View.VISIBLE );
                 mPasswordChecker.setTextColor(getResources().getColor( R.color.passwordError ));
             } else if (s.length() <= 8) {
                 mPasswordChecker.setText( "Weak" );
+                mPasswordChecker.setVisibility( View.VISIBLE );
                 mPasswordChecker.setTextColor( getResources().getColor( R.color.passwordWeak ) );
             } else if (s.length() <= 10) {
                 mPasswordChecker.setText( "Medium" );
-                mPasswordChecker.setTextColor( getResources().getColor( R.color.passwordMedium ) );
+                mPasswordChecker.setVisibility( View.VISIBLE );
+                mPasswordChecker.setTextColor( getResources().getColor( R.color.passwordMedium )
+                );
             } else if (s.length() <= 14) {
                 mPasswordChecker.setText( "Strong" );
+                mPasswordChecker.setVisibility( View.VISIBLE );
                 mPasswordChecker.setTextColor( getResources().getColor( R.color.passwordStrong ) );
             } else {
                 mPasswordChecker.setText( "Very Strong" );
+                mPasswordChecker.setVisibility( View.VISIBLE );
                 mPasswordChecker.setTextColor( getResources().getColor( R.color.passwordVeryStrong ) );
+            }
+            //Needs all of it to be put in, needs looking over to see why it does that
+            if (!text.contains (char1)||!text.contains( char2 )||!text.contains( char3 )||
+                    !text.contains (char4)||!text.contains( char5 )||!text.contains( char6 )) {
+                mPasswordChecker.setText( "Special symbols required !@#$%*" );
             }
         }
     };
