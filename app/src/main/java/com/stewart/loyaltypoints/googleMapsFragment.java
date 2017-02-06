@@ -2,16 +2,20 @@ package com.stewart.loyaltypoints;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -37,20 +41,20 @@ import static com.stewart.loyaltypoints.R.id.list_view;
  */
 
 
-public class googleMapsFragment extends Fragment  implements OnMapReadyCallback {
+public class googleMapsFragment extends Fragment implements OnMapReadyCallback {
     //LOCATIONS LATLNG
-    private LatLng PORTLAND = new LatLng(50.798217,-1.1013153);
-    private LatLng THEHUB = new LatLng(50.797831, -1.098707);
-    private   LatLng LIBRARY = new LatLng(50.793659,-1.0999547);
-    private   LatLng PARK = new LatLng(50.7976403,-1.0962662);
-    private   LatLng SU = new LatLng(50.794473,-1.0993537);
-    private   LatLng ELDON = new LatLng(50.794731,-1.0931314);
-    private   LatLng STARBUCKS = new LatLng(50.794473,-1.0993537);
-    private   LatLng ANGLESEA = new LatLng(50.7977465,-1.0986508);
-    private   LatLng STGEORGE = new LatLng(50.7923127,-1.1022768);
-    private   LatLng STANDREW = new LatLng(50.7958415,-1.0969598);
-    private   LatLng COCO = new LatLng(51.2706229,-1.2104218);
-    private   LatLng Portsmouth = new LatLng(50.798217,-1.1013153);
+    private LatLng PORTLAND = new LatLng( 50.798217, -1.1013153 );
+    private LatLng THEHUB = new LatLng( 50.797831, -1.098707 );
+    private LatLng LIBRARY = new LatLng( 50.793659, -1.0999547 );
+    private LatLng PARK = new LatLng( 50.7976403, -1.0962662 );
+    private LatLng SU = new LatLng( 50.794473, -1.0993537 );
+    private LatLng ELDON = new LatLng( 50.794731, -1.0931314 );
+    private LatLng STARBUCKS = new LatLng( 50.794473, -1.0993537 );
+    private LatLng ANGLESEA = new LatLng( 50.7977465, -1.0986508 );
+    private LatLng STGEORGE = new LatLng( 50.7923127, -1.1022768 );
+    private LatLng STANDREW = new LatLng( 50.7958415, -1.0969598 );
+    private LatLng COCO = new LatLng( 51.2706229, -1.2104218 );
+    private LatLng Portsmouth = new LatLng( 50.798217, -1.1013153 );
 
     GoogleMap mGoogleMap;
     MapView mMapView;
@@ -63,44 +67,47 @@ public class googleMapsFragment extends Fragment  implements OnMapReadyCallback 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        super.onCreate( savedInstanceState );
+
+
     }
 
     @Nullable
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.googlefragment, container, false);
+        mView = inflater.inflate( R.layout.googlefragment, container, false );
         return mView;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-
-        mMapView = (MapView) mView.findViewById(R.id.googlemap);
-        if(mMapView != null) {
-            mMapView.onCreate(null);
+        super.onViewCreated( view, savedInstanceState );
+        mMapView = (MapView) mView.findViewById( R.id.googlemap );
+        if (mMapView != null) {
+            mMapView.onCreate( null );
             mMapView.onResume();
-            mMapView.getMapAsync(this);
+            mMapView.getMapAsync( this );
+
         }
-        
-        
+
+        //Checks permission for location
+
     }
+
+
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
-        MapsInitializer.initialize(getContext());
-
+        MapsInitializer.initialize( getContext() );
 
 
         ListView listView = (ListView) getActivity().findViewById( list_view );
 
         mGoogleMap = googleMap;
-        googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        googleMap.setMapType( GoogleMap.MAP_TYPE_NORMAL );
 
         googleMap.addMarker(new MarkerOptions().position(PORTLAND).title("Portland").snippet("08:30 - 18:30"));
         googleMap.addMarker(new MarkerOptions().position(THEHUB).title("The Hub").snippet("07:30 - 17:00"));
@@ -149,6 +156,16 @@ public class googleMapsFragment extends Fragment  implements OnMapReadyCallback 
 
             }
         });
+
+        setUpMap();
+    }
+    private void setUpMap() {
+        if (ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            mGoogleMap.setMyLocationEnabled(true);
+        } else {
+            Toast.makeText( getActivity(), "Location Permission not enabled", Toast.LENGTH_LONG ).show();
+        }
     }
 
 
