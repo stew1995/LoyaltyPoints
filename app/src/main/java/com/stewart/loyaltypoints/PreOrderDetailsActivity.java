@@ -5,20 +5,16 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateFormat;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.stewart.loyaltypoints.models.PreOrderDetails;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -72,7 +68,6 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
         //Initialise Firebase
         mRef = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
-        String mUser = mAuth.getCurrentUser().getUid();
         //Each page i need to put if the user isnt signed in the go back to sign in screen
 
         //Initialise Views
@@ -80,6 +75,8 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
         mPreOrderName = (RecyclerView) findViewById( R.id.rVPreOrderName );
         mPreOrderName.setHasFixedSize( true );
         mPreOrderName.setLayoutManager( new LinearLayoutManager( this ) );
+
+        //DO if statement for if the field is empty to not show the buttons
 
         btnNextPreOrder = (Button) findViewById( R.id.btnNextPreOrder );
         btnRemoveItem1 = (Button) findViewById(R.id.btnRemoveItem1);
@@ -103,7 +100,7 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
         int mMonth = c.get( Calendar.MONTH );
         int mDay = c.get( Calendar.DAY_OF_MONTH );
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        final FirebaseUser user = mAuth.getCurrentUser();
+        FirebaseUser user = mAuth.getCurrentUser();
 
         Date date = new Date( mYear - 1900, mMonth, mDay );
         final String dateString = (String) DateFormat.format( "yyyy/MM/dd", date );
@@ -113,7 +110,7 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
                 PreOrderDetails.class,
                 R.layout.pre_order_list_layout,
                 PreOrderViewHolder.class,
-                mRef.child( "PreOrderHolder" ).child( user.getUid() )
+                mRef.child( "PreOrderHolder" )
         ) {
             @Override
             protected void populateViewHolder(PreOrderViewHolder viewHolder, final PreOrderDetails model, int position) {
@@ -127,6 +124,7 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
                 viewHolder.setQty3( model.getItemQty2() );
                 viewHolder.setName4( model.getItemName3() );
                 viewHolder.setQty4( model.getItemQty3() );
+
                 //HashMap for Item Name
                 HashMap<String, String> mFinalOrderName = new HashMap<String, String>(  );
                 //HashMap for Item Qty
@@ -169,7 +167,7 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
                 //Locations
                 viewHolder.setLocation( model.getLocation() );
 
-                btnNextPreOrder.setOnClickListener( new View.OnClickListener() {
+                /*btnNextPreOrder.setOnClickListener( new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -179,14 +177,14 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
                         mRef.child("PreOrderHolder").child(user.getUid()).removeValue();
 
                     }
-                } );
+                } );*/
 
 
                 //Remove Buttons
 
                 //This function should update the recycler view
 
-                btnRemoveItem1.setOnClickListener(new View.OnClickListener() {
+               /* btnRemoveItem1.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         //Need to remove from the arraylist
@@ -194,7 +192,7 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
                         mRef.child( "PreOrderHolder" ).child( user.getUid() ).child("itemQty0").removeValue();
 
                     }
-                });
+                });*/
             }
         };
         mPreOrderName.setAdapter( firebaseRecyclerAdapter );

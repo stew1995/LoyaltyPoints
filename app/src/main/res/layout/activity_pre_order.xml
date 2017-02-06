@@ -28,7 +28,7 @@
         android:textColor="@color/white"/>
 
     <android.support.v7.widget.RecyclerView
-        android:layout_height="200dp"
+        android:layout_height="450dp"
         android:layout_width="match_parent"
         android:id="@+id/item_recycler"
         android:layout_below="@+id/preOrderLocationSpinner"

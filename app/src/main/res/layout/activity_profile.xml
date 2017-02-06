@@ -37,7 +37,7 @@
         android:layout_height="200dp"
         android:layout_weight="2"
         android:id="@+id/fr_2"
-        android:name="com.stewart.loyaltypoints.FragmentMaps"
+        android:name="com.stewart.loyaltypoints.models.FragmentMaps"
         android:layout_gravity="bottom"
         android:layout_below="@+id/linearLayout"
         android:layout_alignParentStart="true"

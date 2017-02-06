@@ -1,4 +1,4 @@
-package com.stewart.loyaltypoints;
+package com.stewart.loyaltypoints.models;
 
 /**
  * Created by stewart on 24/01/2017.
@@ -13,6 +13,11 @@ public class PreOrderDetails {
 
     public PreOrderDetails() {
 
+    }
+
+    public PreOrderDetails(String itemName0, String itemQty0) {
+        this.itemName0 = itemName0;
+        this.itemQty0 = itemQty0;
     }
 
     public String getLocation() {

@@ -1,13 +1,11 @@
 package com.stewart.loyaltypoints;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,17 +20,11 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.util.Map;
+import com.stewart.loyaltypoints.models.FragmentMaps;
 
-import com.stewart.loyaltypoints.FragmentMaps;
-import com.stewart.loyaltypoints.MapsActivity;
-
-import static android.R.id.list;
-import static com.google.android.gms.analytics.internal.zzy.A;
 import static com.stewart.loyaltypoints.R.id.list_view;
 
 

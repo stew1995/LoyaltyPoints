@@ -1,4 +1,4 @@
-package com.stewart.loyaltypoints;
+package com.stewart.loyaltypoints.models;
 
 /**
  * Created by stewart on 22/01/2017.

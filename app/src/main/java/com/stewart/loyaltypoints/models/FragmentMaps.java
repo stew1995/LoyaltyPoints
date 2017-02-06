@@ -1,4 +1,4 @@
-package com.stewart.loyaltypoints;
+package com.stewart.loyaltypoints.models;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -13,6 +13,7 @@ import com.amigold.fundapter.FunDapter;
 import com.amigold.fundapter.extractors.StringExtractor;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.stewart.loyaltypoints.R;
 import com.stewart.loyaltypoints.models.MapsList;
 
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ public class FragmentMaps extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         databaseReference = FirebaseDatabase.getInstance().getReference().child("PreOrders");
 
-        View view = inflater.inflate(R.layout.maps_fragment, container, false);
+        View view = inflater.inflate( R.layout.maps_fragment, container, false);
 
         final ArrayList<MapsList> locationsList = new ArrayList<MapsList>();
         MapsList l1 = new MapsList("Portland", "Portland St,\nPO1 3AH", "08:30 - 18:30");
