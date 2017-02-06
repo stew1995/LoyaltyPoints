@@ -19,12 +19,16 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 
+import static com.google.android.gms.analytics.internal.zzy.f;
+
+import com.stewart.loyaltypoints.googleMapsFragment;
+
 public class MapsActivity extends FragmentActivity  {
 
     private ListView listView;
     private Context ctx;
-    GoogleMap GoogleMap;
-    private MapView mGoogleMap;
+    private GoogleMap GoogleMap;
+    googleMapsFragment googleMapsFragment;
 
     //Locations
     private static final LatLng PORTLAND = new LatLng(50.798217,-1.1013153);
@@ -39,48 +43,13 @@ public class MapsActivity extends FragmentActivity  {
     private static final LatLng STANDREW = new LatLng(50.7958415,-1.0969598);
     private static final LatLng COCO = new LatLng(51.2706229,-1.2104218);
     private static final LatLng Portsmouth = new LatLng(50.798217,-1.1013153);
-
+    View myFragementView;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        mGoogleMap = (MapView) findViewById(R.id.googlemap);
 
 
-        listView = (ListView) findViewById(R.id.list_view);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                //Gets the name thats put into the listview
-                TextView tv = (TextView) view.findViewById(R.id.tvMapsName);
-                String location = tv.getText().toString();
-                if(location == "Portland") {
-                    GoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(THEHUB, 15.0f ));
-                } else if (location == "Dennis Schema (The Hub)") {
-                    GoogleMap.animateCamera( CameraUpdateFactory.newLatLngZoom(THEHUB, 15.0f ) );
-                } else if (location == "The Library") {
-                    GoogleMap.animateCamera( CameraUpdateFactory.newLatLngZoom(LIBRARY, 15.0f ) );
-                } else if (location == "Park") {
-                    GoogleMap.animateCamera( CameraUpdateFactory.newLatLngZoom(PARK, 15.0f ) );
-                } else if (location == "Student Union (The Waterhole)") {
-                    GoogleMap.animateCamera( CameraUpdateFactory.newLatLngZoom(SU, 15.0f ) );
-                } else if (location == "Eldon") {
-                    GoogleMap.animateCamera( CameraUpdateFactory.newLatLngZoom(ELDON, 15.0f ) );
-                } else if (location == "Starbucks in Student Union") {
-                    GoogleMap.animateCamera( CameraUpdateFactory.newLatLngZoom(STARBUCKS, 15.0f ) );
-                } else if (location == "Anglesea") {
-                    GoogleMap.animateCamera( CameraUpdateFactory.newLatLngZoom(ANGLESEA, 15.0f ) );
-                } else if (location == "St Georges Coffee Shop") {
-                    GoogleMap.animateCamera( CameraUpdateFactory.newLatLngZoom(STGEORGE, 15.0f ) );
-                } else if (location == "St Andrews Court Café") {
-                    GoogleMap.animateCamera( CameraUpdateFactory.newLatLngZoom(STANDREW, 15.0f ) );
-                } else if (location == "Café Coco") {
-                    GoogleMap.animateCamera( CameraUpdateFactory.newLatLngZoom(COCO, 15.0f ) );
-                }
-
-            }
-        });
         }
 
 

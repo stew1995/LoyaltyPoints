@@ -1,5 +1,6 @@
 package com.stewart.loyaltypoints;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,13 +24,18 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.Map;
 
-import static com.google.android.gms.analytics.internal.zzy.s;
-import static com.stewart.loyaltypoints.R.id.map;
+import com.stewart.loyaltypoints.FragmentMaps;
+import com.stewart.loyaltypoints.MapsActivity;
+
+import static android.R.id.list;
+import static com.google.android.gms.analytics.internal.zzy.A;
+import static com.stewart.loyaltypoints.R.id.list_view;
 
 
 /**
  * Created by stewart on 17/01/2017.
  */
+
 
 public class googleMapsFragment extends Fragment  implements OnMapReadyCallback {
     //LOCATIONS LATLNG
@@ -45,11 +51,12 @@ public class googleMapsFragment extends Fragment  implements OnMapReadyCallback 
     private   LatLng STANDREW = new LatLng(50.7958415,-1.0969598);
     private   LatLng COCO = new LatLng(51.2706229,-1.2104218);
     private   LatLng Portsmouth = new LatLng(50.798217,-1.1013153);
-    private ListView listView;
 
     GoogleMap mGoogleMap;
     MapView mMapView;
     View mView;
+    FragmentMaps fragmentMaps;
+    MapsActivity mapsActivity;
 
     public googleMapsFragment() {
     }
@@ -57,8 +64,6 @@ public class googleMapsFragment extends Fragment  implements OnMapReadyCallback 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
     }
 
     @Nullable
@@ -72,6 +77,7 @@ public class googleMapsFragment extends Fragment  implements OnMapReadyCallback 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
 
         mMapView = (MapView) mView.findViewById(R.id.googlemap);
         if(mMapView != null) {
@@ -88,6 +94,10 @@ public class googleMapsFragment extends Fragment  implements OnMapReadyCallback 
     public void onMapReady(GoogleMap googleMap) {
 
         MapsInitializer.initialize(getContext());
+
+
+
+        ListView listView = (ListView) getActivity().findViewById( list_view );
 
         mGoogleMap = googleMap;
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
@@ -106,7 +116,39 @@ public class googleMapsFragment extends Fragment  implements OnMapReadyCallback 
 
         mGoogleMap.moveCamera( CameraUpdateFactory.newLatLngZoom(Portsmouth , 15.0f) );
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+                //Gets the name thats put into the listview
+                TextView tv = (TextView) view.findViewById(R.id.tvMapsName);
+                String location = tv.getText().toString();
+                if(location == "Portland") {
+                    mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(THEHUB, 15.0f ));
+                } else if (location == "Dennis Schema (The Hub)") {
+                    mGoogleMap.animateCamera( CameraUpdateFactory.newLatLngZoom(THEHUB, 15.0f ) );
+                } else if (location == "The Library") {
+                    mGoogleMap.animateCamera( CameraUpdateFactory.newLatLngZoom(LIBRARY, 15.0f ) );
+                } else if (location == "Park") {
+                    mGoogleMap.animateCamera( CameraUpdateFactory.newLatLngZoom(PARK, 15.0f ) );
+                } else if (location == "Student Union (The Waterhole)") {
+                    mGoogleMap.animateCamera( CameraUpdateFactory.newLatLngZoom(SU, 15.0f ) );
+                } else if (location == "Eldon") {
+                    mGoogleMap.animateCamera( CameraUpdateFactory.newLatLngZoom(ELDON, 15.0f ) );
+                } else if (location == "Starbucks in Student Union") {
+                    mGoogleMap.animateCamera( CameraUpdateFactory.newLatLngZoom(STARBUCKS, 15.0f ) );
+                } else if (location == "Anglesea") {
+                    mGoogleMap.animateCamera( CameraUpdateFactory.newLatLngZoom(ANGLESEA, 15.0f ) );
+                } else if (location == "St Georges Coffee Shop") {
+                    mGoogleMap.animateCamera( CameraUpdateFactory.newLatLngZoom(STGEORGE, 15.0f ) );
+                } else if (location == "St Andrews Court Café") {
+                    mGoogleMap.animateCamera( CameraUpdateFactory.newLatLngZoom(STANDREW, 15.0f ) );
+                } else if (location == "Café Coco") {
+                    mGoogleMap.animateCamera( CameraUpdateFactory.newLatLngZoom(COCO, 15.0f ) );
+                }
+
+            }
+        });
     }
 
 
