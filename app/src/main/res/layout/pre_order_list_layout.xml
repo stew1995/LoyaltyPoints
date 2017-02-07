@@ -113,7 +113,6 @@
                 android:padding="15dp"
                 android:textSize="16sp"
                 android:id="@+id/tvItemQty3"
-
                 android:layout_alignBaseline="@+id/tvItemName3"
                 android:layout_alignBottom="@+id/tvItemName3"
                 android:layout_alignParentEnd="true"/>
@@ -125,7 +124,7 @@
                 android:id="@+id/btnRemoveItem4"
                 android:background="@null"
                 android:layout_below="@+id/btnRemoveItem3"
-                android:layout_alignParentEnd="true" />
+                android:layout_alignParentEnd="true"/>
 
             <Button
                 android:text="REMOVE"
@@ -134,7 +133,7 @@
                 android:id="@+id/btnRemoveItem3"
                 android:background="@null"
                 android:layout_below="@+id/tvItemQty2"
-                android:layout_alignParentEnd="true" />
+                android:layout_alignParentEnd="true"/>
 
             <Button
                 android:text="REMOVE"
@@ -144,7 +143,7 @@
                 android:background="@null"
                 android:layout_alignBaseline="@+id/tvItemQty1"
                 android:layout_alignBottom="@+id/tvItemQty1"
-                android:layout_alignParentEnd="true" />
+                android:layout_alignParentEnd="true"/>
 
             <Button
                 android:text="REMOVE"
@@ -153,7 +152,7 @@
                 android:id="@+id/btnRemoveItem2"
                 android:background="@null"
                 android:layout_centerVertical="true"
-                android:layout_alignParentEnd="true" />
+                android:layout_alignParentEnd="true"/>
 
         </RelativeLayout>
 

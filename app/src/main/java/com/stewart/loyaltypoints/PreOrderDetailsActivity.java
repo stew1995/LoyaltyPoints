@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 
 
+import static com.google.android.gms.analytics.internal.zzy.v;
 import static com.stewart.loyaltypoints.R.id.tvItemName1;
 import static com.stewart.loyaltypoints.R.id.tvItemName2;
 import static com.stewart.loyaltypoints.R.id.tvItemName3;
@@ -31,6 +32,7 @@ import static com.stewart.loyaltypoints.R.id.tvItemQty1;
 import static com.stewart.loyaltypoints.R.id.tvItemQty2;
 import static com.stewart.loyaltypoints.R.id.tvItemQty3;
 import static com.stewart.loyaltypoints.R.id.tvItemQty4;
+import static com.stewart.loyaltypoints.R.id.view;
 
 public class PreOrderDetailsActivity extends AppCompatActivity {
     //Counter for adding into HashMap
@@ -79,10 +81,7 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
         //DO if statement for if the field is empty to not show the buttons
 
         btnNextPreOrder = (Button) findViewById( R.id.btnNextPreOrder );
-        btnRemoveItem1 = (Button) findViewById(R.id.btnRemoveItem1);
-        btnRemoveItem2 = (Button) findViewById(R.id.btnRemoveItem2);
-        btnRemoveItem3 = (Button) findViewById(R.id.btnRemoveItem3);
-        btnRemoveItem4 = (Button) findViewById(R.id.btnRemoveItem4);
+
 
         //On Create method needs the location of where the items are being bought from
 
@@ -101,6 +100,7 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
         int mDay = c.get( Calendar.DAY_OF_MONTH );
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
+        String userID = user.getUid();
 
         Date date = new Date( mYear - 1900, mMonth, mDay );
         final String dateString = (String) DateFormat.format( "yyyy/MM/dd", date );
@@ -110,7 +110,7 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
                 PreOrderDetails.class,
                 R.layout.pre_order_list_layout,
                 PreOrderViewHolder.class,
-                mRef.child( "PreOrderHolder" )
+                mRef.child( "PreOrderHolder" ).child("Order"+user.getUid())
         ) {
             @Override
             protected void populateViewHolder(PreOrderViewHolder viewHolder, final PreOrderDetails model, int position) {
@@ -129,6 +129,28 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
                 HashMap<String, String> mFinalOrderName = new HashMap<String, String>(  );
                 //HashMap for Item Qty
                 HashMap<String, String> mFinalOrderQty = new HashMap<String, String>(  );
+
+                //Removing the buttons
+                if(viewHolder.getName1().isEmpty()) {
+                    viewHolder.getBtn1().setVisibility( View.GONE );
+                } else {
+                    viewHolder.getBtn1().setVisibility( View.VISIBLE );
+                }
+                if(viewHolder.getName2().isEmpty()) {
+                    viewHolder.getBtn2().setVisibility( View.GONE );
+                } else {
+                    viewHolder.getBtn2().setVisibility( View.VISIBLE );
+                }
+                if(viewHolder.getName3().isEmpty()) {
+                    viewHolder.getBtn3().setVisibility( View.GONE );
+                } else {
+                    viewHolder.getBtn3().setVisibility( View.VISIBLE );
+                }
+                if(viewHolder.getName4().isEmpty()) {
+                    viewHolder.getBtn4().setVisibility( View.GONE );
+                } else {
+                    viewHolder.getBtn4().setVisibility( View.VISIBLE );
+                }
 
                 if(viewHolder.getName1()!=null||!viewHolder.getName1().equals( "" )||viewHolder.getQty1()!=null||!viewHolder.getQty1().equals( "" )) {
 
@@ -157,6 +179,8 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
                     mFinalOrderQty.put("ItemQty"+qtyCounter++, model.getItemQty3());
 
                 }
+
+                //Removing the buttons if something isnt there
 
 
                 //Join HashMaps
@@ -298,6 +322,27 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
         public void setLocation(String location) {
             TextView order_location = (TextView) mView.findViewById( R.id. tvOrderLocation);
             order_location.setText( location );
+        }
+
+        public Button getBtn1() {
+            Button btnRemoveItem1 = (Button) mView.findViewById( R.id.btnRemoveItem1 );
+            return btnRemoveItem1;
+        }
+
+        public Button getBtn2() {
+            Button btnRemoveItem2 = (Button) mView.findViewById( R.id.btnRemoveItem2 );
+            return btnRemoveItem2;
+        }
+
+        public Button getBtn3() {
+            Button btnRemoveItem3 = (Button) mView.findViewById( R.id.btnRemoveItem3 );
+            return btnRemoveItem3;
+        }
+
+        public Button getBtn4() {
+            Button btnRemoveItem4 = (Button) mView.findViewById( R.id.btnRemoveItem4 );
+            return btnRemoveItem4;
+
         }
     }
 

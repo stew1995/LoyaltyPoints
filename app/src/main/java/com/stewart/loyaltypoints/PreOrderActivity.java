@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -32,6 +33,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 
 
+import static android.os.Build.VERSION_CODES.M;
 import static com.stewart.loyaltypoints.R.id.buttonSendPreOrder;
 import static com.stewart.loyaltypoints.R.id.preOrderLocationSpinner;
 
@@ -112,9 +114,9 @@ public class PreOrderActivity extends AppCompatActivity {
                 viewHolder.setPoints(model.getItemPoints().toString());
                 viewHolder.setImage(getApplicationContext(), model.getItemImage());
                 viewHolder.setCheckbox(model.getItemName());
-                 Spinner locationSpinner = (Spinner) findViewById( R.id.preOrderLocationSpinner);
+                Spinner locationSpinner = (Spinner) findViewById( R.id.preOrderLocationSpinner);
                 final String boxname = viewHolder.getCheckbox();
-                final String boxQty = viewHolder.getQuanity();
+                final String boxQty = viewHolder.getQuanity().toString();
 
                 final String location = (String) locationSpinner.getSelectedItem();
                 viewHolder.setItemClickListener(new ItemClickListener() {
@@ -169,7 +171,7 @@ public class PreOrderActivity extends AppCompatActivity {
                         //mRef.child("PreOrderHolder").child(user.getUid()).child(ID).setValue(fullArray);
 
 
-                        mRef.child("PreOrderHolder").child(user.getUid()).setValue(fullArray);
+                        mRef.child("PreOrderHolder").child("Order"+user.getUid()).child(user.getUid()).setValue(fullArray);
 
 
                         //mRef.child("PreOrderHolder").child(user.getUid()).child("item").setValue(productListingQty);
@@ -201,7 +203,6 @@ public class PreOrderActivity extends AppCompatActivity {
         //Set item view value
         public ItemViewHolder(View itemView) {
             super(itemView);
-            mRef = FirebaseDatabase.getInstance().getReference().child("PreOrder");
             mView = itemView;
 
             chk = (CheckBox) mView.findViewById(R.id.postChk);
@@ -261,8 +262,8 @@ public class PreOrderActivity extends AppCompatActivity {
 
         public String getQuanity() {
             Spinner spn = (Spinner) mView.findViewById(R.id.postQuanity);
-            String num = (String) spn.getSelectedItem();
-            return num;
+            String text = spn.getSelectedItem().toString();
+            return text;
         }
 
         protected void locationCheckbox(String loc, Spinner spin) {
@@ -286,6 +287,9 @@ public class PreOrderActivity extends AppCompatActivity {
 
 
     }
+
+
+
 
 }
 
