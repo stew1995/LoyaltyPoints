@@ -1,5 +1,6 @@
 package com.stewart.loyaltypoints;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,8 +13,12 @@ import android.widget.TextView;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.stewart.loyaltypoints.models.PreOrderDetails;
 
 import java.util.ArrayList;
@@ -100,7 +105,7 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
         int mDay = c.get( Calendar.DAY_OF_MONTH );
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
-        String userID = user.getUid();
+        final String userID = user.getUid();
 
         Date date = new Date( mYear - 1900, mMonth, mDay );
         final String dateString = (String) DateFormat.format( "yyyy/MM/dd", date );
@@ -111,7 +116,7 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
                 R.layout.pre_order_list_layout,
                 PreOrderViewHolder.class,
                 mRef.child( "PreOrderHolder" ).child("Order"+user.getUid())
-        ) {
+      ) {
             @Override
             protected void populateViewHolder(PreOrderViewHolder viewHolder, final PreOrderDetails model, int position) {
                 //textViews to check if empty and not to add to array list to send to database
@@ -135,21 +140,137 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
                     viewHolder.getBtn1().setVisibility( View.GONE );
                 } else {
                     viewHolder.getBtn1().setVisibility( View.VISIBLE );
+                    viewHolder.getBtn1().setOnClickListener( new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            //Need to remove from the arraylist
+                            Query querymRef = mRef.child( "PreOrderHolder" ).child("Order"+user.getUid()).orderByChild( "itemName0" ).equalTo( model.getItemName0() );
+                            querymRef.addListenerForSingleValueEvent( new ValueEventListener() {
+                                //Removing item from the checkout list
+                                //if the name in the database equals the name on the model
+                                //then it removes the item
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                        String name = snapshot.child("itemName0").getValue().toString();
+                                        String qty = snapshot.child("itemQty0").getValue().toString();
+
+                                        if(name.equals( model.getItemName0() )) {
+                                            snapshot.getRef().child("itemName0").removeValue();
+                                            snapshot.getRef().child( "itemQty0" ).removeValue();
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            } );
+                            //mRef.child( "PreOrderHolder" ).child("Order"+user.getUid()).removeValue();
+                        }
+                    } );
                 }
                 if(viewHolder.getName2().isEmpty()) {
                     viewHolder.getBtn2().setVisibility( View.GONE );
                 } else {
                     viewHolder.getBtn2().setVisibility( View.VISIBLE );
+                    viewHolder.getBtn2().setOnClickListener( new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            //Need to remove from the arraylist
+                            Query querymRef = mRef.child( "PreOrderHolder" ).child("Order"+user.getUid()).orderByChild( "itemName1" ).equalTo( model.getItemName1() );
+                            querymRef.addListenerForSingleValueEvent( new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                        String name = snapshot.child("itemName1").getValue().toString();
+                                        String qty = snapshot.child("itemQty1").getValue().toString();
+
+                                        if(name.equals( model.getItemName1() )) {
+                                            snapshot.getRef().child("itemName1").removeValue();
+                                            snapshot.getRef().child( "itemQty1" ).removeValue();
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            } );
+                        }
+                    } );
                 }
                 if(viewHolder.getName3().isEmpty()) {
                     viewHolder.getBtn3().setVisibility( View.GONE );
                 } else {
                     viewHolder.getBtn3().setVisibility( View.VISIBLE );
+                    viewHolder.getBtn3().setOnClickListener( new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            //Need to remove from the arraylist
+                            Query querymRef = mRef.child( "PreOrderHolder" ).child("Order"+user.getUid()).orderByChild( "itemName2" ).equalTo( model.getItemName2() );
+                            querymRef.addListenerForSingleValueEvent( new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                        String name = snapshot.child("itemName2").getValue().toString();
+                                        String qty = snapshot.child("itemQty2").getValue().toString();
+
+                                        if(name.equals( model.getItemName2() )) {
+                                            snapshot.getRef().child("itemName2").removeValue();
+                                            snapshot.getRef().child( "itemQty2" ).removeValue();
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            } );
+                        }
+                    } );
                 }
                 if(viewHolder.getName4().isEmpty()) {
                     viewHolder.getBtn4().setVisibility( View.GONE );
                 } else {
                     viewHolder.getBtn4().setVisibility( View.VISIBLE );
+                    viewHolder.getBtn2().setOnClickListener( new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            //Need to remove from the arraylist
+                            Query querymRef = mRef.child( "PreOrderHolder" ).child("Order"+user.getUid()).orderByChild( "itemName3" ).equalTo( model.getItemName3() );
+                            querymRef.addListenerForSingleValueEvent( new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                        String name = snapshot.child("itemName3").getValue().toString();
+                                        String qty = snapshot.child("itemQty3").getValue().toString();
+
+                                        if(name.equals( model.getItemName3() )) {
+                                            snapshot.getRef().child("itemName3").removeValue();
+                                            snapshot.getRef().child( "itemQty3" ).removeValue();
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            } );
+                        }
+                    } );
                 }
 
                 if(viewHolder.getName1()!=null||!viewHolder.getName1().equals( "" )||viewHolder.getQty1()!=null||!viewHolder.getQty1().equals( "" )) {
@@ -185,38 +306,27 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
 
                 //Join HashMaps
                 final HashMap<String, String> mFinalOrder = new HashMap<String, String>(  );
+                //May need to put the points accumilated in to the array lists
+
                 mFinalOrder.putAll( mFinalOrderName );
                 mFinalOrder.putAll( mFinalOrderQty );
 
                 //Locations
                 viewHolder.setLocation( model.getLocation() );
 
-                /*btnNextPreOrder.setOnClickListener( new View.OnClickListener() {
+                btnNextPreOrder.setOnClickListener( new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-                        FirebaseUser user = mAuth.getCurrentUser();
+                        mRef.child("PreOrders").child( model.getLocation() ).child( dateString ).child( userID ).setValue( mFinalOrder );
+                        mRef.child("Users").child(userID).child( "Transactions" ).child( dateString ).child(model.getLocation()).setValue( mFinalOrder );
 
-                        mRef.child("PreOrders").child( model.getLocation() ).child( dateString ).child(user.getUid()).setValue(mFinalOrder);
-                        mRef.child("PreOrderHolder").child(user.getUid()).removeValue();
-
-                    }
-                } );*/
-
-
-                //Remove Buttons
-
-                //This function should update the recycler view
-
-               /* btnRemoveItem1.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //Need to remove from the arraylist
-                        mRef.child( "PreOrderHolder" ).child( user.getUid() ).child("itemName0").removeValue();
-                        mRef.child( "PreOrderHolder" ).child( user.getUid() ).child("itemQty0").removeValue();
+                        startActivity(new Intent(PreOrderDetailsActivity.this, NavigationActivity.class));
+                        finish();
 
                     }
-                });*/
+                } );
+
+
             }
         };
         mPreOrderName.setAdapter( firebaseRecyclerAdapter );
