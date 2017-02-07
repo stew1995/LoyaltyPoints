@@ -12,16 +12,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/postName"
-                    android:text="Post Name Goes Here"
-                    android:textSize="16sp"
-                    android:padding="15dp"
-                    android:paddingLeft="10dp"
-                    android:textStyle="bold"
-                    android:visibility="gone"/>
+
 
             <TextView
                     android:layout_width="match_parent"
@@ -33,7 +24,7 @@
                 android:paddingRight="15dp"
                 android:paddingBottom="10dp"
                 android:layout_below="@+id/postPrice"
-                android:layout_toEndOf="@+id/postName" />
+                />
 
             <TextView
                 android:layout_width="match_parent"
@@ -46,8 +37,7 @@
                 android:paddingRight="15dp"
                 android:paddingBottom="5dp"
                 android:layout_below="@+id/postChk"
-                android:layout_toEndOf="@+id/postName" />
-
+/>
             <ImageView
                 android:layout_width="100dp"
                 android:layout_height="100dp"
@@ -84,6 +74,24 @@
                 android:entries="@array/preOrderQuantity"
 
                 />
+
+            <TextView
+                android:text="postItemName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:paddingTop="15dp"
+                android:paddingRight="5dp"
+                android:paddingBottom="5dp"
+                android:paddingLeft="5dp"
+                android:layout_marginLeft="10dp"
+                android:textStyle="bold"
+                android:layout_above="@+id/postPrice"
+                android:layout_alignStart="@+id/postChk"
+                android:layout_marginStart="11dp"
+                android:layout_marginBottom="15dp"
+                android:id="@+id/postItemName"
+                android:visibility="visible"/>
 
         </RelativeLayout>
 

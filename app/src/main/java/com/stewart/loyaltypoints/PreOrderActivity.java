@@ -3,6 +3,7 @@ package com.stewart.loyaltypoints;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -56,12 +57,15 @@ public class PreOrderActivity extends AppCompatActivity {
     //private ArrayList<String> mItems = new ArrayList<>();
 
     //Recycler view
-    private RecyclerView mItemList, mPreOrderList;
+    private RecyclerView mItemList;
 
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pre_order);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
 
         productListing = new HashMap<String, String>();
         productListingQty = new HashMap<String, String>();
@@ -109,14 +113,16 @@ public class PreOrderActivity extends AppCompatActivity {
                 mRef.child("Items")) {
             @Override
             protected void populateViewHolder(final ItemViewHolder viewHolder, final Items model, int position) {
-                viewHolder.setTitle(model.getItemName());
-                viewHolder.setPrice(model.getItemPrice().toString());
-                viewHolder.setPoints(model.getItemPoints().toString());
+                viewHolder.setPrice("Price: "+model.getItemPrice().toString());
+                viewHolder.setPoints("Points: "+model.getItemPoints().toString());
                 viewHolder.setImage(getApplicationContext(), model.getItemImage());
                 viewHolder.setCheckbox(model.getItemName());
                 Spinner locationSpinner = (Spinner) findViewById( R.id.preOrderLocationSpinner);
                 final String boxname = viewHolder.getCheckbox();
                 final String boxQty = viewHolder.getQuanity().toString();
+
+                TextView noTitile = viewHolder.getTitleTextView();
+                noTitile.setVisibility( View.GONE );
 
                 final String location = (String) locationSpinner.getSelectedItem();
                 viewHolder.setItemClickListener(new ItemClickListener() {
@@ -212,9 +218,16 @@ public class PreOrderActivity extends AppCompatActivity {
             chk.setOnClickListener(this);
         }
         //Setting the TextViews in the CardView
-        public void setTitle(String title){
-            TextView item_title = (TextView) mView.findViewById(R.id.postName);
+
+
+        public void setItemTitle (String title) {
+            TextView item_title = (TextView) mView.findViewById(R.id.postItemName);
             item_title.setText(title);
+        }
+
+        public TextView getTitleTextView() {
+            TextView itemTitle2 = (TextView) mView.findViewById(R.id.postItemName);
+            return itemTitle2;
         }
 
         public void setPrice(String price){
@@ -260,10 +273,20 @@ public class PreOrderActivity extends AppCompatActivity {
             return text;
         }
 
+        public CheckBox removeCheckBox() {
+            CheckBox chk = (CheckBox) mView.findViewById(R.id.postChk);
+            return chk;
+        }
+
         public String getQuanity() {
             Spinner spn = (Spinner) mView.findViewById(R.id.postQuanity);
             String text = spn.getSelectedItem().toString();
             return text;
+        }
+
+        public Spinner spinnerVis() {
+            Spinner spn = (Spinner) mView.findViewById(R.id.postQuanity);
+            return spn;
         }
 
         protected void locationCheckbox(String loc, Spinner spin) {

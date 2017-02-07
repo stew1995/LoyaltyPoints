@@ -1,5 +1,6 @@
 package com.stewart.loyaltypoints;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -99,7 +100,7 @@ public class NavigationActivity extends AppCompatActivity
         } else if (id == R.id.nav_pre_order) {
             startActivity(new Intent(NavigationActivity.this, PreOrderActivity.class));
         } else if (id == R.id.nav_items) {
-
+            startActivity(new Intent(NavigationActivity.this, ItemsActivity.class));
         } else if (id == R.id.nav_settings) {
 
         }

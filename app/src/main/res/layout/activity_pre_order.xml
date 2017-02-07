@@ -4,18 +4,26 @@
     android:id="@+id/activity_pre_order"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+
     tools:context="com.stewart.loyaltypoints.PreOrderActivity">
 
-    <Spinner
+    <LinearLayout
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/preOrderLocationSpinner"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"></Spinner>
+        android:id="@+id/spinnerHolder"
+        android:background="@color/colorPrimary">
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/preOrderLocationSpinner"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"></Spinner>
+
+    </LinearLayout>
+
 
     <Button
         android:text="@string/continuePreOrder"
@@ -24,14 +32,21 @@
         android:id="@+id/buttonSendPreOrder"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:background="@color/colorPrimaryDark"
-        android:textColor="@color/white"/>
+        android:background="@color/colorPrimary"
+        android:textColor="@color/white"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        />
 
     <android.support.v7.widget.RecyclerView
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:layout_height="450dp"
         android:layout_width="match_parent"
         android:id="@+id/item_recycler"
-        android:layout_below="@+id/preOrderLocationSpinner"
+        android:layout_below="@+id/spinnerHolder"
         android:layout_alignParentStart="true"/>
 
 </RelativeLayout>

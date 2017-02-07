@@ -48,10 +48,10 @@
 
         <activity android:name=".MapsActivity"/>
         <activity android:name=".PreOrderActivity">
-
         </activity>
         <activity android:name=".PreOrderDetailsActivity">
-
+        </activity>
+        <activity android:name=".ItemsActivity">
         </activity>
     </application>
 

@@ -51,11 +51,6 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
 
     //Button for going back to main page
     private Button btnNextPreOrder;
-    //RemoveButtons
-    private Button btnRemoveItem1;
-    private Button btnRemoveItem2;
-    private Button btnRemoveItem3;
-    private Button btnRemoveItem4;
 
     //Firebase
     private DatabaseReference mRef;
@@ -243,7 +238,7 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
                     viewHolder.getBtn4().setVisibility( View.GONE );
                 } else {
                     viewHolder.getBtn4().setVisibility( View.VISIBLE );
-                    viewHolder.getBtn2().setOnClickListener( new View.OnClickListener() {
+                    viewHolder.getBtn4().setOnClickListener( new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -433,7 +428,7 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
             TextView order_location = (TextView) mView.findViewById( R.id. tvOrderLocation);
             order_location.setText( location );
         }
-
+        //Remove Buttons
         public Button getBtn1() {
             Button btnRemoveItem1 = (Button) mView.findViewById( R.id.btnRemoveItem1 );
             return btnRemoveItem1;
