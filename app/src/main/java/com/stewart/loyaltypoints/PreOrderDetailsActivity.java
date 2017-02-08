@@ -282,7 +282,7 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
                         }
                     } );
                 }
-                //TODO: Need to add the model for points
+
                 if(viewHolder.getName1()!=null||!viewHolder.getName1().equals( "" )||viewHolder.getQty1()!=null||!viewHolder.getQty1().equals( "" )) {
 
                     mFinalOrderName.put("Item"+nameCounter++, model.getItemName0());
@@ -305,7 +305,7 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
                     mFinalOrderName.put("Item"+nameCounter++, model.getItemName2());
                     mFinalOrderQty.put("ItemQty"+qtyCounter++, model.getItemQty2());
                     mFinalOrderPrice.put("ItemPrice"+priceCounter++, model.getItemPrice2());
-                    mFinalOrderPoints.put("ItemPoints"+pointsCounter++, model.getItemPoints1());
+                    mFinalOrderPoints.put("ItemPoints"+pointsCounter++, model.getItemPoints2());
                 }
 
                 if (viewHolder.getName4()!=null||!viewHolder.getName4().equals( "" )||viewHolder.getQty4()!=null||!viewHolder.getQty4().equals( "" )) {
@@ -313,7 +313,7 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
                     mFinalOrderName.put("Item"+nameCounter++, model.getItemName3());
                     mFinalOrderQty.put("ItemQty"+qtyCounter++, model.getItemQty3());
                     mFinalOrderPrice.put("ItemPrice"+priceCounter++, model.getItemPrice3());
-                    mFinalOrderPoints.put("ItemPoints"+pointsCounter++, model.getItemPoints1());
+                    mFinalOrderPoints.put("ItemPoints"+pointsCounter++, model.getItemPoints3());
                 }
 
                 //Storing the data of item purchase for database
@@ -334,6 +334,7 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
                 mFinalOrderUser.putAll( mFinalOrderPrice );
                 mFinalOrderUser.putAll( mFinalOrderDate );
                 mFinalOrderUser.putAll( mFinalOrderLocation );
+                mFinalOrderUser.putAll( mFinalOrderPoints );
 
                 //Locations
                 viewHolder.setLocation( model.getLocation() );

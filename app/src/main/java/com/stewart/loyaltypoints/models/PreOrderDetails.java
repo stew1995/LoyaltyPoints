@@ -10,6 +10,7 @@ public class PreOrderDetails {
     private String itemName0, itemName1, itemName2, itemName3;
     private String itemQty0, itemQty1, itemQty2, itemQty3;
     private String itemPrice0, itemPrice1, itemPrice2, itemPrice3;
+    private String itemPoints0, itemPoints1, itemPoints2, itemPoints3;
 
 
     public PreOrderDetails() {
@@ -123,5 +124,37 @@ public class PreOrderDetails {
 
     public void setItemPrice3(String itemPrice3) {
         this.itemPrice3 = itemPrice3;
+    }
+
+    public String getItemPoints0() {
+        return itemPoints0;
+    }
+
+    public void setItemPoints0(String itemPoints0) {
+        this.itemPoints0 = itemPoints0;
+    }
+
+    public String getItemPoints1() {
+        return itemPoints1;
+    }
+
+    public void setItemPoints1(String itemPoints1) {
+        this.itemPoints1 = itemPoints1;
+    }
+
+    public String getItemPoints2() {
+        return itemPoints2;
+    }
+
+    public void setItemPoints2(String itemPoints2) {
+        this.itemPoints2 = itemPoints2;
+    }
+
+    public String getItemPoints3() {
+        return itemPoints3;
+    }
+
+    public void setItemPoints3(String itemPoints3) {
+        this.itemPoints3 = itemPoints3;
     }
 }

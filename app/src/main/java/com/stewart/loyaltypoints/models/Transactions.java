@@ -14,8 +14,9 @@ public class Transactions {
     //Location
     private String OrderLocation;
     //Price
-    //Needs implementing on the PreOrderActivty
     private String ItemPrice0, ItemPrice1, ItemPrice2, ItemPrice3;
+    //Points
+    private String ItemPoints0, ItemPoints1, ItemPoints2, ItemPoints3;
 
     public Transactions() {
     }
@@ -130,5 +131,37 @@ public class Transactions {
 
     public void setItemPrice3(String itemPrice3) {
         ItemPrice3 = itemPrice3;
+    }
+
+    public String getItemPoints0() {
+        return ItemPoints0;
+    }
+
+    public void setItemPoints0(String itemPoints0) {
+        ItemPoints0 = itemPoints0;
+    }
+
+    public String getItemPoints1() {
+        return ItemPoints1;
+    }
+
+    public void setItemPoints1(String itemPoints1) {
+        ItemPoints1 = itemPoints1;
+    }
+
+    public String getItemPoints2() {
+        return ItemPoints2;
+    }
+
+    public void setItemPoints2(String itemPoints2) {
+        ItemPoints2 = itemPoints2;
+    }
+
+    public String getItemPoints3() {
+        return ItemPoints3;
+    }
+
+    public void setItemPoints3(String itemPoints3) {
+        ItemPoints3 = itemPoints3;
     }
 }

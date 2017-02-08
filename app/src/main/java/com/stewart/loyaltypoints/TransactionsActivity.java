@@ -16,6 +16,7 @@ import com.stewart.loyaltypoints.models.TransactionsViewHolder;
 import java.math.BigDecimal;
 
 import static com.google.android.gms.analytics.internal.zzy.n;
+import static com.google.android.gms.common.api.Status.st;
 
 public class TransactionsActivity extends AppCompatActivity {
 
@@ -69,18 +70,29 @@ public class TransactionsActivity extends AppCompatActivity {
                 viewHolder.setItemQty1( model.getItemQty1() );
                 viewHolder.setItemQty2( model.getItemQty2() );
                 viewHolder.setItemQty3( model.getItemQty3() );
-                //Calculating Price
+
+
+                //Calculating Price and Points
                 //Checking what feilds are not empty
                 //Then add the item prices
                 if(!viewHolder.getItemName0().isEmpty()) {
 
                     String price0 = model.getItemPrice0().replace( "£","" );
                     BigDecimal mPrice0 = new BigDecimal( price0 );
-
-
                     BigDecimal mTotal0 = mPrice0;
                     String mTotalPrice = "£" + mTotal0;
                     viewHolder.setTransactionPrice( mTotalPrice );
+
+                    try {
+                        String points = model.getItemPoints0();
+                        int add = Integer.valueOf( points );
+                        viewHolder.setTransactionPoints( "" + add );
+                    }  catch(NumberFormatException nfe) {
+                        viewHolder.setTransactionPoints( "Couldnt parse" );
+                    }
+
+
+
 
                 }
 
@@ -91,9 +103,20 @@ public class TransactionsActivity extends AppCompatActivity {
                     String price1 = model.getItemPrice1().replace( "£","" );
                     BigDecimal mPrice1 = new BigDecimal( price1 );
 
-                    BigDecimal mTotal0 = mPrice0.add( mPrice1 );
+                    BigDecimal mTotal0 = mPrice0
+                            .add( mPrice1 );
                     String mTotalPrice = "£" + mTotal0;
                     viewHolder.setTransactionPrice( mTotalPrice );
+
+                    try {
+                        String points = model.getItemPoints0();
+                        String points1 = model.getItemPoints1();
+                        int add = Integer.valueOf( points )
+                                +Integer.valueOf( points1 );
+                        viewHolder.setTransactionPoints( "" + add );
+                    }  catch(NumberFormatException nfe) {
+                        viewHolder.setTransactionPoints( "Couldnt parse" );
+                    }
 
                 }
 
@@ -107,11 +130,23 @@ public class TransactionsActivity extends AppCompatActivity {
                     BigDecimal mPrice2 = new BigDecimal( price2 );
 
 
-                    BigDecimal mTotal0 = mPrice0.add( mPrice1 ).add( mPrice2 );
+                    BigDecimal mTotal0 = mPrice0
+                            .add( mPrice1 )
+                            .add( mPrice2 );
                     String mTotalPrice = "£" + mTotal0;
                     viewHolder.setTransactionPrice( mTotalPrice );
 
-
+                    try {
+                        String points = model.getItemPoints0();
+                        String points1 = model.getItemPoints1();
+                        String points2 = model.getItemPoints2();
+                        int add = Integer.valueOf( points )
+                                +Integer.valueOf( points1 )
+                                +Integer.valueOf( points2 );
+                        viewHolder.setTransactionPoints( "" + add );
+                    }  catch(NumberFormatException nfe) {
+                        viewHolder.setTransactionPoints( "Couldnt parse" );
+                    }
                 }
 
                 if (!viewHolder.getItemName3().isEmpty()) {
@@ -126,9 +161,26 @@ public class TransactionsActivity extends AppCompatActivity {
                     BigDecimal mPrice3 = new BigDecimal( price3 );
 
 
-                    BigDecimal mTotal0 = mPrice0.add( mPrice1 ).add( mPrice2 ).add( mPrice3 );
+                    BigDecimal mTotal0 = mPrice0
+                            .add( mPrice1 )
+                            .add( mPrice2 )
+                            .add( mPrice3 );
                     String mTotalPrice = "£" + mTotal0;
                     viewHolder.setTransactionPrice( mTotalPrice );
+
+                    try {
+                        String points = model.getItemPoints0();
+                        String points1 = model.getItemPoints1();
+                        String points2 = model.getItemPoints2();
+                        String points3 = model.getItemPoints3();
+                        int add = Integer.valueOf( points )
+                                 +Integer.valueOf( points1 )
+                                 +Integer.valueOf( points2 )
+                                 +Integer.valueOf( points3 );
+                        viewHolder.setTransactionPoints( "" + add );
+                    }  catch(NumberFormatException nfe) {
+                        viewHolder.setTransactionPoints( "Couldnt parse" );
+                    }
 
 
                 }

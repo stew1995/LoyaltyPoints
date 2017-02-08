@@ -87,6 +87,13 @@ public class TransactionsViewHolder extends RecyclerView.ViewHolder {
         item_name.setText( price );
     }
 
+    //Points
+
+    public void setTransactionPoints(String points) {
+        TextView item_name = (TextView) mView.findViewById( R.id.transactionPoints );
+        item_name.setText( points );
+    }
+
     //Getters
     //ItemName
     public String getItemName0() {
@@ -113,30 +120,7 @@ public class TransactionsViewHolder extends RecyclerView.ViewHolder {
         return text;
     }
 
-    //Qty
-    public String getItemQty0() {
-        TextView item_name = (TextView) mView.findViewById( R.id.transactionItemsQty1 );
-        String text = (String) item_name.getText();
-        return text;
-    }
 
-    public String getItemQty1() {
-        TextView item_name = (TextView) mView.findViewById( R.id.transactionItemsQty2 );
-        String text = (String) item_name.getText();
-        return text;
-    }
-
-    public String getItemQty2() {
-        TextView item_name = (TextView) mView.findViewById( R.id.transactionItemsQty3 );
-        String text = (String) item_name.getText();
-        return text;
-    }
-
-    public String getItemQty3() {
-        TextView item_name = (TextView) mView.findViewById( R.id.transactionItemsQty4 );
-        String text = (String) item_name.getText();
-        return text;
-    }
 
 
 }
