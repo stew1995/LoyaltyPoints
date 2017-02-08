@@ -50,13 +50,27 @@ public class TransactionsActivity extends AppCompatActivity {
                 Transactions.class,
                 R.layout.transactions_row,
                 TransactionsViewHolder.class,
-                mRef.child("Users").child(mRef.getKey())
+                mRef.child("Users").child( mUser.getUid() ).child( "Transactions" )
         ) {
             @Override
             protected void populateViewHolder(TransactionsViewHolder viewHolder, Transactions model, int position) {
+                viewHolder.setTransactionLocation( model.getOrderLocation() );
+                viewHolder.setTransactionDate( model.getOrderDate() );
+                viewHolder.setItemName0( model.getItem0() );
+                viewHolder.setItemName1( model.getItem1() );
+                viewHolder.setItemName2( model.getItem2() );
+                viewHolder.setItemName3( model.getItem3() );
+                viewHolder.setItemQty0( model.getItemQty0() );
+                viewHolder.setItemQty1( model.getItemQty1() );
+                viewHolder.setItemQty2( model.getItemQty2() );
+                viewHolder.setItemQty3( model.getItemQty3() );
+                //Price needs implemeting on other pages
+                //viewHolder.setTransactionPrice( model.getItemPrice() );
 
             }
         };
+
+        mTransactionRecycler.setAdapter( firebaseRecyclerAdapter );
     }
 
 
