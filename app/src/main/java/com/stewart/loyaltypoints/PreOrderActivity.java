@@ -39,19 +39,17 @@ import static com.stewart.loyaltypoints.R.id.preOrderLocationSpinner;
 public class PreOrderActivity extends AppCompatActivity {
     private ListView listView;
     private DatabaseReference mRef;
+
+    //HashMaps for PreOrderHolder
     private HashMap<String, String> productListing;
     private HashMap<String, String> productListingQty;
     private HashMap<String, String> productListingLocation;
     private HashMap<String, String> productListingPrice;
+    private HashMap<String, String> productListingPoints;
     private HashMap<String, String> fullArray;
 
     //Counters for preorder
     private int counter;
-    String child = "item" + counter;
-    String childQty = "itemQty" + counter;
-
-
-    //private ArrayList<String> mItems = new ArrayList<>();
 
     //Recycler view
     private RecyclerView mItemList;
@@ -69,6 +67,7 @@ public class PreOrderActivity extends AppCompatActivity {
         productListingPrice = new HashMap<String, String>(  );
         fullArray = new HashMap<String, String>();
         productListingLocation = new HashMap<String, String>();
+        productListingPoints = new HashMap<String, String>(  );
 
         mRef = FirebaseDatabase.getInstance().getReference();
 
@@ -122,8 +121,8 @@ public class PreOrderActivity extends AppCompatActivity {
 
                 //Currency
                 final String itemPrice = model.getItemPrice();
-                String price = itemPrice.replace( "£", "" );
-                final BigDecimal mPrice = new BigDecimal( price );
+                //Points
+                final String itemPoints = model.getItemPoints().toString();
 
                 final String location = (String) locationSpinner.getSelectedItem();
                 viewHolder.setItemClickListener(new ItemClickListener() {
@@ -138,20 +137,21 @@ public class PreOrderActivity extends AppCompatActivity {
 
                         if (chk.isChecked()) {
                             //products.put( child, boxname );
-                            productListing.put("itemName"+counter,boxname);
-                            productListingQty.put("itemQty"+counter,boxQty);
-                            productListingPrice.put("itemPrice"+counter, itemPrice);
+                            productListing.put( "itemName"+counter,boxname );
+                            productListingQty.put( "itemQty"+counter,boxQty );
+                            productListingPrice.put( "itemPrice"+counter, itemPrice );
+                            productListingPoints.put( "itemPoints"+counter, itemPoints );
                             //Need new hashmap for the price of each item and changed that varibale to
                             //The big decimal
                             //productsQty.put(childQty, boxQty);
 
                             counter++;
                         } else if (!chk.isChecked()) {
-                                //Needs checking, almost there however sometimes leaves one there
-                                //Need to see how to remove from Hashmap completely
+                                //TODO: Needs checking, almost there however sometimes leaves one there
                                 productListing.remove( boxname );
                                 productListingQty.remove( boxQty );
-                                productListingPrice.remove(mPrice);
+                                productListingPrice.remove( itemPrice );
+                                productListingPoints.remove( itemPoints );
                                 counter--;
                             }
                         }
@@ -164,11 +164,12 @@ public class PreOrderActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         FirebaseAuth mAuth = FirebaseAuth.getInstance();
                         FirebaseUser user = mAuth.getCurrentUser();
-                        productListingLocation.put("location", location);
-                        fullArray.putAll(productListing);
-                        fullArray.putAll(productListingQty);
+                        productListingLocation.put( "location", location );
+                        fullArray.putAll( productListing );
+                        fullArray.putAll( productListingQty );
                         fullArray.putAll( productListingPrice );
                         fullArray.putAll( productListingLocation );
+                        fullArray.putAll( productListingPoints );
 
 
                         //Putting orders into database
