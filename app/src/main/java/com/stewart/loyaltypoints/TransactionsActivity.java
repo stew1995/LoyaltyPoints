@@ -13,6 +13,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.stewart.loyaltypoints.models.Transactions;
 import com.stewart.loyaltypoints.models.TransactionsViewHolder;
 
+import java.math.BigDecimal;
+
 public class TransactionsActivity extends AppCompatActivity {
 
     //Firebase
@@ -54,6 +56,23 @@ public class TransactionsActivity extends AppCompatActivity {
         ) {
             @Override
             protected void populateViewHolder(TransactionsViewHolder viewHolder, Transactions model, int position) {
+
+                //Calculating Price
+                String price0 = model.getItemPrice0().replace( "£","" );
+                String price1 = model.getItemPrice1().replace( "£","" );
+                String price2 = model.getItemPrice2().replace( "£","" );
+                String price3 = model.getItemPrice3().replace( "£","" );
+
+                BigDecimal mPrice0 = new BigDecimal( price0 );
+                BigDecimal mPrice1 = new BigDecimal( price1 );
+                BigDecimal mPrice2 = new BigDecimal( price2 );
+                BigDecimal mPrice3 = new BigDecimal( price3 );
+
+                BigDecimal mTotal = mPrice0.add( mPrice1 ).add( mPrice2 ).add( mPrice3 );
+                String mTotalPrice = "£" + mTotal;
+
+
+                //Setting the text fields in the transaction row
                 viewHolder.setTransactionLocation( model.getOrderLocation() );
                 viewHolder.setTransactionDate( model.getOrderDate() );
                 viewHolder.setItemName0( model.getItem0() );
@@ -65,7 +84,7 @@ public class TransactionsActivity extends AppCompatActivity {
                 viewHolder.setItemQty2( model.getItemQty2() );
                 viewHolder.setItemQty3( model.getItemQty3() );
                 //Price needs implemeting on other pages
-                //viewHolder.setTransactionPrice( model.getItemPrice() );
+                viewHolder.setTransactionPrice( mTotalPrice );
 
             }
         };

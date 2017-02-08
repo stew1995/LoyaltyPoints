@@ -9,6 +9,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.stewart.loyaltypoints.R;
 
+import java.math.BigDecimal;
+
 /**
  * Created by stewart on 08/02/2017.
  */
