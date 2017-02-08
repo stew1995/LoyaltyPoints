@@ -15,6 +15,8 @@ import com.stewart.loyaltypoints.models.TransactionsViewHolder;
 
 import java.math.BigDecimal;
 
+import static com.google.android.gms.analytics.internal.zzy.n;
+
 public class TransactionsActivity extends AppCompatActivity {
 
     //Firebase
@@ -56,22 +58,6 @@ public class TransactionsActivity extends AppCompatActivity {
         ) {
             @Override
             protected void populateViewHolder(TransactionsViewHolder viewHolder, Transactions model, int position) {
-
-                //Calculating Price
-                String price0 = model.getItemPrice0().replace( "£","" );
-                String price1 = model.getItemPrice1().replace( "£","" );
-                String price2 = model.getItemPrice2().replace( "£","" );
-                String price3 = model.getItemPrice3().replace( "£","" );
-
-                BigDecimal mPrice0 = new BigDecimal( price0 );
-                BigDecimal mPrice1 = new BigDecimal( price1 );
-                BigDecimal mPrice2 = new BigDecimal( price2 );
-                BigDecimal mPrice3 = new BigDecimal( price3 );
-
-                BigDecimal mTotal = mPrice0.add( mPrice1 ).add( mPrice2 ).add( mPrice3 );
-                String mTotalPrice = "£" + mTotal;
-
-
                 //Setting the text fields in the transaction row
                 viewHolder.setTransactionLocation( model.getOrderLocation() );
                 viewHolder.setTransactionDate( model.getOrderDate() );
@@ -83,9 +69,69 @@ public class TransactionsActivity extends AppCompatActivity {
                 viewHolder.setItemQty1( model.getItemQty1() );
                 viewHolder.setItemQty2( model.getItemQty2() );
                 viewHolder.setItemQty3( model.getItemQty3() );
-                //Price needs implemeting on other pages
-                viewHolder.setTransactionPrice( mTotalPrice );
+                //Calculating Price
+                //Checking what feilds are not empty
+                //Then add the item prices
+                if(!viewHolder.getItemName0().isEmpty()) {
 
+                    String price0 = model.getItemPrice0().replace( "£","" );
+                    BigDecimal mPrice0 = new BigDecimal( price0 );
+
+
+                    BigDecimal mTotal0 = mPrice0;
+                    String mTotalPrice = "£" + mTotal0;
+                    viewHolder.setTransactionPrice( mTotalPrice );
+
+                }
+
+                if (!viewHolder.getItemName1().isEmpty()) {
+
+                    String price0 = model.getItemPrice0().replace( "£","" );
+                    BigDecimal mPrice0 = new BigDecimal( price0 );
+                    String price1 = model.getItemPrice1().replace( "£","" );
+                    BigDecimal mPrice1 = new BigDecimal( price1 );
+
+                    BigDecimal mTotal0 = mPrice0.add( mPrice1 );
+                    String mTotalPrice = "£" + mTotal0;
+                    viewHolder.setTransactionPrice( mTotalPrice );
+
+                }
+
+                if (!viewHolder.getItemName2().isEmpty()) {
+
+                    String price0 = model.getItemPrice0().replace( "£","" );
+                    BigDecimal mPrice0 = new BigDecimal( price0 );
+                    String price1 = model.getItemPrice1().replace( "£","" );
+                    BigDecimal mPrice1 = new BigDecimal( price1 );
+                    String price2 = model.getItemPrice2().replace( "£","" );
+                    BigDecimal mPrice2 = new BigDecimal( price2 );
+
+
+                    BigDecimal mTotal0 = mPrice0.add( mPrice1 ).add( mPrice2 );
+                    String mTotalPrice = "£" + mTotal0;
+                    viewHolder.setTransactionPrice( mTotalPrice );
+
+
+                }
+
+                if (!viewHolder.getItemName3().isEmpty()) {
+
+                    String price0 = model.getItemPrice0().replace( "£","" );
+                    BigDecimal mPrice0 = new BigDecimal( price0 );
+                    String price1 = model.getItemPrice1().replace( "£","" );
+                    BigDecimal mPrice1 = new BigDecimal( price1 );
+                    String price2 = model.getItemPrice2().replace( "£","" );
+                    BigDecimal mPrice2 = new BigDecimal( price2 );
+                    String price3 = model.getItemPrice2().replace( "£","" );
+                    BigDecimal mPrice3 = new BigDecimal( price3 );
+
+
+                    BigDecimal mTotal0 = mPrice0.add( mPrice1 ).add( mPrice2 ).add( mPrice3 );
+                    String mTotalPrice = "£" + mTotal0;
+                    viewHolder.setTransactionPrice( mTotalPrice );
+
+
+                }
             }
         };
 
