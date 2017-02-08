@@ -70,4 +70,7 @@
     <string-array name="locationHours">
         <item>00:00 - 00:00</item>
     </string-array>
+
+
+    <string name="transaction_location_title"><u>Location</u></string>
 </resources>

@@ -96,7 +96,7 @@ public class NavigationActivity extends AppCompatActivity
         } else if (id == R.id.nav_store_locator) {
             startActivity(new Intent(NavigationActivity.this, MapsActivity.class));
         } else if (id == R.id.nav_transactions) {
-
+            startActivity(new Intent(NavigationActivity.this, TransactionsActivity.class));
         } else if (id == R.id.nav_pre_order) {
             startActivity(new Intent(NavigationActivity.this, PreOrderActivity.class));
         } else if (id == R.id.nav_items) {

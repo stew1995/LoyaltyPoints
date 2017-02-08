@@ -104,6 +104,7 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
 
         Date date = new Date( mYear - 1900, mMonth, mDay );
         final String dateString = (String) DateFormat.format( "yyyy/MM/dd", date );
+        final String dateFormat = (String) DateFormat.format( "dd.MM.yyyy", date );
 
 
         FirebaseRecyclerAdapter<PreOrderDetails, PreOrderViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<PreOrderDetails, PreOrderViewHolder>(
@@ -129,6 +130,8 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
                 HashMap<String, String> mFinalOrderName = new HashMap<String, String>(  );
                 //HashMap for Item Qty
                 HashMap<String, String> mFinalOrderQty = new HashMap<String, String>(  );
+                //HAshMap for when item is ordered
+                HashMap<String, String> mFinalOrderDate = new HashMap<String, String>(  );
 
                 //Removing the buttons
                 if(viewHolder.getName1().isEmpty()) {
@@ -296,15 +299,19 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
 
                 }
 
-                //Removing the buttons if something isnt there
+                //Storing the data of item purchase for database
+                mFinalOrderDate.put("OrderDate", dateFormat);
 
 
                 //Join HashMaps
                 final HashMap<String, String> mFinalOrder = new HashMap<String, String>(  );
+                final HashMap<String, String> mFinalOrderUser = new HashMap<String, String>(  );
                 //May need to put the points accumilated in to the array lists
 
                 mFinalOrder.putAll( mFinalOrderName );
                 mFinalOrder.putAll( mFinalOrderQty );
+                mFinalOrderUser.putAll( mFinalOrder );
+                mFinalOrderUser.putAll( mFinalOrderDate );
 
                 //Locations
                 viewHolder.setLocation( model.getLocation() );
@@ -313,7 +320,7 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         mRef.child("PreOrders").child( model.getLocation() ).child( dateString ).child( userID ).setValue( mFinalOrder );
-                        mRef.child("Users").child(userID).child( "Transactions" ).child( dateString ).child(model.getLocation()).setValue( mFinalOrder );
+                        mRef.child("Users").child(userID).child( "Transactions" ).push().child(model.getLocation()).setValue( mFinalOrderUser );
 
                         startActivity(new Intent(PreOrderDetailsActivity.this, NavigationActivity.class));
                         finish();
