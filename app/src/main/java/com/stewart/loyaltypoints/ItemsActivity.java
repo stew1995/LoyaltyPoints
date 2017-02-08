@@ -88,7 +88,7 @@ public class ItemsActivity extends PreOrderActivity {
                 CheckBox chk = viewHolder.removeCheckBox();
                 chk.setVisibility( View.GONE );
 
-
+                //No Title on this screen needs implementing
             }
         };
         mItemList.setAdapter(firebaseRecyclerAdapter);

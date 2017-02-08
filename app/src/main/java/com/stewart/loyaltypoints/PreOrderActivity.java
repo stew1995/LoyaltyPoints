@@ -41,8 +41,6 @@ import static com.stewart.loyaltypoints.R.id.preOrderLocationSpinner;
 public class PreOrderActivity extends AppCompatActivity {
     private ListView listView;
     private DatabaseReference mRef;
-    private com.firebase.ui.database.FirebaseListAdapter listAdapter;
-    private StorageReference mStorage;
     private HashMap<String, String> productListing;
     private HashMap<String, String> productListingQty;
     private HashMap<String, String> productListingLocation;
@@ -73,7 +71,6 @@ public class PreOrderActivity extends AppCompatActivity {
         productListingLocation = new HashMap<String, String>();
 
         mRef = FirebaseDatabase.getInstance().getReference();
-        mStorage = FirebaseStorage.getInstance().getReference();
 
         //Syncing data automatically
         mRef.keepSynced(true);

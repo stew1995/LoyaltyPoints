@@ -43,11 +43,10 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
     //Counter for adding into HashMap
     private int nameCounter;
     private int qtyCounter;
-    View mView;
 
 
     //Recycler Views
-    RecyclerView mPreOrderName, mPreOrderQty;
+    RecyclerView mPreOrderName;
 
     //Button for going back to main page
     private Button btnNextPreOrder;
@@ -56,17 +55,13 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
     private DatabaseReference mRef;
     private FirebaseAuth mAuth;
 
-    //Array Lists
-    private List<String> preOrderItems, preOrderQty;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_pre_order_details );
 
         //Initialise ArrayLists
-        preOrderItems = new ArrayList<String>();
-        preOrderQty = new ArrayList<String>();
+
         //Initialise Firebase
         mRef = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
@@ -316,6 +311,7 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
                 //Locations
                 viewHolder.setLocation( model.getLocation() );
 
+                //Puts orders in pre order table for staff and then transactions for the user to look back on
                 btnNextPreOrder.setOnClickListener( new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
