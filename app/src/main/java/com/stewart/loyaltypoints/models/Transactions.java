@@ -11,6 +11,8 @@ public class Transactions {
     private String ItemQty0, ItemQty1, ItemQty2, ItemQty3;
     //Date of Order
     private String OrderDate;
+    //Location
+    private String OrderLocation;
     //Price
     //Needs implementing on the PreOrderActivty
     private String ItemPrice;
@@ -96,5 +98,13 @@ public class Transactions {
 
     public void setItemPrice(String itemPrice) {
         ItemPrice = itemPrice;
+    }
+
+    public String getOrderLocation() {
+        return OrderLocation;
+    }
+
+    public void setOrderLocation(String orderLocation) {
+        OrderLocation = orderLocation;
     }
 }

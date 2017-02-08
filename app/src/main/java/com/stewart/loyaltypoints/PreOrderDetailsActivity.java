@@ -28,6 +28,7 @@ import java.util.HashMap;
 import java.util.List;
 
 
+import static android.os.Build.VERSION_CODES.M;
 import static com.google.android.gms.analytics.internal.zzy.v;
 import static com.stewart.loyaltypoints.R.id.tvItemName1;
 import static com.stewart.loyaltypoints.R.id.tvItemName2;
@@ -127,6 +128,8 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
                 HashMap<String, String> mFinalOrderQty = new HashMap<String, String>(  );
                 //HAshMap for when item is ordered
                 HashMap<String, String> mFinalOrderDate = new HashMap<String, String>(  );
+                //HashMap for Location
+                HashMap<String, String> mFinalOrderLocation = new HashMap<String, String>(  );
 
                 //Removing the buttons
                 if(viewHolder.getName1().isEmpty()) {
@@ -296,6 +299,8 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
 
                 //Storing the data of item purchase for database
                 mFinalOrderDate.put("OrderDate", dateFormat);
+                mFinalOrderLocation.put( "OrderLocation", model.getLocation() );
+
 
 
                 //Join HashMaps
@@ -307,6 +312,7 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
                 mFinalOrder.putAll( mFinalOrderQty );
                 mFinalOrderUser.putAll( mFinalOrder );
                 mFinalOrderUser.putAll( mFinalOrderDate );
+                mFinalOrderUser.putAll( mFinalOrderLocation );
 
                 //Locations
                 viewHolder.setLocation( model.getLocation() );
@@ -316,7 +322,7 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         mRef.child("PreOrders").child( model.getLocation() ).child( dateString ).child( userID ).setValue( mFinalOrder );
-                        mRef.child("Users").child(userID).child( "Transactions" ).push().child(model.getLocation()).setValue( mFinalOrderUser );
+                        mRef.child("Users").child(userID).child( "Transactions" ).push().setValue( mFinalOrderUser );
 
                         startActivity(new Intent(PreOrderDetailsActivity.this, NavigationActivity.class));
                         finish();
