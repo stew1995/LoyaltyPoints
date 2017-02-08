@@ -44,6 +44,7 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
     //Counter for adding into HashMap
     private int nameCounter;
     private int qtyCounter;
+    private int priceCounter;
 
 
     //Recycler Views
@@ -122,6 +123,8 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
                 viewHolder.setName4( model.getItemName3() );
                 viewHolder.setQty4( model.getItemQty3() );
 
+
+
                 //HashMap for Item Name
                 HashMap<String, String> mFinalOrderName = new HashMap<String, String>(  );
                 //HashMap for Item Qty
@@ -130,6 +133,9 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
                 HashMap<String, String> mFinalOrderDate = new HashMap<String, String>(  );
                 //HashMap for Location
                 HashMap<String, String> mFinalOrderLocation = new HashMap<String, String>(  );
+                //HashMap for Price to be passed to the transaction table to be processed as an Integer
+                HashMap<String, String> mFinalOrderPrice = new HashMap<String, String>(  );
+
 
                 //Removing the buttons
                 if(viewHolder.getName1().isEmpty()) {
@@ -151,11 +157,11 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
                                 public void onDataChange(DataSnapshot dataSnapshot) {
                                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                                         String name = snapshot.child("itemName0").getValue().toString();
-                                        String qty = snapshot.child("itemQty0").getValue().toString();
 
                                         if(name.equals( model.getItemName0() )) {
                                             snapshot.getRef().child("itemName0").removeValue();
                                             snapshot.getRef().child( "itemQty0" ).removeValue();
+                                            snapshot.getRef().child( "itemPrice0" ).removeValue();
                                         }
                                     }
                                 }
@@ -190,6 +196,7 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
                                         if(name.equals( model.getItemName1() )) {
                                             snapshot.getRef().child("itemName1").removeValue();
                                             snapshot.getRef().child( "itemQty1" ).removeValue();
+                                            snapshot.getRef().child( "itemPrice1" ).removeValue();
                                         }
                                     }
                                 }
@@ -223,6 +230,7 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
                                         if(name.equals( model.getItemName2() )) {
                                             snapshot.getRef().child("itemName2").removeValue();
                                             snapshot.getRef().child( "itemQty2" ).removeValue();
+                                            snapshot.getRef().child( "itemPrice2" ).removeValue();
                                         }
                                     }
                                 }
@@ -256,6 +264,7 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
                                         if(name.equals( model.getItemName3() )) {
                                             snapshot.getRef().child("itemName3").removeValue();
                                             snapshot.getRef().child( "itemQty3" ).removeValue();
+                                            snapshot.getRef().child( "itemPrice3" ).removeValue();
                                         }
                                     }
                                 }
@@ -273,6 +282,7 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
 
                     mFinalOrderName.put("Item"+nameCounter++, model.getItemName0());
                     mFinalOrderQty.put("ItemQty"+qtyCounter++, model.getItemQty0());
+                    mFinalOrderPrice.put("ItemPrice"+priceCounter++, model.getItemPrice0());
 
                 }
 
@@ -280,21 +290,21 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
 
                     mFinalOrderName.put("Item"+nameCounter++, model.getItemName1());
                     mFinalOrderQty.put("ItemQty"+qtyCounter++, model.getItemQty1());
-
+                    mFinalOrderPrice.put("ItemPrice"+priceCounter++, model.getItemPrice1());
                 }
 
                 if (viewHolder.getName3()!=null||!viewHolder.getName3().equals( "" )||viewHolder.getQty3()!=null||!viewHolder.getQty3().equals( "" )) {
 
                     mFinalOrderName.put("Item"+nameCounter++, model.getItemName2());
                     mFinalOrderQty.put("ItemQty"+qtyCounter++, model.getItemQty2());
-
+                    mFinalOrderPrice.put("ItemPrice"+priceCounter++, model.getItemPrice2());
                 }
 
                 if (viewHolder.getName4()!=null||!viewHolder.getName4().equals( "" )||viewHolder.getQty4()!=null||!viewHolder.getQty4().equals( "" )) {
 
                     mFinalOrderName.put("Item"+nameCounter++, model.getItemName3());
                     mFinalOrderQty.put("ItemQty"+qtyCounter++, model.getItemQty3());
-
+                    mFinalOrderPrice.put("ItemPrice"+priceCounter++, model.getItemPrice3());
                 }
 
                 //Storing the data of item purchase for database
@@ -310,7 +320,9 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
 
                 mFinalOrder.putAll( mFinalOrderName );
                 mFinalOrder.putAll( mFinalOrderQty );
+                mFinalOrder.putAll( mFinalOrderPrice );
                 mFinalOrderUser.putAll( mFinalOrder );
+                mFinalOrderUser.putAll( mFinalOrderPrice );
                 mFinalOrderUser.putAll( mFinalOrderDate );
                 mFinalOrderUser.putAll( mFinalOrderLocation );
 
@@ -344,6 +356,7 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
 
             mView = itemView;
         }
+
 
         public void setName1(String name) {
             TextView item_name = (TextView) mView.findViewById( tvItemName1 );

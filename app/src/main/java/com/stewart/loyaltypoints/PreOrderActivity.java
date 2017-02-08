@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -23,18 +22,17 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.stewart.loyaltypoints.models.Items;
 
+import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.HashMap;
 
 
-import static android.os.Build.VERSION_CODES.M;
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.V;
 import static com.stewart.loyaltypoints.R.id.buttonSendPreOrder;
 import static com.stewart.loyaltypoints.R.id.preOrderLocationSpinner;
 
@@ -44,6 +42,7 @@ public class PreOrderActivity extends AppCompatActivity {
     private HashMap<String, String> productListing;
     private HashMap<String, String> productListingQty;
     private HashMap<String, String> productListingLocation;
+    private HashMap<String, String> productListingPrice;
     private HashMap<String, String> fullArray;
 
     //Counters for preorder
@@ -67,6 +66,7 @@ public class PreOrderActivity extends AppCompatActivity {
 
         productListing = new HashMap<String, String>();
         productListingQty = new HashMap<String, String>();
+        productListingPrice = new HashMap<String, String>(  );
         fullArray = new HashMap<String, String>();
         productListingLocation = new HashMap<String, String>();
 
@@ -117,9 +117,13 @@ public class PreOrderActivity extends AppCompatActivity {
                 Spinner locationSpinner = (Spinner) findViewById( R.id.preOrderLocationSpinner);
                 final String boxname = viewHolder.getCheckbox();
                 final String boxQty = viewHolder.getQuanity().toString();
-
                 TextView noTitile = viewHolder.getTitleTextView();
                 noTitile.setVisibility( View.GONE );
+
+                //Currency
+                final String itemPrice = model.getItemPrice();
+                String price = itemPrice.replace( "£", "" );
+                final BigDecimal mPrice = new BigDecimal( price );
 
                 final String location = (String) locationSpinner.getSelectedItem();
                 viewHolder.setItemClickListener(new ItemClickListener() {
@@ -136,6 +140,9 @@ public class PreOrderActivity extends AppCompatActivity {
                             //products.put( child, boxname );
                             productListing.put("itemName"+counter,boxname);
                             productListingQty.put("itemQty"+counter,boxQty);
+                            productListingPrice.put("itemPrice"+counter, itemPrice);
+                            //Need new hashmap for the price of each item and changed that varibale to
+                            //The big decimal
                             //productsQty.put(childQty, boxQty);
 
                             counter++;
@@ -144,6 +151,7 @@ public class PreOrderActivity extends AppCompatActivity {
                                 //Need to see how to remove from Hashmap completely
                                 productListing.remove( boxname );
                                 productListingQty.remove( boxQty );
+                                productListingPrice.remove(mPrice);
                                 counter--;
                             }
                         }
@@ -159,6 +167,7 @@ public class PreOrderActivity extends AppCompatActivity {
                         productListingLocation.put("location", location);
                         fullArray.putAll(productListing);
                         fullArray.putAll(productListingQty);
+                        fullArray.putAll( productListingPrice );
                         fullArray.putAll( productListingLocation );
 
 

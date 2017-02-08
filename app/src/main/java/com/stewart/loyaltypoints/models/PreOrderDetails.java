@@ -9,6 +9,7 @@ public class PreOrderDetails {
     private String location;
     private String itemName0, itemName1, itemName2, itemName3;
     private String itemQty0, itemQty1, itemQty2, itemQty3;
+    private String itemPrice0, itemPrice1, itemPrice2, itemPrice3;
 
 
     public PreOrderDetails() {
@@ -92,4 +93,35 @@ public class PreOrderDetails {
         this.itemQty3 = itemQty3;
     }
 
+    public String getItemPrice0() {
+        return itemPrice0;
+    }
+
+    public void setItemPrice0(String itemPrice0) {
+        this.itemPrice0 = itemPrice0;
+    }
+
+    public String getItemPrice1() {
+        return itemPrice1;
+    }
+
+    public void setItemPrice1(String itemPrice1) {
+        this.itemPrice1 = itemPrice1;
+    }
+
+    public String getItemPrice2() {
+        return itemPrice2;
+    }
+
+    public void setItemPrice2(String itemPrice2) {
+        this.itemPrice2 = itemPrice2;
+    }
+
+    public String getItemPrice3() {
+        return itemPrice3;
+    }
+
+    public void setItemPrice3(String itemPrice3) {
+        this.itemPrice3 = itemPrice3;
+    }
 }
