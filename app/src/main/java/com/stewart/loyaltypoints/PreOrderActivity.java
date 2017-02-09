@@ -95,13 +95,13 @@ public class PreOrderActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-       final Calendar c = Calendar.getInstance();
+        final Calendar c = Calendar.getInstance();
         int mYear = c.get(Calendar.YEAR);
         int mMonth = c.get(Calendar.MONTH);
         int mDay = c.get(Calendar.DAY_OF_MONTH);
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
-        
+
         FirebaseRecyclerAdapter<Items, ItemViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Items, ItemViewHolder>(
                 Items.class,
                 R.layout.item_row,
@@ -109,15 +109,16 @@ public class PreOrderActivity extends AppCompatActivity {
                 mRef.child("Items")) {
             @Override
             protected void populateViewHolder(final ItemViewHolder viewHolder, final Items model, int position) {
-                viewHolder.setPrice("Price: "+model.getItemPrice().toString());
+                viewHolder.setPrice("Price: "+model.getItemPrice());
                 viewHolder.setPoints("Points: "+model.getItemPoints().toString());
                 viewHolder.setImage(getApplicationContext(), model.getItemImage());
                 viewHolder.setCheckbox(model.getItemName());
                 Spinner locationSpinner = (Spinner) findViewById( R.id.preOrderLocationSpinner);
                 final String boxname = viewHolder.getCheckbox();
-                final String boxQty = viewHolder.getQuanity().toString();
+                final String boxQty = viewHolder.getQuanity();
                 TextView noTitile = viewHolder.getTitleTextView();
                 noTitile.setVisibility( View.GONE );
+
 
                 //Currency
                 final String itemPrice = model.getItemPrice();
@@ -147,14 +148,14 @@ public class PreOrderActivity extends AppCompatActivity {
 
                             counter++;
                         } else if (!chk.isChecked()) {
-                                //TODO: Needs checking, almost there however sometimes leaves one there
-                                productListing.remove( boxname );
-                                productListingQty.remove( boxQty );
-                                productListingPrice.remove( itemPrice );
-                                productListingPoints.remove( itemPoints );
-                                counter--;
-                            }
+                            //TODO: Needs checking, almost there however sometimes leaves one there
+                            productListing.remove( boxname );
+                            productListingQty.remove( boxQty );
+                            productListingPrice.remove( itemPrice );
+                            productListingPoints.remove( itemPoints );
+                            counter--;
                         }
+                    }
 
 
                 });
@@ -219,10 +220,10 @@ public class PreOrderActivity extends AppCompatActivity {
             mView = itemView;
 
             chk = (CheckBox) mView.findViewById(R.id.postChk);
-            final Spinner spn = (Spinner) mView.findViewById(R.id.postQuanity);
 
 
             chk.setOnClickListener(this);
+
         }
         //Setting the TextViews in the CardView
 
@@ -287,7 +288,7 @@ public class PreOrderActivity extends AppCompatActivity {
 
         public String getQuanity() {
             Spinner spn = (Spinner) mView.findViewById(R.id.postQuanity);
-            String text = spn.getSelectedItem().toString();
+            String text = (String) spn.getSelectedItem();
             return text;
         }
 

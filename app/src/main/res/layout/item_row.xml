@@ -72,7 +72,6 @@
                 android:layout_alignParentEnd="true"
                 android:padding="10dp"
                 android:entries="@array/preOrderQuantity"
-
                 />
 
             <TextView
