@@ -47,7 +47,7 @@ public class DetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 writeUser();
-                startActivity(new Intent(DetailsActivity.this, MainScreenActivity.class));
+                startActivity(new Intent(DetailsActivity.this, NavigationActivity.class));
             }
         });
     }

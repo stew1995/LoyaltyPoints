@@ -29,4 +29,16 @@ public class User {
         this.Points = 0;
 
     }
+
+    public String getfName() {
+        return fName;
+    }
+
+    public Long getStudentID() {
+        return studentID;
+    }
+
+    public String getlName() {
+        return lName;
+    }
 }
