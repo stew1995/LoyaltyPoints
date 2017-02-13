@@ -38,7 +38,7 @@ public class NavigationActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         viewPager = (ViewPager)findViewById(R.id.mainViewPager);
-        screens = new int[] {R.layout.content_navigation, R.layout.activity_profile};
+        screens = new int[] {R.layout.activity_main, R.layout.activity_profile};
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
