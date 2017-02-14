@@ -13,6 +13,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.stewart.loyaltypoints.models.User;
 
+import static android.R.attr.id;
+
 /**
  * Created by stewart on 13/02/2017.
  */
@@ -43,11 +45,11 @@ public class NavigationHeader extends AppCompatActivity {
                 for(DataSnapshot child : dataSnapshot.getChildren()) {
                     User user = child.getValue(User.class);
 
-                    String name = user.getfName() + " " + user.getlName();
-                    String id = "UP"+user.getStudentID();
+                    //String name = user.getfName() + " " + user.getlName();
+                    //String id = "UP"+user.getStudentID();
 
-                    userName.setText( name );
-                    userStudentID.setText( id );
+                    //userName.setText( name );
+                    //userStudentID.setText( id );
                 }
             }
 

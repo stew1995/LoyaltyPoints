@@ -61,12 +61,12 @@ public class DetailsActivity extends AppCompatActivity {
         String Year = spAcYear.getSelectedItem().toString().trim();
         Long studentID = Long.valueOf(etAcStudentID.getText().toString().trim());
         String Answer = etAcAnswer.getText().toString().trim();
-        int Points = 0;
         //Need to include the spinner
         //getSelectedItem is the method to get the required field from the dropdown menu
         String Question = spAcQuestion.getSelectedItem().toString().trim();
+        Long points = Long.valueOf(0);
 
-        User user = new User(fName, lName, Year, studentID, Question, Answer, Points);
+        User user = new User(fName, lName, Year, studentID, Question, Answer, points);
 
         mDatabase.child(userID).setValue(user);
     }

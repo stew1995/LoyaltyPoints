@@ -49,17 +49,11 @@
         android:id="@+id/view2"
         android:background="@color/black"/>
 
-    <LinearLayout
+    <ImageView
+        android:id="@+id/myImage"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_below="@+id/view2"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="12dp">
-        
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/generatedImage"/>
-    </LinearLayout>
+        android:layout_height="400dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true" />
+
 </RelativeLayout>

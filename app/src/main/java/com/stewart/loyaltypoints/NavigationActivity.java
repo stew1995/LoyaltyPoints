@@ -3,6 +3,7 @@ package com.stewart.loyaltypoints;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -20,15 +21,48 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.stewart.loyaltypoints.models.User;
+
+import static com.stewart.loyaltypoints.MainActivity.STR;
 
 
 public class NavigationActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    //Page View doesnt work with the QR Code
+    //private ViewPager viewPager;
+    //private int[] screens;
+    //private ViewPagerAdapter viewPagerAdapter;
 
-    private ViewPager viewPager;
-    private int[] screens;
-    private ViewPagerAdapter viewPagerAdapter;
+    //Firebase
+    private DatabaseReference mRef;
+    private FirebaseAuth mAuth;
+    private String mUser;
+
+    //TextView for Outputting the user points
+    private TextView tvUserPoints;
+
+    //QRCode Generation
+    //Colours of the QR CODE
+    public final static int WHITE = 0xFFFFFFFF;
+    public final static int BLACK = 0xFF000000;
+    //Dimenions of QRCode
+    public final static int WIDTH = 400;
+    public final static int HEIGHT = 400;
+    //String to to encoded
+    public final static String STR = "A string to be encoded as QR code";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +71,13 @@ public class NavigationActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        viewPager = (ViewPager)findViewById(R.id.mainViewPager);
-        screens = new int[] {R.layout.activity_main, R.layout.activity_profile};
+        mAuth = FirebaseAuth.getInstance();
+        mUser = mAuth.getCurrentUser().getUid();
+        //Needed for getting the points and the recent transactions
+        mRef = FirebaseDatabase.getInstance().getReference().child("Users").child(mUser);
 
+        //Inilalising Variables
+        tvUserPoints = (TextView) findViewById(R.id.tvUserPoints);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -50,28 +88,47 @@ public class NavigationActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        viewPagerAdapter = new ViewPagerAdapter();
-        viewPager.setAdapter(viewPagerAdapter);
-        viewPager.addOnPageChangeListener(viewListener);
+        //For QRCODE Generation
+        ImageView imageView = (ImageView) findViewById(R.id.myImage);
+        try {
+            //Encoding the image and setting
+            Bitmap bitmap = encodeAsBitmap(STR);
+            imageView.setImageBitmap(bitmap);
+        } catch (WriterException e) {
+            e.printStackTrace();
+        }
+
+        setUserPoints();
+
+
     }
 
-    ViewPager.OnPageChangeListener viewListener = new ViewPager.OnPageChangeListener() {
-        @Override
-        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
+    Bitmap encodeAsBitmap(String str) throws WriterException {
+        BitMatrix result;
+        try {
+            //Deciding the type of format and sizes to be generated
+            result = new MultiFormatWriter().encode(str, BarcodeFormat.QR_CODE, WIDTH, HEIGHT, null);
+        } catch (IllegalArgumentException iae) {
+            // Unsupported format
+            return null;
+        }
+        //Fitting it in with the screen sizes
+        int width = result.getWidth();
+        int height = result.getHeight();
+        int[] pixels = new int[width * height];
+        for (int y = 0; y < height; y++) {
+            int offset = y * width;
+            for (int x = 0; x < width; x++) {
+                pixels[offset + x] = result.get(x, y) ? BLACK : WHITE;
+            }
         }
 
-        @Override
-        public void onPageSelected(int position) {
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
+        //returs final bitmap image to be generated
+        return bitmap;
+    }
 
-
-        }
-
-        @Override
-        public void onPageScrollStateChanged(int state) {
-
-        }
-    };
 
     @Override
     public void onBackPressed() {
@@ -109,32 +166,25 @@ public class NavigationActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+    //TODO: DOESNT WORK GETTING THE POINTS OUTPUTS ERROR SAYING "Can't convert object of type java.lang.String to type com.stewart.loyaltypoints.models.User"
+    private void setUserPoints() {
+        mRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot child : dataSnapshot.getChildren()) {
+                    User user = child.getValue(User.class);
+
+                    tvUserPoints.setText(user.getPoints().toString());
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
 
-
-    private class ViewPagerAdapter extends PagerAdapter {
-
-        private LayoutInflater layoutInflater;
-
-        @Override
-        public Object instantiateItem(ViewGroup container, int position) {
-            layoutInflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View v = layoutInflater.inflate(screens[position],container, false);
-            container.addView(v);
-            return v;
-        }
-        @Override
-        public int getCount() {
-            return screens.length;
-        }
-
-        @Override
-        public boolean isViewFromObject(View view, Object object) {
-            return view==object;
-        }
-        public void destroyItem(ViewGroup container, int position, Object object){
-            View v = (View)object;
-            container.removeView(v);
-        }
     }
+
 }

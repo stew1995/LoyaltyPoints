@@ -18,78 +18,51 @@ import com.google.zxing.qrcode.encoder.QRCode;
 import static com.google.zxing.qrcode.decoder.ErrorCorrectionLevel.Q;
 
 public class MainActivity extends AppCompatActivity {
-    private EditText editText;
-    private Button button;
-    private ImageView imageView;
-    private String EditTextValue;
-    Thread thread;
-    Bitmap bitmap;
+    //Colours of the QR CODE
+    public final static int WHITE = 0xFFFFFFFF;
+    public final static int BLACK = 0xFF000000;
+    //Dimenions of QRCode
+    public final static int WIDTH = 400;
+    public final static int HEIGHT = 400;
+    //String to to encoded
+    public final static String STR = "A string to be encoded as QR code";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate( savedInstanceState );
-        setContentView( R.layout.activity_main );
-        //Text to be generated - this will need changin to the users points
-        editText = (EditText) findViewById( R.id.etMainGenerator );
-        //Button to generate the image - this will need removing as the qr code will be pre loaded
-
-        button = (Button) findViewById( R.id.btnGenerate );
-        //Where the QR Code will be put
-        imageView = (ImageView) findViewById( R.id.generatedImage );
-
-
-        button.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                EditTextValue = editText.getText().toString().trim();
-
-                try {
-                    bitmap = TextToImageEncode(EditTextValue);
-                    imageView.setImageBitmap( bitmap );
-
-                } catch (WriterException e) {
-                    e.printStackTrace();
-                }
-
-
-            }
-
-
-
-
-        } );
+        super.onCreate(savedInstanceState);
+        ImageView imageView = (ImageView) findViewById(R.id.myImage);
+        try {
+            //Encoding the image and setting
+            Bitmap bitmap = encodeAsBitmap(STR);
+            imageView.setImageBitmap(bitmap);
+        } catch (WriterException e) {
+            e.printStackTrace();
+        }
     }
 
-    private Bitmap TextToImageEncode(String editTextValue) throws WriterException {
-
-        BitMatrix bitMatrix;
+    Bitmap encodeAsBitmap(String str) throws WriterException {
+        BitMatrix result;
         try {
-            bitMatrix = new MultiFormatWriter().encode( editTextValue,
-                    BarcodeFormat.DATA_MATRIX.QR_CODE,
-                    200, 200, null
-
-                    );
-        } catch (IllegalArgumentException Illegalarguementexception) {
+            //Deciding the type of format and sizes to be generated
+            result = new MultiFormatWriter().encode(str, BarcodeFormat.QR_CODE, WIDTH, HEIGHT, null);
+        } catch (IllegalArgumentException iae) {
+            // Unsupported format
             return null;
         }
-
-        int bitMatrixWidth = bitMatrix.getWidth();
-        int bitMatrixHeight = bitMatrix.getHeight();
-
-        int[] pixels = new int[bitMatrixWidth * bitMatrixHeight];
-
-        for(int y=0; y < bitMatrixHeight; y++) {
-            int offset = y * bitMatrixWidth;
-
-            for (int x = 0; x < bitMatrixWidth; x++) {
-                pixels[offset + x] = bitMatrix.get( x, y ) ?
-                        getResources().getColor( R.color.black ):
-                        getResources().getColor( R.color.white );
+        //Fitting it in with the screen sizes
+        int width = result.getWidth();
+        int height = result.getHeight();
+        int[] pixels = new int[width * height];
+        for (int y = 0; y < height; y++) {
+            int offset = y * width;
+            for (int x = 0; x < width; x++) {
+                pixels[offset + x] = result.get(x, y) ? BLACK : WHITE;
             }
         }
-        Bitmap bitmap = Bitmap.createBitmap( bitMatrixWidth, bitMatrixHeight, Bitmap.Config.ARGB_4444 );
 
-        bitmap.setPixels( pixels, 0, 500, 0,0,bitMatrixWidth, bitMatrixHeight );
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
+        //returs final bitmap image to be generated
         return bitmap;
     }
 
