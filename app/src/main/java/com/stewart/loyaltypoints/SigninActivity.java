@@ -2,6 +2,7 @@ package com.stewart.loyaltypoints;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -84,7 +85,7 @@ public class SigninActivity extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
 
                 if(firebaseAuth.getCurrentUser() != null){
-                    startActivity(new Intent(SigninActivity.this, DetailsActivity.class));
+                    startActivity(new Intent(SigninActivity.this, NavigationActivity.class));
                 }
 
             }

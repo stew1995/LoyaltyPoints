@@ -5,13 +5,15 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:layout_marginBottom="10dp">
 
         <TextView
             android:text="Name"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/white"
             android:id="@+id/tvMapsName"
             android:textSize="20sp"
             android:padding="10dp"
@@ -36,8 +38,9 @@
             android:id="@+id/tvMapsTime"
             android:textSize="16sp"
             android:layout_marginEnd="14dp"
-            android:layout_centerVertical="true"
-            android:layout_alignParentEnd="true"/>
+            android:layout_alignBaseline="@+id/tvMapsLocation"
+            android:layout_alignBottom="@+id/tvMapsLocation"
+            android:layout_alignParentEnd="true" />
 
     </RelativeLayout>
 

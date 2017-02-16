@@ -23,18 +23,18 @@
         <activity android:name=".SigninActivity"/>
         <activity android:name=".MainScreenActivity"/>
         <activity android:name=".SplashActivity">
+            <intent-filter>
+                <category android:name="android.intent.category.LAUNCHER"/>
 
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
         </activity>
         <activity android:name=".DetailsActivity"/>
         <activity
             android:name=".NavigationActivity"
             android:label="@string/title_activity_navigation"
             android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <category android:name="android.intent.category.LAUNCHER"/>
 
-                <action android:name="android.intent.action.MAIN"/>
-            </intent-filter>
         </activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -56,6 +56,7 @@
         <activity android:name=".ItemsActivity">
         </activity>
         <activity android:name=".TransactionsActivity">
+
         </activity>
         <activity android:name=".MainActivity">
 

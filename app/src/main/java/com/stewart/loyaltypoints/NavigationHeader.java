@@ -1,7 +1,9 @@
 package com.stewart.loyaltypoints;
 
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -35,23 +37,24 @@ public class NavigationHeader extends AppCompatActivity {
         mUser = mAuth.getCurrentUser().getUid();
         mRef = FirebaseDatabase.getInstance().getReference().child( "Users" ).child( mUser );
         mAuth = FirebaseAuth.getInstance();
-        userName = (TextView) findViewById( R.id.UserNameNavigation );
-        userStudentID = (TextView) findViewById( R.id.UserStudentNumber );
 
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View header = navigationView.inflateHeaderView(R.layout.nav_header_navigation);
+        userName = (TextView) header.findViewById( R.id.UserNameNavigation );
+        userStudentID = (TextView) header.findViewById( R.id.UserStudentNumber );
 
         mRef.addListenerForSingleValueEvent( new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot child : dataSnapshot.getChildren()) {
-                    User user = child.getValue(User.class);
+                    User user = dataSnapshot.getValue(User.class);
 
-                    //String name = user.getfName() + " " + user.getlName();
-                    //String id = "UP"+user.getStudentID();
+                    String name = user.getfName() + " " + user.getlName();
+                    String id = "UP"+user.getStudentID();
 
-                    //userName.setText( name );
-                    //userStudentID.setText( id );
+                    userName.setText( name );
+                    userStudentID.setText( id );
                 }
-            }
+
 
             @Override
             public void onCancelled(DatabaseError databaseError) {

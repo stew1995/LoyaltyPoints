@@ -5,7 +5,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="600dp"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -130,15 +130,6 @@
                 android:text="REMOVE"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/btnRemoveItem3"
-                android:background="@null"
-                android:layout_below="@+id/tvItemQty2"
-                android:layout_alignParentEnd="true"/>
-
-            <Button
-                android:text="REMOVE"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:id="@+id/btnRemoveItem1"
                 android:background="@null"
                 android:layout_alignBaseline="@+id/tvItemQty1"
@@ -149,12 +140,42 @@
                 android:text="REMOVE"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/btnRemoveItem3"
+                android:background="@null"
+                android:layout_alignBaseline="@+id/tvItemQty3"
+                android:layout_alignBottom="@+id/tvItemQty3"
+                android:layout_alignStart="@+id/btnRemoveItem4"
+                android:layout_marginStart="6dp" />
+
+            <Button
+                android:text="REMOVE"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:id="@+id/btnRemoveItem2"
                 android:background="@null"
-                android:layout_centerVertical="true"
-                android:layout_alignParentEnd="true"/>
+                android:layout_below="@+id/tvItemQty1"
+                android:layout_alignStart="@+id/btnRemoveItem3"
+                android:layout_marginTop="9dp" />
 
+            <TextView
+
+                android:text="Cost in Price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvItemPrice"
+                android:layout_below="@+id/tvItemQty4"
+                android:layout_alignParentEnd="true" />
+
+            <TextView
+                android:text="Cost in Points"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvItemPoints"
+                android:layout_alignBaseline="@+id/tvItemPrice"
+                android:layout_alignBottom="@+id/tvItemPrice"
+                android:layout_alignParentStart="true" />
         </RelativeLayout>
+
 
 
     </LinearLayout>

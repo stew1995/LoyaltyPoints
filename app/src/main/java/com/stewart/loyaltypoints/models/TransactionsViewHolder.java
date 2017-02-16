@@ -20,6 +20,7 @@ public class TransactionsViewHolder extends RecyclerView.ViewHolder {
     private DatabaseReference mRef;
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
+    private static final int LENGTH = 1;
 
     private View mView;
     public TransactionsViewHolder(View itemView) {
@@ -119,7 +120,6 @@ public class TransactionsViewHolder extends RecyclerView.ViewHolder {
         String text = (String) item_name.getText();
         return text;
     }
-
 
 
 

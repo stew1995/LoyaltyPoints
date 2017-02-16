@@ -59,10 +59,12 @@
                 android:paddingLeft="5dp"
                 android:layout_marginLeft="10dp"
                 android:textStyle="bold"
+                android:textColor="@color/primaryTextColor"
                 android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
                 android:button="@null"
                 android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true" />
+                android:layout_alignParentEnd="true"
+                android:visibility="visible"/>
 
             <Spinner
                 android:layout_width="wrap_content"
@@ -85,12 +87,12 @@
                 android:paddingLeft="5dp"
                 android:layout_marginLeft="10dp"
                 android:textStyle="bold"
-                android:layout_above="@+id/postPrice"
-                android:layout_alignStart="@+id/postChk"
-                android:layout_marginStart="11dp"
-                android:layout_marginBottom="15dp"
+                android:textColor="@color/primaryTextColor"
                 android:id="@+id/postItemName"
-                android:visibility="visible"/>
+                android:visibility="visible"
+                android:layout_alignBaseline="@+id/postChk"
+                android:layout_alignBottom="@+id/postChk"
+                android:layout_alignParentEnd="true" />
 
         </RelativeLayout>
 

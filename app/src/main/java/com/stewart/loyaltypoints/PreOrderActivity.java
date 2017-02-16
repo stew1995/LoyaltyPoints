@@ -3,12 +3,14 @@ package com.stewart.loyaltypoints;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -82,7 +84,18 @@ public class PreOrderActivity extends AppCompatActivity {
         Resources res = getResources();
         String[] locations = res.getStringArray(R.array.locations);
 
-        ArrayAdapter<String> adapater = new ArrayAdapter<String>( this, R.layout.spinner_item, locations );
+        ArrayAdapter<String> adapater = new ArrayAdapter<String>( this, R.layout.spinner_item, locations ){
+            @Override
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+
+                //Get drop down selection
+                View view = super.getView(position, convertView, parent);
+                TextView text = (TextView)view.findViewById(R.id.spinnerText);
+                text.setTextColor(getResources().getColor(R.color.primaryTextColor));
+
+                return view;
+            }
+        };
         locationSpinner.setAdapter( adapater );
 
 
@@ -194,8 +207,13 @@ public class PreOrderActivity extends AppCompatActivity {
                         //Table when the user confirms it on the PreorderDetails Screen
 
                         startActivity( new Intent( PreOrderActivity.this, PreOrderDetailsActivity.class ) );
-
-
+                        //Remove all from arraylists and reset the counter
+                        counter = 0;
+                        fullArray.remove(productListing);
+                        fullArray.remove(productListingQty);
+                        fullArray.remove(productListingPrice);
+                        fullArray.remove(productListingLocation);
+                        fullArray.remove(productListingPoints);
                     }
                 } );
 

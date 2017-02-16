@@ -1,16 +1,10 @@
 package com.stewart.loyaltypoints;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -18,12 +12,11 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -34,9 +27,11 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
+import com.stewart.loyaltypoints.models.Transactions;
+import com.stewart.loyaltypoints.models.TransactionsViewHolder;
 import com.stewart.loyaltypoints.models.User;
 
-import static com.stewart.loyaltypoints.MainActivity.STR;
+import java.math.BigDecimal;
 
 
 public class NavigationActivity extends AppCompatActivity
@@ -51,6 +46,10 @@ public class NavigationActivity extends AppCompatActivity
     private FirebaseAuth mAuth;
     private String mUser;
 
+    //RecyclerView for Transaction
+    private RecyclerView mTransactionRecycler;
+
+
     //TextView for Outputting the user points
     private TextView tvUserPoints;
 
@@ -62,7 +61,9 @@ public class NavigationActivity extends AppCompatActivity
     public final static int WIDTH = 400;
     public final static int HEIGHT = 400;
     //String to to encoded
-    public final static String STR = "A string to be encoded as QR code";
+    public static String STR = "";
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +77,7 @@ public class NavigationActivity extends AppCompatActivity
         //Needed for getting the points and the recent transactions
         mRef = FirebaseDatabase.getInstance().getReference().child("Users").child(mUser);
 
+
         //Inilalising Variables
         tvUserPoints = (TextView) findViewById(R.id.tvUserPoints);
 
@@ -87,21 +89,22 @@ public class NavigationActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        //Recycler View
+        mTransactionRecycler = (RecyclerView) findViewById(R.id.main_screen_transaction_rv);
+        mTransactionRecycler.setHasFixedSize( true );
+        mTransactionRecycler.setLayoutManager( new LinearLayoutManager( this ) );
+        mTransactionRecycler.setNestedScrollingEnabled(false);
 
-        //For QRCODE Generation
-        ImageView imageView = (ImageView) findViewById(R.id.myImage);
-        try {
-            //Encoding the image and setting
-            Bitmap bitmap = encodeAsBitmap(STR);
-            imageView.setImageBitmap(bitmap);
-        } catch (WriterException e) {
-            e.printStackTrace();
-        }
+
 
         setUserPoints();
+        setNavigation();
 
 
+        recentTransactions();
     }
+
+
 
     Bitmap encodeAsBitmap(String str) throws WriterException {
         BitMatrix result;
@@ -166,25 +169,206 @@ public class NavigationActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-    //TODO: DOESNT WORK GETTING THE POINTS OUTPUTS ERROR SAYING "Can't convert object of type java.lang.String to type com.stewart.loyaltypoints.models.User"
+
     private void setUserPoints() {
         mRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot child : dataSnapshot.getChildren()) {
-                    User user = child.getValue(User.class);
+                User user = dataSnapshot.getValue(User.class);
 
-                    tvUserPoints.setText(user.getPoints().toString());
+                tvUserPoints.setText(user.getPoints().toString());
+                STR = user.getPoints().toString();
+                //For QRCODE Generation
+                ImageView imageView = (ImageView) findViewById(R.id.myImage);
+                try {
+                    //Encoding the image and setting
+                    Bitmap bitmap = encodeAsBitmap(STR);
+                    imageView.setImageBitmap(bitmap);
+                } catch (WriterException e) {
+                    e.printStackTrace();
                 }
             }
+
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
             }
         });
+    }
 
 
+
+    private void setNavigation() {
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View header = navigationView.getHeaderView(0);
+        final TextView userName = (TextView) header.findViewById( R.id.UserNameNavigation );
+        final TextView userStudentID = (TextView) header.findViewById( R.id.UserStudentNumber );
+
+        mRef.addListenerForSingleValueEvent( new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class);
+
+                String name = user.getfName() + " " + user.getlName();
+                String id = "UP"+user.getStudentID();
+
+                userName.setText( name );
+                userStudentID.setText( id );
+            }
+
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        } );
+    }
+
+
+    //For the Recent Transactions
+
+    private void recentTransactions() {
+        FirebaseRecyclerAdapter<Transactions, TransactionsViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Transactions, TransactionsViewHolder>(
+                Transactions.class,
+                R.layout.transactions_row,
+                TransactionsViewHolder.class,
+                mRef.child("Recent")
+
+        ) {
+            @Override
+            protected void populateViewHolder(TransactionsViewHolder viewHolder, Transactions model, int position) {
+
+
+                //Setting the text fields in the transaction row
+                viewHolder.setTransactionLocation( model.getOrderLocation() );
+                viewHolder.setTransactionDate( model.getOrderDate() );
+                viewHolder.setItemName0( model.getItem0() );
+                viewHolder.setItemName1( model.getItem1() );
+                viewHolder.setItemName2( model.getItem2() );
+                viewHolder.setItemName3( model.getItem3() );
+                viewHolder.setItemQty0( model.getItemQty0() );
+                viewHolder.setItemQty1( model.getItemQty1() );
+                viewHolder.setItemQty2( model.getItemQty2() );
+                viewHolder.setItemQty3( model.getItemQty3() );
+
+
+                //Calculating Price and Points
+                //Checking what feilds are not empty
+                //Then add the item prices
+                if(!viewHolder.getItemName0().isEmpty()) {
+
+                    String price0 = model.getItemPrice0().replace( "£","" );
+                    BigDecimal mPrice0 = new BigDecimal( price0 );
+                    BigDecimal mTotal0 = mPrice0;
+                    String mTotalPrice = "£" + mTotal0;
+                    viewHolder.setTransactionPrice( mTotalPrice );
+
+                    try {
+                        String points = model.getItemPoints0();
+                        int add = Integer.valueOf( points );
+                        viewHolder.setTransactionPoints( "" + add );
+                    }  catch(NumberFormatException nfe) {
+                        viewHolder.setTransactionPoints( "Couldnt parse" );
+                    }
+
+
+
+
+                }
+
+                if (!viewHolder.getItemName1().isEmpty()) {
+
+                    String price0 = model.getItemPrice0().replace( "£","" );
+                    BigDecimal mPrice0 = new BigDecimal( price0 );
+                    String price1 = model.getItemPrice1().replace( "£","" );
+                    BigDecimal mPrice1 = new BigDecimal( price1 );
+
+                    BigDecimal mTotal0 = mPrice0
+                            .add( mPrice1 );
+                    String mTotalPrice = "£" + mTotal0;
+                    viewHolder.setTransactionPrice( mTotalPrice );
+
+                    try {
+                        String points = model.getItemPoints0();
+                        String points1 = model.getItemPoints1();
+                        int add = Integer.valueOf( points )
+                                +Integer.valueOf( points1 );
+                        viewHolder.setTransactionPoints( "" + add );
+                    }  catch(NumberFormatException nfe) {
+                        viewHolder.setTransactionPoints( "Couldnt parse" );
+                    }
+
+                }
+
+                if (!viewHolder.getItemName2().isEmpty()) {
+
+                    String price0 = model.getItemPrice0().replace( "£","" );
+                    BigDecimal mPrice0 = new BigDecimal( price0 );
+                    String price1 = model.getItemPrice1().replace( "£","" );
+                    BigDecimal mPrice1 = new BigDecimal( price1 );
+                    String price2 = model.getItemPrice2().replace( "£","" );
+                    BigDecimal mPrice2 = new BigDecimal( price2 );
+
+
+                    BigDecimal mTotal0 = mPrice0
+                            .add( mPrice1 )
+                            .add( mPrice2 );
+                    String mTotalPrice = "£" + mTotal0;
+                    viewHolder.setTransactionPrice( mTotalPrice );
+
+                    try {
+                        String points = model.getItemPoints0();
+                        String points1 = model.getItemPoints1();
+                        String points2 = model.getItemPoints2();
+                        int add = Integer.valueOf( points )
+                                +Integer.valueOf( points1 )
+                                +Integer.valueOf( points2 );
+                        viewHolder.setTransactionPoints( "" + add );
+                    }  catch(NumberFormatException nfe) {
+                        viewHolder.setTransactionPoints( "Couldnt parse" );
+                    }
+                }
+
+                if (!viewHolder.getItemName3().isEmpty()) {
+
+                    String price0 = model.getItemPrice0().replace( "£","" );
+                    BigDecimal mPrice0 = new BigDecimal( price0 );
+                    String price1 = model.getItemPrice1().replace( "£","" );
+                    BigDecimal mPrice1 = new BigDecimal( price1 );
+                    String price2 = model.getItemPrice2().replace( "£","" );
+                    BigDecimal mPrice2 = new BigDecimal( price2 );
+                    String price3 = model.getItemPrice2().replace( "£","" );
+                    BigDecimal mPrice3 = new BigDecimal( price3 );
+
+
+                    BigDecimal mTotal0 = mPrice0
+                            .add( mPrice1 )
+                            .add( mPrice2 )
+                            .add( mPrice3 );
+                    String mTotalPrice = "£" + mTotal0;
+                    viewHolder.setTransactionPrice( mTotalPrice );
+
+                    try {
+                        String points = model.getItemPoints0();
+                        String points1 = model.getItemPoints1();
+                        String points2 = model.getItemPoints2();
+                        String points3 = model.getItemPoints3();
+                        int add = Integer.valueOf( points )
+                                +Integer.valueOf( points1 )
+                                +Integer.valueOf( points2 )
+                                +Integer.valueOf( points3 );
+                        viewHolder.setTransactionPoints( "" + add );
+                    }  catch(NumberFormatException nfe) {
+                        viewHolder.setTransactionPoints( "Couldnt parse" );
+                    }
+
+
+                }
+            }
+        };
+
+        mTransactionRecycler.setAdapter( firebaseRecyclerAdapter );
     }
 
 }

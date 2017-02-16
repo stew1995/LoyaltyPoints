@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/preOrderLocationSpinner"
             android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true"></Spinner>
+            android:layout_alignParentStart="true" />
 
     </LinearLayout>
 

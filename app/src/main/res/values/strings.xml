@@ -11,7 +11,7 @@
     </string-array>
 
     <string-array name="spAcQuestion">
-        <item>Choose a Security Question:</item>
+        <item name="Choose a Security Question:">Choose a Security Question:</item>
         <item name="Mothers maiden name">Mothers maiden name</item>
         <item name="First address lived at">First address lived at</item>
         <item name="Name of first pet">Name of first pet</item>

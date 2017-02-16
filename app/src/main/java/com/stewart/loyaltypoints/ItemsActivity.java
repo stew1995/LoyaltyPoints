@@ -1,6 +1,9 @@
 package com.stewart.loyaltypoints;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -74,19 +77,19 @@ public class ItemsActivity extends PreOrderActivity {
                 mRef.child("Items")) {
             @Override
             protected void populateViewHolder(final ItemViewHolder viewHolder, final Items model, int position) {
-                TextView txt = viewHolder.getTitleTextView();
-                txt.setVisibility( View.VISIBLE );
                 viewHolder.setPrice("Price: "+model.getItemPrice().toString());
                 viewHolder.setPoints("Points: "+model.getItemPoints().toString());
                 viewHolder.setImage(getApplicationContext(), model.getItemImage());
                 viewHolder.setCheckbox(model.getItemName());
                 viewHolder.setItemTitle( model.getItemName() );
 
+                CheckBox chk = viewHolder.removeCheckBox();
+                chk.setVisibility(View.INVISIBLE);
+
                 Spinner spn = viewHolder.spinnerVis();
                 spn.setVisibility( View.GONE );
 
-                CheckBox chk = viewHolder.removeCheckBox();
-                chk.setVisibility( View.GONE );
+
 
                 //No Title on this screen needs implementing
             }

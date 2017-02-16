@@ -58,6 +58,15 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
     private DatabaseReference mRef;
     private FirebaseAuth mAuth;
 
+    //Hashmaps
+    HashMap mFinalOrder;
+    HashMap mFinalOrderUser;
+    HashMap mFinalOrderName;
+    HashMap mFinalOrderDate;
+    HashMap mFinalOrderQty;
+    HashMap mFinalOrderLocation;
+    HashMap mFinalOrderPrice;
+    HashMap mFinalOrderPoints;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
@@ -84,6 +93,27 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
         //On Create method needs the location of where the items are being bought from
 
 
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        String user = mAuth.getCurrentUser().getUid();
+        mRef.child("PreOrderHolder").child("Order"+user).removeValue();
+        //Remove all items from HashMaps
+        //Doesnt work sends to the database and removes if the user presses button
+        //DOesnt remove from array listif user goes back a page like removing from database
+        mFinalOrder.clear();
+        mFinalOrderUser.clear();
+        mFinalOrderUser.clear();
+        mFinalOrderName.clear();
+        mFinalOrderDate.clear();
+        //mFinalOrderQty;
+
+        mFinalOrderLocation.clear();
+        mFinalOrderPrice.clear();
+        mFinalOrderPoints.clear();
 
     }
 
@@ -127,17 +157,17 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
 
 
                 //HashMap for Item Name
-                HashMap<String, String> mFinalOrderName = new HashMap<String, String>(  );
+                mFinalOrderName = new HashMap<String, String>(  );
                 //HashMap for Item Qty
-                HashMap<String, String> mFinalOrderQty = new HashMap<String, String>(  );
+                mFinalOrderQty = new HashMap<String, String>(  );
                 //HAshMap for when item is ordered
-                HashMap<String, String> mFinalOrderDate = new HashMap<String, String>(  );
+                mFinalOrderDate = new HashMap<String, String>(  );
                 //HashMap for Location
-                HashMap<String, String> mFinalOrderLocation = new HashMap<String, String>(  );
+                mFinalOrderLocation = new HashMap<String, String>(  );
                 //HashMap for Price to be passed to the transaction table to be processed as an Integer
-                HashMap<String, String> mFinalOrderPrice = new HashMap<String, String>(  );
+                mFinalOrderPrice = new HashMap<String, String>(  );
                 //HashMap for Points to be added onto the users account
-                HashMap<String, String> mFinalOrderPoints = new HashMap<String, String>(  );
+                mFinalOrderPoints = new HashMap<String, String>(  );
 
 
 
@@ -323,8 +353,8 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
 
 
                 //Join HashMaps
-                final HashMap<String, String> mFinalOrder = new HashMap<String, String>(  );
-                final HashMap<String, String> mFinalOrderUser = new HashMap<String, String>(  );
+                mFinalOrder = new HashMap<String, String>(  );
+                mFinalOrderUser = new HashMap<String, String>(  );
                 //May need to put the points accumilated in to the array lists
 
                 mFinalOrder.putAll( mFinalOrderName );
@@ -345,6 +375,7 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         mRef.child("PreOrders").child( model.getLocation() ).child( dateString ).child( userID ).setValue( mFinalOrder );
                         mRef.child("Users").child(userID).child( "Transactions" ).push().setValue( mFinalOrderUser );
+                        mRef.child("Users").child(userID).child("Recent").child("Holder").setValue(mFinalOrderUser);
 
                         startActivity(new Intent(PreOrderDetailsActivity.this, NavigationActivity.class));
                         finish();

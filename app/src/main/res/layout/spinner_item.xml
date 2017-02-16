@@ -6,6 +6,6 @@
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:gravity="left"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:padding="10dp"
         android:id="@+id/spinnerText"></TextView>

@@ -10,129 +10,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.stewart.loyaltypoints.DetailsActivity">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvAcEmail"
-        android:text="Account Details"
-        android:textSize="30sp"
-        android:textAlignment="center"
-        android:layout_marginTop="34dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        android:layout_below="@+id/tvAcEmail"
-        android:layout_alignParentStart="true"
-        android:id="@+id/imageHolder">
-
-
-        <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:src="@mipmap/ic_add_account"
-        android:id="@+id/imageView2"
-            android:layout_gravity="center"
-        />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/imageHolder"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="28dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp"
-        android:id="@+id/linearLayout2">
-
-        <EditText
-            android:layout_width="170dp"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:ems="10"
-            android:id="@+id/etAcFirstName"
-            android:hint="First Name" />
-
-        <EditText
-            android:layout_width="170dp"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:ems="10"
-            android:id="@+id/etAcLastName"
-            android:hint="Last Name"
-            />
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/llStudent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_below="@+id/linearLayout2"
-        android:layout_alignParentStart="true">
-
-        <Spinner
-            android:layout_width="170dp"
-            android:layout_height="40dp"
-            android:id="@+id/spAcYear"
-            android:entries="@array/spAcYear">
-        </Spinner>
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="number"
-            android:ems="10"
-            android:hint="Student Number"
-
-            android:id="@+id/etAcStudentID" />
-    </LinearLayout>
-
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="text"
-        android:ems="10"
-        android:hint="Security Answer"
-        android:id="@+id/etAcAnswer"
-        android:layout_below="@+id/spAcQuestion"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="8dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp"/>
-
-    <Button
-        android:text="GET STARTED"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="20dp"
-        android:id="@+id/btnAcStart"
-        android:layout_weight="1"
-        android:background="@null"
-        android:textColor="@color/colorPrimaryDark"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true" />
-
-    <Spinner
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:id="@+id/spAcQuestion"
-        android:entries="@array/spAcQuestion"
-        android:layout_marginTop="9dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_below="@+id/llStudent"
-        android:layout_alignParentStart="true">
-    </Spinner>
 
     <View
         android:layout_width="match_parent"
@@ -142,5 +20,101 @@
         android:id="@+id/view"
         android:layout_above="@+id/btnAcStart"
         android:layout_alignParentStart="true"></View>
+
+    <Button
+        android:text="GET STARTED"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="20dp"
+        android:id="@+id/btnAcStart"
+        android:layout_weight="1"
+        android:background="@null"
+        android:textColor="@color/colorPrimary"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvAcEmail"
+        android:text="Account Details"
+        android:textSize="30sp"
+        android:textAlignment="center"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:textColor="@color/primaryTextColor"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/linearLayout2"
+        android:orientation="vertical"
+        android:layout_below="@+id/tvAcEmail"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="28dp"
+        android:layout_marginBottom="50dp">
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/etAcFirstName"
+        android:hint="First Name"
+        android:layout_marginBottom="5dp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/etAcLastName"
+        android:hint="Last Name"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"/>
+
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:id="@+id/spAcYear"
+        android:entries="@array/spAcYear"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"/>
+
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:hint="Student Number"
+        android:id="@+id/etAcStudentID"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:ems="10"
+            android:hint="Security Answer"
+            android:id="@+id/etAcAnswer"
+            android:layout_below="@+id/spAcQuestion"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp" />
+
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:id="@+id/spAcQuestion"
+            android:entries="@array/spAcQuestion"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_alignParentStart="true">
+    </Spinner>
+    </LinearLayout>
 
 </RelativeLayout>
