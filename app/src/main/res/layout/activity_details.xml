@@ -93,6 +93,16 @@
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"/>
 
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:id="@+id/spAcQuestion"
+            android:entries="@array/spAcQuestion"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_alignParentStart="true">
+    </Spinner>
+
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -106,15 +116,6 @@
             android:layout_marginBottom="5dp" />
 
 
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:id="@+id/spAcQuestion"
-            android:entries="@array/spAcQuestion"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:layout_alignParentStart="true">
-    </Spinner>
     </LinearLayout>
 
 </RelativeLayout>

@@ -5,7 +5,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="600dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -157,25 +157,36 @@
                 android:layout_alignStart="@+id/btnRemoveItem3"
                 android:layout_marginTop="9dp" />
 
-            <TextView
 
-                android:text="Cost in Price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/tvItemPrice"
-                android:layout_below="@+id/tvItemQty4"
-                android:layout_alignParentEnd="true" />
-
-            <TextView
-                android:text="Cost in Points"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/tvItemPoints"
-                android:layout_alignBaseline="@+id/tvItemPrice"
-                android:layout_alignBottom="@+id/tvItemPrice"
-                android:layout_alignParentStart="true" />
         </RelativeLayout>
+        <TextView
 
+            android:text="Cost in Price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvItemPrice"
+            android:layout_marginRight="10dp"
+            android:paddingBottom="10dp"
+            android:textColor="@color/colorPrimary"
+            android:layout_alignBottom="@+id/btnRemoveItem4"
+            android:layout_toStartOf="@+id/btnRemoveItem4"
+            android:layout_marginEnd="7dp"
+            android:textSize="20sp"
+            android:textAlignment="center"/>
+
+        <TextView
+            android:text="Cost in Points"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvItemPoints"
+            android:paddingLeft="10dp"
+            android:paddingBottom="10dp"
+            android:textSize="20sp"
+            android:textColor="@color/colorPrimary"
+            android:layout_marginEnd="20dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignEnd="@+id/tvItemName4"
+            android:textAlignment="center"/>
 
 
     </LinearLayout>

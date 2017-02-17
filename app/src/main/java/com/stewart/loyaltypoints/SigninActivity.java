@@ -229,6 +229,8 @@ public class SigninActivity extends AppCompatActivity {
         if(TextUtils.isEmpty( email ) || TextUtils.isEmpty( password )) {
             Toast.makeText( SigninActivity.this, "Fields are empty", Toast.LENGTH_LONG ).show();
 
+        } if  (!isPasswordValid(password)) {
+            Toast.makeText( SigninActivity.this, "Password is not valid", Toast.LENGTH_LONG ).show();
         } else {
             mAuth.signInWithEmailAndPassword( email, password ).addOnCompleteListener( new OnCompleteListener<AuthResult>() {
                 @Override

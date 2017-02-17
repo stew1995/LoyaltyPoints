@@ -20,16 +20,16 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.stewart.loyaltypoints.models.PreOrderDetails;
+import com.stewart.loyaltypoints.models.User;
 
-import java.util.ArrayList;
+import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 
 
-import static android.os.Build.VERSION_CODES.M;
-import static com.google.android.gms.analytics.internal.zzy.v;
+import static android.R.attr.data;
+import static com.stewart.loyaltypoints.R.id.add;
 import static com.stewart.loyaltypoints.R.id.tvItemName1;
 import static com.stewart.loyaltypoints.R.id.tvItemName2;
 import static com.stewart.loyaltypoints.R.id.tvItemName3;
@@ -38,7 +38,6 @@ import static com.stewart.loyaltypoints.R.id.tvItemQty1;
 import static com.stewart.loyaltypoints.R.id.tvItemQty2;
 import static com.stewart.loyaltypoints.R.id.tvItemQty3;
 import static com.stewart.loyaltypoints.R.id.tvItemQty4;
-import static com.stewart.loyaltypoints.R.id.view;
 
 public class PreOrderDetailsActivity extends AppCompatActivity {
     //Counter for adding into HashMap
@@ -67,6 +66,9 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
     HashMap mFinalOrderLocation;
     HashMap mFinalOrderPrice;
     HashMap mFinalOrderPoints;
+
+    //HashMap for showing to points
+    HashMap mPoints;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
@@ -169,9 +171,11 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
                 //HashMap for Points to be added onto the users account
                 mFinalOrderPoints = new HashMap<String, String>(  );
 
+                mPoints = new HashMap<String, Long>();
 
 
-                //Removing the buttons
+
+                //Removing the buttons if there is no item
                 if(viewHolder.getName1().isEmpty()) {
                     viewHolder.getBtn1().setVisibility( View.GONE );
                 } else {
@@ -320,6 +324,8 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
                     mFinalOrderPrice.put("ItemPrice"+priceCounter++, model.getItemPrice0());
                     mFinalOrderPoints.put("ItemPoints"+pointsCounter++, model.getItemPoints0());
 
+                } else {
+                    //Remove from Array List
                 }
 
                 if (viewHolder.getName2()!=null||!viewHolder.getName2().equals( "" )||viewHolder.getQty2()!=null||!viewHolder.getQty2().equals( "" )) {
@@ -369,6 +375,116 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
                 //Locations
                 viewHolder.setLocation( model.getLocation() );
 
+                //Setting the Price
+
+                if(!viewHolder.getName1().isEmpty()) {
+
+                    String price0 = model.getItemPrice0().replace( "£","" );
+                    BigDecimal mPrice0 = new BigDecimal( price0 );
+                    BigDecimal mTotal0 = mPrice0;
+                    String mTotalPrice = "£" + mTotal0;
+                    viewHolder.setPrice( "Price: " +mTotalPrice );
+
+                    try {
+                        String points = model.getItemPoints0();
+                        Long add = Long.valueOf( points );
+                        viewHolder.setPoints( "Points: "+"" + add );
+                        mPoints.put("Points", add);
+                    }  catch(NumberFormatException nfe) {
+                        viewHolder.setPoints( "Couldnt parse" );
+                    }
+
+
+
+
+                }
+                if(!viewHolder.getName2().isEmpty()) {
+
+                    String price0 = model.getItemPrice0().replace( "£","" );
+                    BigDecimal mPrice0 = new BigDecimal( price0 );
+                    BigDecimal mTotal0 = mPrice0;
+                    String mTotalPrice = "£" + mTotal0;
+                    viewHolder.setPrice( "Price: " +mTotalPrice );
+
+                    try {
+                        String points = model.getItemPoints0();
+                        String points1 = model.getItemPoints1();
+                        Long add = Long.valueOf( points )
+                                +Long.valueOf( points1 );
+                        mPoints.put("Points", add);
+                        viewHolder.setPoints( "Points: "+"" + add );
+                    }  catch(NumberFormatException nfe) {
+                        viewHolder.setPoints( "Couldnt parse" );
+                    }
+                }
+                //If 3 items it adds them
+                if (!viewHolder.getName3().isEmpty()) {
+
+                    String price0 = model.getItemPrice0().replace( "£","" );
+                    BigDecimal mPrice0 = new BigDecimal( price0 );
+                    String price1 = model.getItemPrice1().replace( "£","" );
+                    BigDecimal mPrice1 = new BigDecimal( price1 );
+                    String price2 = model.getItemPrice2().replace( "£","" );
+                    BigDecimal mPrice2 = new BigDecimal( price2 );
+
+
+                    BigDecimal mTotal0 = mPrice0
+                            .add( mPrice1 )
+                            .add( mPrice2 );
+                    String mTotalPrice = "£" + mTotal0;
+                    viewHolder.setPrice( "Price: " +mTotalPrice );
+
+                    try {
+                        String points = model.getItemPoints0();
+                        String points1 = model.getItemPoints1();
+                        String points2 = model.getItemPoints2();
+                        Long add = Long.valueOf( points )
+                                +Long.valueOf( points1 )
+                                +Long.valueOf( points2 );
+                        mPoints.put("Points", add);
+                        viewHolder.setPoints( "Points: "+"" + add );
+                    }  catch(NumberFormatException nfe) {
+                        viewHolder.setPoints( "Couldnt parse" );
+                    }
+                }
+                //If item 4 is there it adds all the items
+                if (!viewHolder.getName3().isEmpty()) {
+
+                    String price0 = model.getItemPrice0().replace( "£","" );
+                    BigDecimal mPrice0 = new BigDecimal( price0 );
+                    String price1 = model.getItemPrice1().replace( "£","" );
+                    BigDecimal mPrice1 = new BigDecimal( price1 );
+                    String price2 = model.getItemPrice2().replace( "£","" );
+                    BigDecimal mPrice2 = new BigDecimal( price2 );
+                    String price3 = model.getItemPrice2().replace( "£","" );
+                    BigDecimal mPrice3 = new BigDecimal( price3 );
+
+
+                    BigDecimal mTotal0 = mPrice0
+                            .add( mPrice1 )
+                            .add( mPrice2 )
+                            .add( mPrice3 );
+                    String mTotalPrice = "£" + mTotal0;
+                    viewHolder.setPrice( "Price: " +mTotalPrice );
+
+                    try {
+                        String points = model.getItemPoints0();
+                        String points1 = model.getItemPoints1();
+                        String points2 = model.getItemPoints2();
+                        String points3 = model.getItemPoints3();
+                        Long add = Long.valueOf( points )
+                                +Long.valueOf( points1 )
+                                +Long.valueOf( points2 )
+                                +Long.valueOf( points3 );
+                        mPoints.put("Points", add);
+                        viewHolder.setPoints( "Points: "+"" + add );
+                    }  catch(NumberFormatException nfe) {
+                        viewHolder.setPoints( "Couldnt parse" );
+                    }
+
+
+                }
+
                 //Puts orders in pre order table for staff and then transactions for the user to look back on
                 btnNextPreOrder.setOnClickListener( new View.OnClickListener() {
                     @Override
@@ -376,7 +492,7 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
                         mRef.child("PreOrders").child( model.getLocation() ).child( dateString ).child( userID ).setValue( mFinalOrder );
                         mRef.child("Users").child(userID).child( "Transactions" ).push().setValue( mFinalOrderUser );
                         mRef.child("Users").child(userID).child("Recent").child("Holder").setValue(mFinalOrderUser);
-
+                        addPoints();
                         startActivity(new Intent(PreOrderDetailsActivity.this, NavigationActivity.class));
                         finish();
 
@@ -388,6 +504,42 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
         };
         mPreOrderName.setAdapter( firebaseRecyclerAdapter );
     }
+
+    private void addPoints() {
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        final String userID = user.getUid();
+        mRef.child("Users").child(userID);
+
+        //HashMap of points
+        final Integer value = (Integer) mPoints.get("Points");
+        //For previous points
+
+        mRef.child("Users").child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Long points = null;
+                for(DataSnapshot child : dataSnapshot.getChildren()) {
+                    User user = child.getValue(User.class);
+                    points = user.getPoints();
+                }
+
+                long addedPoints = points + value;
+                mRef.child("Users").child(userID).child("Points").setValue(addedPoints);
+            }
+
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+    }
+
+
+
 
 
     public static class PreOrderViewHolder extends RecyclerView.ViewHolder {
@@ -512,6 +664,17 @@ public class PreOrderDetailsActivity extends AppCompatActivity {
             return btnRemoveItem4;
 
         }
+
+        public void setPrice(String price) {
+            TextView item_price = (TextView) mView.findViewById(R.id.tvItemPrice);
+            item_price.setText(price);
+        }
+
+        public void setPoints(String points) {
+            TextView item_price = (TextView) mView.findViewById(R.id.tvItemPoints);
+            item_price.setText(points);
+        }
+
     }
 
 
